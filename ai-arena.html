@@ -94,6 +94,53 @@
     text-transform: uppercase;
   }
 
+  /* Launcher Section */
+  .launcher-section {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.8s ease 0.1s both;
+  }
+  .launcher-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .launcher-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 18px 10px;
+    border-radius: 10px;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    transition: transform 0.15s, box-shadow 0.2s, border-color 0.2s;
+    background: rgba(255,255,255,0.02);
+  }
+  .launcher-btn:hover { transform: translateY(-2px); }
+  .launcher-btn.claude:hover { border-color: var(--claude); box-shadow: var(--glow-claude); }
+  .launcher-btn.gemini:hover { border-color: var(--gemini); box-shadow: var(--glow-gemini); }
+  .launcher-btn.deepseek:hover { border-color: var(--deepseek); box-shadow: var(--glow-deepseek); }
+  .launcher-icon { font-size: 28px; }
+  .launcher-name {
+    font-family: "Orbitron", monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+  .launcher-btn.claude .launcher-name { color: var(--claude); }
+  .launcher-btn.gemini .launcher-name { color: var(--gemini); }
+  .launcher-btn.deepseek .launcher-name { color: var(--deepseek); }
+  .launcher-sub {
+    font-family: "Share Tech Mono", monospace;
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
   /* API Keys Section */
   .keys-section {
     background: var(--panel);
@@ -398,6 +445,27 @@
     <div class="logo">AI ARENA</div>
     <div class="tagline">Claude · Gemini · DeepSeek — одновременно</div>
   </header>
+
+  <div class="launcher-section">
+    <div class="keys-title">// Открыть в браузере</div>
+    <div class="launcher-grid">
+      <a class="launcher-btn claude" href="https://claude.ai" target="_blank">
+        <span class="launcher-icon">🤖</span>
+        <span class="launcher-name">CLAUDE</span>
+        <span class="launcher-sub">claude.ai</span>
+      </a>
+      <a class="launcher-btn gemini" href="https://gemini.google.com" target="_blank">
+        <span class="launcher-icon">✨</span>
+        <span class="launcher-name">GEMINI</span>
+        <span class="launcher-sub">gemini.google.com</span>
+      </a>
+      <a class="launcher-btn deepseek" href="https://chat.deepseek.com" target="_blank">
+        <span class="launcher-icon">🌊</span>
+        <span class="launcher-name">DEEPSEEK</span>
+        <span class="launcher-sub">chat.deepseek.com</span>
+      </a>
+    </div>
+  </div>
 
   <div class="keys-section">
     <div class="keys-title">// API ключи</div>
