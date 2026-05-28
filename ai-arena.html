@@ -75,6 +75,36 @@
     background-clip: text;
     margin-bottom: 8px;
   }
+  .clear-cache-btn {
+    margin-top: 12px;
+    padding: 6px 16px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--muted);
+    font-family: "Share Tech Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .clear-cache-btn:hover { border-color: rgba(255,255,255,0.3); color: var(--text); }
+
+  .update-banner {
+    display: none;
+    background: rgba(0,212,170,0.1);
+    border: 1px solid var(--deepseek);
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin-bottom: 16px;
+    text-align: center;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 12px;
+    color: var(--deepseek);
+    cursor: pointer;
+    letter-spacing: 1px;
+  }
+
   .tagline {
     font-family: 'Share Tech Mono', monospace;
     color: var(--muted);
@@ -319,7 +349,10 @@
   <header>
     <div class="logo">AI ARENA</div>
     <div class="tagline">Claude · Gemini · DeepSeek — одновременно</div>
+    <button class="clear-cache-btn" onclick="clearCache()">🔄 Обновить приложение</button>
   </header>
+
+  <div class="update-banner" id="update-banner" onclick="applyUpdate()">⬆ Доступно обновление — нажми чтобы применить</div>
 
   <!-- Launcher -->
   <div class="launcher-section">
@@ -542,8 +575,39 @@
     if (e.key === 'Enter' && e.ctrlKey) launchAll();
   });
 
+  let newWorker;
+
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
+    navigator.serviceWorker.register('sw.js').then(reg => {
+      reg.addEventListener('updatefound', () => {
+        newWorker = reg.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            document.getElementById('update-banner').style.display = 'block';
+          }
+        });
+      });
+      setInterval(() => reg.update(), 30000);
+    }).catch(() => {});
+  }
+
+  function applyUpdate() {
+    if (newWorker) newWorker.postMessage({ action: 'skipWaiting' });
+    window.location.reload();
+  }
+
+  function clearCache() {
+    if ('caches' in window) {
+      caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))));
+    }
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(regs => {
+        regs.forEach(r => r.unregister());
+        window.location.reload();
+      });
+    } else {
+      window.location.reload();
+    }
   }
 </script>
 </body>
