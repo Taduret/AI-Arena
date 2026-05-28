@@ -103,6 +103,9 @@
   .launcher-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+  }
+  @media (min-width: 600px) {
+  .launcher-grid { grid-template-columns: repeat(5, 1fr); }
     gap: 12px;
   }
   .launcher-btn {
@@ -132,6 +135,10 @@
   .launcher-btn.claude .launcher-name { color: var(--claude); }
   .launcher-btn.gemini .launcher-name { color: var(--gemini); }
   .launcher-btn.deepseek .launcher-name { color: var(--deepseek); }
+  .launcher-btn.vpn1 .launcher-name { color: #a78bfa; }
+  .launcher-btn.vpn2 .launcher-name { color: #34d399; }
+  .launcher-btn.vpn1:hover { border-color: #a78bfa; box-shadow: 0 0 20px rgba(167,139,250,0.4); }
+  .launcher-btn.vpn2:hover { border-color: #34d399; box-shadow: 0 0 20px rgba(52,211,153,0.4); }
   .launcher-sub {
     font-family: 'Share Tech Mono', monospace;
     font-size: 9px;
@@ -332,6 +339,16 @@
         <span class="launcher-icon">🌊</span>
         <span class="launcher-name">DEEPSEEK</span>
         <span class="launcher-sub">chat.deepseek.com</span>
+      </a>
+      <a class="launcher-btn vpn1" href="https://psiphon.ca/en/index.html" target="_blank">
+        <span class="launcher-icon">🔒</span>
+        <span class="launcher-name">PSIPHON</span>
+        <span class="launcher-sub">psiphon.ca</span>
+      </a>
+      <a class="launcher-btn vpn2" href="https://getlantern.org" target="_blank">
+        <span class="launcher-icon">🌐</span>
+        <span class="launcher-name">LANTERN</span>
+        <span class="launcher-sub">getlantern.org</span>
       </a>
     </div>
   </div>
