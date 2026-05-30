@@ -136,7 +136,7 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
 .speed-time{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);width:60px;text-align:right;}
 
 /* Result cards */
-.results-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
+.results-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;}
 .result-card{background:var(--panel);border-radius:12px;overflow:hidden;border:1px solid var(--border);transition:border-color 0.3s,box-shadow 0.3s;}
 .result-card.active.claude{border-color:var(--claude);box-shadow:var(--glow-claude);}
 .result-card.active.gemini{border-color:var(--gemini);box-shadow:var(--glow-gemini);}
@@ -144,24 +144,25 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
 .result-card.active.grok{border-color:var(--grok);box-shadow:var(--glow-grok);}
 .result-card.active.mistral{border-color:var(--mistral);box-shadow:var(--glow-mistral);}
 .result-card.active.openrouter{border-color:var(--openrouter);box-shadow:var(--glow-openrouter);}
-.card-header{padding:14px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+.card-header{padding:12px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);}
 .card-header.claude{background:rgba(255,107,53,0.08);}
 .card-header.gemini{background:rgba(66,133,244,0.08);}
 .card-header.deepseek{background:rgba(0,212,170,0.08);}
 .card-header.grok{background:rgba(167,139,250,0.08);}
 .card-header.mistral{background:rgba(245,158,11,0.08);}
 .card-header.openrouter{background:rgba(236,72,153,0.08);}
-.ai-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.ai-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
 .claude .ai-icon{background:rgba(255,107,53,0.2);}
 .gemini .ai-icon{background:rgba(66,133,244,0.2);}
 .deepseek .ai-icon{background:rgba(0,212,170,0.2);}
 .grok .ai-icon{background:rgba(167,139,250,0.2);}
 .mistral .ai-icon{background:rgba(245,158,11,0.2);}
 .openrouter .ai-icon{background:rgba(236,72,153,0.2);}
-.ai-name{font-family:'Orbitron',monospace;font-size:12px;font-weight:700;letter-spacing:2px;}
+.ai-name{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;letter-spacing:2px;}
 .claude .ai-name{color:var(--claude);}.gemini .ai-name{color:var(--gemini);}.deepseek .ai-name{color:var(--deepseek);}
 .grok .ai-name{color:var(--grok);}.mistral .ai-name{color:var(--mistral);}.openrouter .ai-name{color:var(--openrouter);}
-.status-badge{margin-left:auto;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;padding:3px 8px;border-radius:20px;text-transform:uppercase;}
+.header-right{display:flex;align-items:center;gap:6px;margin-left:auto;}
+.status-badge{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;padding:2px 7px;border-radius:20px;text-transform:uppercase;}
 .status-idle{background:rgba(74,85,128,0.3);color:var(--muted);}
 .status-loading{background:rgba(255,200,0,0.15);color:#ffc800;animation:pulse 1s infinite;}
 .status-done.claude{background:rgba(255,107,53,0.2);color:var(--claude);}
@@ -172,60 +173,97 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
 .status-done.openrouter{background:rgba(236,72,153,0.2);color:var(--openrouter);}
 .status-error{background:rgba(255,80,80,0.2);color:#ff5050;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
-.card-body{padding:18px;min-height:160px;}
-.card-body.collapsed{display:none;}
-.response-text{font-size:14px;line-height:1.7;color:var(--text);white-space:pre-wrap;word-break:break-word;}
-.no-key-notice{color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:12px;text-align:center;padding-top:50px;letter-spacing:1px;}
-.loading-dots{display:flex;gap:6px;justify-content:center;padding-top:60px;}
-.loading-dots span{width:8px;height:8px;border-radius:50%;animation:bounce 1.2s infinite;}
-.claude .loading-dots span{background:var(--claude);}
-.gemini .loading-dots span{background:var(--gemini);}
-.deepseek .loading-dots span{background:var(--deepseek);}
-.grok .loading-dots span{background:var(--grok);}
-.mistral .loading-dots span{background:var(--mistral);}
-.openrouter .loading-dots span{background:var(--openrouter);}
-.loading-dots span:nth-child(2){animation-delay:0.2s}.loading-dots span:nth-child(3){animation-delay:0.4s}
-@keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
-.card-footer{padding:10px 18px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;}
-.response-time,.token-count{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);}
-.footer-actions{display:flex;gap:6px;align-items:center;}
-.collapse-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:0 4px;transition:transform 0.2s,color 0.2s;}
-.collapse-btn:hover{color:var(--text);}
+.icon-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:2px 4px;transition:color 0.2s;line-height:1;}
+.icon-btn:hover{color:var(--text);}
 .collapse-btn.collapsed{transform:rotate(-90deg);}
-.copy-btn{padding:4px 10px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:6px;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;transition:all 0.2s;display:none;}
-.copy-btn:hover{color:var(--text);border-color:rgba(255,255,255,0.3);}
-.copy-btn.visible{display:block;}
-.vote-btns{display:none;gap:4px;}
-.vote-btns.visible{display:flex;}
-.vote-btn{padding:4px 8px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;font-size:13px;cursor:pointer;transition:all 0.2s;}
+
+/* Chat window inside card */
+.chat-window{display:flex;flex-direction:column;height:320px;}
+.chat-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;}
+.chat-messages::-webkit-scrollbar{width:3px;}
+.chat-messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.msg{display:flex;flex-direction:column;gap:4px;animation:fadeUp 0.3s ease;}
+.msg.user{align-items:flex-end;}
+.msg.assistant{align-items:flex-start;}
+.msg-bubble{max-width:85%;padding:8px 12px;border-radius:10px;font-size:13px;line-height:1.6;word-break:break-word;}
+.msg.user .msg-bubble{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);color:var(--text);}
+.msg.assistant .msg-bubble{border:1px solid var(--border);color:var(--text);}
+.claude .msg.assistant .msg-bubble{background:rgba(255,107,53,0.08);}
+.gemini .msg.assistant .msg-bubble{background:rgba(66,133,244,0.08);}
+.deepseek .msg.assistant .msg-bubble{background:rgba(0,212,170,0.08);}
+.grok .msg.assistant .msg-bubble{background:rgba(167,139,250,0.08);}
+.mistral .msg.assistant .msg-bubble{background:rgba(245,158,11,0.08);}
+.openrouter .msg.assistant .msg-bubble{background:rgba(236,72,153,0.08);}
+.msg-time{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);}
+.loading-dots{display:flex;gap:5px;padding:4px 0;}
+.loading-dots span{width:7px;height:7px;border-radius:50%;animation:bounce 1.2s infinite;}
+.loading-dots span:nth-child(2){animation-delay:0.2s}
+.loading-dots span:nth-child(3){animation-delay:0.4s}
+@keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
+.empty-chat{color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:11px;text-align:center;padding-top:80px;letter-spacing:1px;}
+
+/* Chat input area */
+.chat-input-area{padding:10px 14px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:flex-end;}
+.chat-input{flex:1;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;resize:none;min-height:36px;max-height:100px;transition:border-color 0.2s;}
+.chat-input:focus{outline:none;}
+.claude .chat-input:focus{border-color:var(--claude);}
+.gemini .chat-input:focus{border-color:var(--gemini);}
+.deepseek .chat-input:focus{border-color:var(--deepseek);}
+.grok .chat-input:focus{border-color:var(--grok);}
+.mistral .chat-input:focus{border-color:var(--mistral);}
+.openrouter .chat-input:focus{border-color:var(--openrouter);}
+.send-btn{padding:8px 14px;border:none;border-radius:8px;font-size:14px;cursor:pointer;transition:opacity 0.2s,transform 0.1s;flex-shrink:0;}
+.send-btn:hover{opacity:0.85;transform:scale(1.05);}
+.claude .send-btn{background:var(--claude);}
+.gemini .send-btn{background:var(--gemini);}
+.deepseek .send-btn{background:var(--deepseek);}
+.grok .send-btn{background:var(--grok);}
+.mistral .send-btn{background:var(--mistral);}
+.openrouter .send-btn{background:var(--openrouter);}
+
+/* Chat list panel */
+.chat-list-panel{border-top:1px solid var(--border);max-height:180px;overflow-y:auto;}
+.chat-list-panel::-webkit-scrollbar{width:3px;}
+.chat-list-panel::-webkit-scrollbar-thumb{background:var(--border);}
+.chat-list-header{padding:8px 14px;display:flex;justify-content:space-between;align-items:center;}
+.chat-list-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;}
+.new-chat-btn{font-family:'Share Tech Mono',monospace;font-size:10px;padding:3px 10px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:12px;color:var(--muted);cursor:pointer;transition:all 0.2s;}
+.new-chat-btn:hover{color:var(--text);border-color:rgba(255,255,255,0.3);}
+.chat-list-item{padding:8px 14px;display:flex;align-items:center;gap:8px;cursor:pointer;transition:background 0.15s;border-top:1px solid rgba(255,255,255,0.04);}
+.chat-list-item:hover{background:rgba(255,255,255,0.04);}
+.chat-list-item.active-chat{background:rgba(255,255,255,0.06);}
+.chat-list-title{flex:1;font-size:12px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.chat-list-date{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);white-space:nowrap;}
+.chat-list-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:2px;transition:color 0.2s;}
+.chat-list-del:hover{color:#ff5050;}
+.no-chats{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);text-align:center;padding:14px;letter-spacing:1px;}
+
+/* Footer */
+.card-footer-row{padding:8px 14px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:6px;}
+.response-time,.token-count{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);}
+.copy-btn{padding:3px 9px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:6px;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;transition:all 0.2s;}
+.copy-btn:hover{color:var(--text);}
+.vote-btns{display:flex;gap:4px;}
+.vote-btn{padding:3px 7px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;font-size:12px;cursor:pointer;transition:all 0.2s;}
 .vote-btn:hover{transform:scale(1.1);}
 .vote-btn.voted{border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.08);}
+
+/* Speed */
+.speed-section{display:none;margin-bottom:20px;}
 
 /* Scoreboard */
 .scoreboard{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:8px;}
 .score-item{display:flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:11px;}
 .score-dot{width:8px;height:8px;border-radius:50%;}
 
-/* History */
-.history-list{display:flex;flex-direction:column;gap:8px;max-height:280px;overflow-y:auto;}
-.history-item{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:10px 14px;cursor:pointer;transition:border-color 0.2s;display:flex;justify-content:space-between;align-items:center;gap:10px;}
-.history-item:hover{border-color:rgba(255,255,255,0.2);}
-.history-q{font-size:13px;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.history-date{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);white-space:nowrap;}
-.history-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:0 4px;transition:color 0.2s;}
-.history-del:hover{color:#ff5050;}
-.history-empty{color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:12px;text-align:center;padding:20px;letter-spacing:1px;}
-
-/* ===== ROUND TABLE ===== */
+/* Round table */
 .roundtable-topic{width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:14px;color:var(--text);font-family:'Inter',sans-serif;font-size:15px;resize:vertical;min-height:80px;margin-bottom:12px;}
 .roundtable-topic:focus{outline:none;border-color:rgba(255,255,255,0.2);}
 .rounds-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
 .rounds-label{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:2px;}
 .rounds-input{width:70px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:'Share Tech Mono',monospace;font-size:13px;text-align:center;}
-.rounds-input:focus{outline:none;border-color:rgba(255,255,255,0.2);}
+.rounds-input:focus{outline:none;}
 .rt-status{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:1px;}
-
-/* Chat feed */
 .chat-feed{display:flex;flex-direction:column;gap:16px;margin-top:8px;}
 .chat-bubble{border-radius:12px;padding:16px;border:1px solid var(--border);animation:fadeUp 0.4s ease;}
 .chat-bubble.claude{border-color:rgba(255,107,53,0.3);background:rgba(255,107,53,0.05);}
@@ -252,6 +290,109 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
 .bubble-loading span:nth-child(2){animation-delay:0.2s}
 .bubble-loading span:nth-child(3){animation-delay:0.4s}
 
+
+/* ===== FLOATING MUSIC PLAYER ===== */
+.music-player {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 100;
+  background: rgba(10,15,30,0.95);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 12px 16px;
+  width: 280px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  transition: transform 0.3s, opacity 0.3s;
+  animation: fadeUp 0.5s ease;
+}
+.music-player.hidden { transform: translateY(120%); opacity: 0; pointer-events: none; }
+.player-toggle {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 99;
+  background: rgba(10,15,30,0.95);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 18px;
+  transition: all 0.2s;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+.player-toggle:hover { border-color: rgba(255,255,255,0.3); transform: scale(1.05); }
+.player-toggle.visible { display: flex; }
+.player-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.player-title {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px; letter-spacing: 2px; color: var(--muted);
+  text-transform: uppercase;
+}
+.player-close {
+  background: none; border: none; color: var(--muted);
+  cursor: pointer; font-size: 14px; padding: 2px 4px;
+  transition: color 0.2s;
+}
+.player-close:hover { color: var(--text); }
+.player-track {
+  font-size: 12px; color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  margin-bottom: 10px; font-family: 'Inter', sans-serif;
+}
+.player-track.empty { color: var(--muted); font-family: 'Share Tech Mono', monospace; font-size: 11px; }
+.player-progress-wrap {
+  position: relative; height: 4px; background: rgba(255,255,255,0.08);
+  border-radius: 2px; margin-bottom: 10px; cursor: pointer;
+}
+.player-progress { height: 100%; border-radius: 2px; width: 0%; background: linear-gradient(90deg, var(--claude), var(--gemini)); transition: width 0.3s; }
+.player-time {
+  display: flex; justify-content: space-between;
+  font-family: 'Share Tech Mono', monospace; font-size: 9px;
+  color: var(--muted); margin-bottom: 10px;
+}
+.player-controls {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  margin-bottom: 10px;
+}
+.ctrl-btn {
+  background: none; border: none; color: var(--muted);
+  cursor: pointer; font-size: 16px; padding: 4px;
+  transition: color 0.2s, transform 0.1s;
+}
+.ctrl-btn:hover { color: var(--text); transform: scale(1.1); }
+.ctrl-btn.play {
+  background: linear-gradient(135deg, var(--claude), var(--gemini));
+  border-radius: 50%; width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: white;
+}
+.ctrl-btn.play:hover { transform: scale(1.08); opacity: 0.9; }
+.player-volume-row {
+  display: flex; align-items: center; gap: 8px;
+}
+.vol-icon { font-size: 12px; color: var(--muted); }
+.player-volume {
+  flex: 1; -webkit-appearance: none; height: 3px;
+  background: rgba(255,255,255,0.1); border-radius: 2px; outline: none; cursor: pointer;
+}
+.player-volume::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 12px; height: 12px;
+  border-radius: 50%; background: var(--gemini); cursor: pointer;
+}
+.player-file-btn {
+  width: 100%; margin-top: 10px; padding: 7px;
+  background: rgba(255,255,255,0.04); border: 1px dashed var(--border);
+  border-radius: 8px; color: var(--muted); font-family: 'Share Tech Mono', monospace;
+  font-size: 10px; letter-spacing: 1px; cursor: pointer; transition: all 0.2s;
+  text-align: center;
+}
+.player-file-btn:hover { border-color: rgba(255,255,255,0.3); color: var(--text); }
+
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:var(--bg);}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
@@ -268,17 +409,15 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
 
   <div class="update-banner" id="update-banner" onclick="applyUpdate()">⬆ Доступно обновление — нажми чтобы применить</div>
 
-  <!-- Tabs -->
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('arena',this)">⚡ АРЕНА</button>
-    <button class="tab-btn" onclick="switchTab('roundtable',this)">🎙 КРУГЛЫЙ СТОЛ</button>
+    <button class="tab-btn" onclick="switchTab('chats',this)">💬 ЧАТЫ</button>
+    <button class="tab-btn" onclick="switchTab('roundtable',this)">🎙 СТОЛ</button>
   </div>
 
-  <!-- ===== ARENA TAB ===== -->
+  <!-- ARENA TAB -->
   <div id="tab-arena" class="tab-content active">
-
-    <!-- Launcher -->
-    <div class="section-box" style="animation:fadeUp 0.6s ease both">
+    <div class="section-box">
       <div class="section-title">// Открыть в браузере</div>
       <div class="launcher-grid">
         <a class="launcher-btn claude" href="https://claude.ai" target="_blank"><span class="launcher-icon">🤖</span><span class="launcher-name">CLAUDE</span><span class="launcher-sub">claude.ai</span></a>
@@ -289,26 +428,21 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
         <a class="launcher-btn openrouter" href="https://openrouter.ai/chat" target="_blank"><span class="launcher-icon">🌐</span><span class="launcher-name">OPENROUTER</span><span class="launcher-sub">openrouter.ai</span></a>
       </div>
     </div>
-
-    <!-- API Keys -->
-    <div class="section-box" style="animation:fadeUp 0.6s ease 0.1s both">
+    <div class="section-box">
       <div class="section-title">// API ключи</div>
       <div class="keys-grid">
         <div class="key-input-group"><div class="key-label claude"><span class="dot"></span>CLAUDE</div><input type="password" class="key-input claude" id="key-claude" placeholder="sk-ant-..." autocomplete="off"></div>
         <div class="key-input-group"><div class="key-label gemini"><span class="dot"></span>GEMINI</div><input type="password" class="key-input gemini" id="key-gemini" placeholder="AIza..." autocomplete="off"></div>
         <div class="key-input-group"><div class="key-label deepseek"><span class="dot"></span>DEEPSEEK</div><input type="password" class="key-input deepseek" id="key-deepseek" placeholder="sk-..." autocomplete="off"></div>
-        <div class="key-input-group"><div class="key-label grok"><span class="dot"></span>GROK (xAI)</div><input type="password" class="key-input grok" id="key-grok" placeholder="xai-..." autocomplete="off"></div>
+        <div class="key-input-group"><div class="key-label grok"><span class="dot"></span>GROK</div><input type="password" class="key-input grok" id="key-grok" placeholder="xai-..." autocomplete="off"></div>
         <div class="key-input-group"><div class="key-label mistral"><span class="dot"></span>MISTRAL</div><input type="password" class="key-input mistral" id="key-mistral" placeholder="..." autocomplete="off"></div>
-        <div class="key-input-group">
-          <div class="key-label openrouter"><span class="dot"></span>OPENROUTER</div>
+        <div class="key-input-group"><div class="key-label openrouter"><span class="dot"></span>OPENROUTER</div>
           <input type="password" class="key-input openrouter" id="key-openrouter" placeholder="sk-or-..." autocomplete="off">
           <input type="text" class="model-input" id="model-openrouter" placeholder="Модель: meta-llama/llama-3.3-70b-instruct:free">
         </div>
       </div>
     </div>
-
-    <!-- Settings -->
-    <div class="section-box" style="animation:fadeUp 0.6s ease 0.15s both">
+    <div class="section-box">
       <div class="section-title">// Настройки</div>
       <div class="settings-grid">
         <div class="setting-group">
@@ -325,10 +459,8 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
         </div>
       </div>
     </div>
-
-    <!-- Prompt -->
-    <div class="section-box" style="animation:fadeUp 0.6s ease 0.2s both">
-      <div class="section-title">// Выбери участников и задай вопрос</div>
+    <div class="section-box">
+      <div class="section-title">// Участники и вопрос</div>
       <div class="ai-select-grid">
         <label class="ai-check claude on" id="chk-claude"><input type="checkbox" checked onchange="toggleAI('claude',this)">🤖 CLAUDE</label>
         <label class="ai-check gemini on" id="chk-gemini"><input type="checkbox" checked onchange="toggleAI('gemini',this)">✨ GEMINI</label>
@@ -337,11 +469,9 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
         <label class="ai-check mistral on" id="chk-mistral"><input type="checkbox" checked onchange="toggleAI('mistral',this)">🔥 MISTRAL</label>
         <label class="ai-check openrouter on" id="chk-openrouter"><input type="checkbox" checked onchange="toggleAI('openrouter',this)">🌐 OPENROUTER</label>
       </div>
-      <textarea class="prompt-textarea" id="prompt" placeholder="Задай любой вопрос... (Ctrl+Enter)"></textarea>
+      <textarea class="prompt-textarea" id="prompt" placeholder="Задай вопрос всем сразу... (Ctrl+Enter)"></textarea>
       <button class="launch-btn" id="launch-btn" onclick="launchAll()">⚡ ЗАПУСТИТЬ АРЕНУ</button>
     </div>
-
-    <!-- Speed -->
     <div class="section-box speed-section" id="speed-section">
       <div class="section-title">// Скорость ответа</div>
       <div class="speed-bars">
@@ -353,32 +483,23 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
         <div class="speed-bar-row"><div class="speed-label openrouter">OR</div><div class="speed-track"><div class="speed-fill openrouter" id="speed-openrouter"></div></div><div class="speed-time" id="speedtime-openrouter">—</div></div>
       </div>
     </div>
-
-    <!-- Results -->
     <div class="results-grid" id="results-grid"></div>
-
-    <!-- Scoreboard -->
     <div class="section-box" id="scoreboard-box" style="display:none;margin-top:20px;text-align:center">
       <div class="section-title">// Счёт</div>
       <div class="scoreboard" id="scoreboard"></div>
-      <button onclick="resetScores()" style="margin-top:12px;background:none;border:none;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;">сбросить счёт</button>
-    </div>
-
-    <!-- History -->
-    <div class="section-box" style="margin-top:20px">
-      <div class="section-title" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-        <span>// История запросов</span>
-        <button onclick="clearHistory()" style="background:none;border:none;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;">очистить</button>
-      </div>
-      <div class="history-list" id="history-list"><div class="history-empty">История пуста</div></div>
+      <button onclick="resetScores()" style="margin-top:12px;background:none;border:none;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;">сбросить</button>
     </div>
   </div>
 
-  <!-- ===== ROUND TABLE TAB ===== -->
-  <div id="tab-roundtable" class="tab-content">
+  <!-- CHATS TAB -->
+  <div id="tab-chats" class="tab-content">
+    <div class="results-grid" id="chat-cards-grid"></div>
+  </div>
 
-    <div class="section-box" style="animation:fadeUp 0.6s ease both">
-      <div class="section-title">// Участники круглого стола</div>
+  <!-- ROUND TABLE TAB -->
+  <div id="tab-roundtable" class="tab-content">
+    <div class="section-box">
+      <div class="section-title">// Участники</div>
       <div class="ai-select-grid">
         <label class="ai-check claude on" id="rt-chk-claude"><input type="checkbox" checked onchange="toggleRTAI('claude',this)">🤖 CLAUDE</label>
         <label class="ai-check gemini on" id="rt-chk-gemini"><input type="checkbox" checked onchange="toggleRTAI('gemini',this)">✨ GEMINI</label>
@@ -392,11 +513,9 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
         <input type="number" class="rounds-input" id="rt-rounds" value="3" min="1" max="10">
         <span class="rt-status" id="rt-status"></span>
       </div>
-      <textarea class="roundtable-topic" id="rt-topic" placeholder="Введи тему для обсуждения... Например: Что важнее — свобода или безопасность?"></textarea>
+      <textarea class="roundtable-topic" id="rt-topic" placeholder="Тема для обсуждения..."></textarea>
       <button class="launch-btn" id="rt-btn" onclick="startRoundTable()">🎙 НАЧАТЬ ДИСКУССИЮ</button>
     </div>
-
-    <!-- Chat feed -->
     <div class="section-box" id="rt-feed-box" style="display:none">
       <div class="section-title" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
         <span>// Дискуссия</span>
@@ -405,8 +524,7 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
       <div class="chat-feed" id="chat-feed"></div>
     </div>
   </div>
-
-</div>
+</div><!-- end container -->
 
 <script>
 const AIS = {
@@ -418,22 +536,227 @@ const AIS = {
   openrouter:{icon:'🌐',color:'var(--openrouter)',name:'OPENROUTER'},
 };
 
-const responses={}, times={}, scores={}, selected={}, rtSelected={};
-Object.keys(AIS).forEach(ai=>{responses[ai]='';times[ai]=0;scores[ai]={up:0,down:0};selected[ai]=true;rtSelected[ai]=true;});
+const arenaResponses={}, arenaTimes={}, scores={}, arenaSelected={}, rtSelected={};
+Object.keys(AIS).forEach(ai=>{arenaResponses[ai]='';arenaTimes[ai]=0;scores[ai]={up:0,down:0};arenaSelected[ai]=true;rtSelected[ai]=true;});
 
 let lengthSetting='medium';
 const lengthTokens={short:256,medium:1024,long:2048};
 const lengthInstructions={short:' Отвечай очень кратко — не более 2-3 предложений.',medium:'',long:' Отвечай подробно и развёрнуто, с примерами.'};
 
-// Tab switching
-function switchTab(name, btn) {
+// ===== CHAT STORAGE =====
+// Structure: { [ai]: { chats: [{id, title, messages:[{role,content,time}], created}], activeChatId } }
+function getChatStore(ai){ try{return JSON.parse(localStorage.getItem('chatstore-'+ai)||'{"chats":[],"activeChatId":null}');}catch{return{chats:[],activeChatId:null};} }
+function saveChatStore(ai,store){ localStorage.setItem('chatstore-'+ai, JSON.stringify(store)); }
+
+function newChat(ai){
+  const store=getChatStore(ai);
+  const id='chat-'+Date.now()+'-'+Math.random().toString(36).slice(2,6);
+  const chat={id, title:'Новый чат', messages:[], created:new Date().toLocaleString('ru')};
+  store.chats.unshift(chat);
+  store.activeChatId=id;
+  saveChatStore(ai,store);
+  return id;
+}
+
+function getActiveChat(ai){
+  const store=getChatStore(ai);
+  if(!store.activeChatId || !store.chats.find(c=>c.id===store.activeChatId)){
+    if(store.chats.length===0) newChat(ai);
+    else{ store.activeChatId=store.chats[0].id; saveChatStore(ai,store); }
+  }
+  return getChatStore(ai);
+}
+
+function setActiveChat(ai,id){
+  const store=getChatStore(ai);
+  store.activeChatId=id;
+  saveChatStore(ai,store);
+  renderChatCard(ai);
+}
+
+function deleteChat(ai,id){
+  const store=getChatStore(ai);
+  store.chats=store.chats.filter(c=>c.id!==id);
+  if(store.activeChatId===id) store.activeChatId=store.chats[0]?.id||null;
+  if(store.chats.length===0){ newChat(ai); return; }
+  saveChatStore(ai,store);
+  renderChatCard(ai);
+}
+
+function addMessage(ai,role,content){
+  const store=getActiveChat(ai);
+  const chat=store.chats.find(c=>c.id===store.activeChatId);
+  if(!chat) return;
+  chat.messages.push({role,content,time:new Date().toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'})});
+  // Auto-title from first user message
+  if(chat.title==='Новый чат' && role==='user'){
+    chat.title=content.slice(0,40)+(content.length>40?'…':'');
+  }
+  saveChatStore(ai,store);
+}
+
+// ===== CHAT CARD UI =====
+function buildChatCards(){
+  const grid=document.getElementById('chat-cards-grid');
+  grid.innerHTML=Object.entries(AIS).map(([ai,info])=>`
+    <div class="result-card ${ai}" id="chatcard-${ai}">
+      <div class="card-header ${ai}">
+        <div class="ai-icon">${info.icon}</div>
+        <div class="ai-name">${info.name}</div>
+        <div class="header-right">
+          <div class="status-badge status-idle" id="chatstatus-${ai}">IDLE</div>
+        </div>
+      </div>
+      <div class="chat-window">
+        <div class="chat-messages" id="chatmsgs-${ai}">
+          <div class="empty-chat">Начни новый чат или выбери из списка</div>
+        </div>
+        <div class="chat-input-area">
+          <textarea class="chat-input" id="chatinput-${ai}" placeholder="Напиши сообщение..." rows="1"
+            onkeydown="handleChatKey(event,'${ai}')"></textarea>
+          <button class="send-btn" onclick="sendChatMessage('${ai}')">➤</button>
+        </div>
+      </div>
+      <div class="chat-list-panel">
+        <div class="chat-list-header">
+          <span class="chat-list-label">ЧАТЫ</span>
+          <button class="new-chat-btn" onclick="createNewChat('${ai}')">+ Новый</button>
+        </div>
+        <div id="chatlist-${ai}"></div>
+      </div>
+    </div>`).join('');
+
+  Object.keys(AIS).forEach(ai=>{
+    getActiveChat(ai);
+    renderChatCard(ai);
+  });
+}
+
+function renderChatCard(ai){
+  const store=getChatStore(ai);
+  const chat=store.chats.find(c=>c.id===store.activeChatId);
+
+  // Render messages
+  const msgsEl=document.getElementById('chatmsgs-'+ai);
+  if(!chat || chat.messages.length===0){
+    msgsEl.innerHTML='<div class="empty-chat">Напиши первое сообщение!</div>';
+  } else {
+    msgsEl.innerHTML=chat.messages.map(m=>`
+      <div class="msg ${m.role}">
+        <div class="msg-bubble">${escapeHtml(m.content)}</div>
+        <div class="msg-time">${m.time||''}</div>
+      </div>`).join('');
+    setTimeout(()=>{ msgsEl.scrollTop=msgsEl.scrollHeight; },50);
+  }
+
+  // Render chat list
+  const listEl=document.getElementById('chatlist-'+ai);
+  if(!store.chats.length){
+    listEl.innerHTML='<div class="no-chats">Нет чатов</div>';
+  } else {
+    listEl.innerHTML=store.chats.map(c=>`
+      <div class="chat-list-item ${c.id===store.activeChatId?'active-chat':''}" onclick="setActiveChat('${ai}','${c.id}')">
+        <div class="chat-list-title">${escapeHtml(c.title)}</div>
+        <div class="chat-list-date">${c.created||''}</div>
+        <button class="chat-list-del" onclick="event.stopPropagation();deleteChat('${ai}','${c.id}')">✕</button>
+      </div>`).join('');
+  }
+}
+
+function createNewChat(ai){
+  newChat(ai);
+  renderChatCard(ai);
+}
+
+function handleChatKey(e,ai){
+  if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendChatMessage(ai); }
+}
+
+async function sendChatMessage(ai){
+  const input=document.getElementById('chatinput-'+ai);
+  const text=input.value.trim();
+  if(!text) return;
+  const key=document.getElementById('key-'+ai).value.trim();
+  if(!key){ alert('Введи API ключ для '+AIS[ai].name+' на вкладке Арена!'); return; }
+
+  input.value='';
+  addMessage(ai,'user',text);
+  renderChatCard(ai);
+
+  // Show loading
+  const msgsEl=document.getElementById('chatmsgs-'+ai);
+  const loadId='load-'+Date.now();
+  const loadDiv=document.createElement('div');
+  loadDiv.className='msg assistant'; loadDiv.id=loadId;
+  loadDiv.innerHTML=`<div class="msg-bubble"><div class="loading-dots"><span style="background:${AIS[ai].color}"></span><span style="background:${AIS[ai].color}"></span><span style="background:${AIS[ai].color}"></span></div></div>`;
+  msgsEl.appendChild(loadDiv);
+  msgsEl.scrollTop=msgsEl.scrollHeight;
+
+  const statusEl=document.getElementById('chatstatus-'+ai);
+  statusEl.className='status-badge status-loading'; statusEl.textContent='ДУМАЕТ';
+
+  // Build messages array for API (full history)
+  const store=getChatStore(ai);
+  const chat=store.chats.find(c=>c.id===store.activeChatId);
+  const apiMessages=chat?chat.messages.map(m=>({role:m.role,content:m.content})):[];
+
+  try {
+    const reply=await askWithHistory(ai,key,apiMessages);
+    loadDiv.remove();
+    addMessage(ai,'assistant',reply);
+    renderChatCard(ai);
+    statusEl.className='status-badge status-done '+ai; statusEl.textContent='ГОТОВО';
+  } catch(e) {
+    loadDiv.remove();
+    addMessage(ai,'assistant','Ошибка: '+e.message);
+    renderChatCard(ai);
+    statusEl.className='status-badge status-error'; statusEl.textContent='ОШИБКА';
+  }
+}
+
+// Ask with full message history
+async function askWithHistory(ai,key,messages){
+  const sys=document.getElementById('system-prompt').value.trim();
+  if(ai==='claude'){
+    const body={model:'claude-sonnet-4-20250514',max_tokens:1024,messages};
+    if(sys) body.system=sys;
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01'},body:JSON.stringify(body)});
+    const data=await res.json();
+    if(!res.ok) throw new Error(data.error?.message||'Ошибка');
+    return data.content?.[0]?.text||'';
+  }
+  // For all others use OpenAI-compatible format
+  const msgs=[...(sys?[{role:'system',content:sys}]:[]),...messages];
+  let url,headers,body;
+  if(ai==='gemini'){
+    // Gemini uses its own format
+    const contents=messages.map(m=>({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]}));
+    body={contents};
+    if(sys) body.systemInstruction={parts:[{text:sys}]};
+    const res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+key,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const data=await res.json();
+    if(!res.ok) throw new Error(data.error?.message||'Ошибка');
+    return data.candidates?.[0]?.content?.parts?.[0]?.text||'';
+  }
+  const endpoints={deepseek:{url:'https://api.deepseek.com/chat/completions',model:'deepseek-chat',auth:'Bearer '+key},grok:{url:'https://api.x.ai/v1/chat/completions',model:'grok-3-mini',auth:'Bearer '+key},mistral:{url:'https://api.mistral.ai/v1/chat/completions',model:'mistral-small-latest',auth:'Bearer '+key},openrouter:{url:'https://openrouter.ai/api/v1/chat/completions',model:document.getElementById('model-openrouter').value.trim()||'meta-llama/llama-3.3-70b-instruct:free',auth:'Bearer '+key,referer:'https://taduret.github.io/AI-Arena/'}};
+  const ep=endpoints[ai];
+  const h={'Content-Type':'application/json','Authorization':ep.auth};
+  if(ep.referer) h['HTTP-Referer']=ep.referer;
+  const res=await fetch(ep.url,{method:'POST',headers:h,body:JSON.stringify({model:ep.model,messages:msgs,max_tokens:1024})});
+  const data=await res.json();
+  if(!res.ok) throw new Error(data.error?.message||'Ошибка');
+  return data.choices?.[0]?.message?.content||'';
+}
+
+// ===== TAB =====
+function switchTab(name,btn){
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+name).classList.add('active');
   btn.classList.add('active');
 }
 
-// Build result cards
+// ===== ARENA =====
 function buildResultCards(){
   const grid=document.getElementById('results-grid');
   grid.innerHTML=Object.entries(AIS).map(([ai,info])=>`
@@ -441,26 +764,39 @@ function buildResultCards(){
       <div class="card-header ${ai}">
         <div class="ai-icon">${info.icon}</div>
         <div class="ai-name">${info.name}</div>
-        <div class="status-badge status-idle" id="status-${ai}">IDLE</div>
-        <button class="collapse-btn" id="collapse-${ai}" onclick="toggleCard('${ai}', this)" title="Свернуть">▼</button>
+        <div class="header-right">
+          <div class="status-badge status-idle" id="status-${ai}">IDLE</div>
+          <button class="icon-btn collapse-btn" id="collapse-${ai}" onclick="toggleCard('${ai}',this)" title="Свернуть">▼</button>
+        </div>
       </div>
-      <div class="card-body" id="body-${ai}"><div class="no-key-notice">Введи API ключ выше</div></div>
-      <div class="card-footer">
+      <div class="card-body" id="body-${ai}" style="padding:18px;min-height:160px;"><div class="no-key-notice" style="color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:12px;text-align:center;padding-top:50px;">Введи API ключ выше</div></div>
+      <div class="card-footer-row" id="footer-${ai}">
         <div class="response-time" id="time-${ai}">—</div>
         <div class="token-count" id="tokens-${ai}">—</div>
-        <div class="footer-actions">
-          <div class="vote-btns" id="vote-${ai}">
+        <div style="display:flex;gap:6px;align-items:center;">
+          <div class="vote-btns" id="vote-${ai}" style="display:none;">
             <button class="vote-btn" onclick="vote('${ai}','up')" id="vup-${ai}">👍</button>
             <button class="vote-btn" onclick="vote('${ai}','down')" id="vdn-${ai}">👎</button>
           </div>
-          <button class="copy-btn" id="copy-${ai}" onclick="copyResponse('${ai}')">📋 копировать</button>
+          <button class="copy-btn" id="copy-${ai}" onclick="copyArenaResponse('${ai}')" style="display:none;">📋</button>
         </div>
       </div>
     </div>`).join('');
 }
 
+function toggleCard(ai,btn){
+  const body=document.getElementById('body-'+ai);
+  const footer=document.getElementById('footer-'+ai);
+  const collapsed=body.style.display==='none';
+  body.style.display=collapsed?'':'none';
+  if(footer) footer.style.display=collapsed?'':'none';
+  btn.classList.toggle('collapsed',!collapsed);
+  btn.title=collapsed?'Свернуть':'Развернуть';
+}
+
 window.addEventListener('DOMContentLoaded',()=>{
   buildResultCards();
+  buildChatCards();
   Object.keys(AIS).forEach(ai=>{
     const saved=localStorage.getItem('arena-key-'+ai);
     if(saved) document.getElementById('key-'+ai).value=saved;
@@ -471,7 +807,6 @@ window.addEventListener('DOMContentLoaded',()=>{
   if(savedSys) document.getElementById('system-prompt').value=savedSys;
   const savedScores=localStorage.getItem('arena-scores');
   if(savedScores){Object.assign(scores,JSON.parse(savedScores));updateScoreboard();}
-  renderHistory();
 });
 
 Object.keys(AIS).forEach(ai=>{
@@ -481,25 +816,12 @@ Object.keys(AIS).forEach(ai=>{
     else localStorage.removeItem('arena-key-'+ai);
   });
 });
-document.getElementById('model-openrouter').addEventListener('input',()=>{
-  localStorage.setItem('arena-or-model',document.getElementById('model-openrouter').value.trim());
-});
-document.getElementById('system-prompt').addEventListener('input',()=>{
-  localStorage.setItem('arena-system-prompt',document.getElementById('system-prompt').value);
-});
+document.getElementById('model-openrouter').addEventListener('input',()=>localStorage.setItem('arena-or-model',document.getElementById('model-openrouter').value.trim()));
+document.getElementById('system-prompt').addEventListener('input',()=>localStorage.setItem('arena-system-prompt',document.getElementById('system-prompt').value));
 
-function toggleAI(ai,cb){selected[ai]=cb.checked;document.getElementById('chk-'+ai).classList.toggle('on',cb.checked);}
+function toggleAI(ai,cb){arenaSelected[ai]=cb.checked;document.getElementById('chk-'+ai).classList.toggle('on',cb.checked);}
 function toggleRTAI(ai,cb){rtSelected[ai]=cb.checked;document.getElementById('rt-chk-'+ai).classList.toggle('on',cb.checked);}
 function setLength(val,btn){lengthSetting=val;document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
-
-function toggleCard(ai,btn){
-  const body=document.getElementById('body-'+ai);
-  const footer=document.querySelector('#card-'+ai+' .card-footer');
-  const collapsed=body.classList.toggle('collapsed');
-  if(footer) footer.style.display=collapsed?'none':'';
-  btn.classList.toggle('collapsed',collapsed);
-  btn.title=collapsed?'Развернуть':'Свернуть';
-}
 
 function vote(ai,dir){
   scores[ai][dir]++;
@@ -517,264 +839,177 @@ function updateScoreboard(){
 }
 function resetScores(){Object.keys(AIS).forEach(ai=>{scores[ai].up=0;scores[ai].down=0;});localStorage.removeItem('arena-scores');updateScoreboard();}
 
-function copyResponse(ai){
-  if(!responses[ai]) return;
-  navigator.clipboard.writeText(responses[ai]).then(()=>{
+function copyArenaResponse(ai){
+  if(!arenaResponses[ai]) return;
+  navigator.clipboard.writeText(arenaResponses[ai]).then(()=>{
     const btn=document.getElementById('copy-'+ai);
-    btn.textContent='✅ скопировано';
-    setTimeout(()=>btn.textContent='📋 копировать',2000);
+    const old=btn.textContent; btn.textContent='✅';
+    setTimeout(()=>btn.textContent=old,2000);
   });
 }
 
 function updateSpeedChart(){
-  const active=Object.entries(times).filter(([,t])=>t>0);
+  const active=Object.entries(arenaTimes).filter(([,t])=>t>0);
   if(!active.length) return;
   document.getElementById('speed-section').style.display='block';
   const max=Math.max(...active.map(([,t])=>t));
   Object.keys(AIS).forEach(ai=>{
-    const t=times[ai];
+    const t=arenaTimes[ai];
     document.getElementById('speed-'+ai).style.width=t>0?(t/max*100)+'%':'0%';
     document.getElementById('speedtime-'+ai).textContent=t>0?t+'ms':'—';
   });
 }
 
-function getHistory(){try{return JSON.parse(localStorage.getItem('arena-history')||'[]');}catch{return[];}}
-function saveHistory(h){localStorage.setItem('arena-history',JSON.stringify(h));}
-function addToHistory(q){const h=getHistory();h.unshift({q,date:new Date().toLocaleString('ru')});if(h.length>20)h.pop();saveHistory(h);renderHistory();}
-function renderHistory(){
-  const h=getHistory(),el=document.getElementById('history-list');
-  if(!h.length){el.innerHTML='<div class="history-empty">История пуста</div>';return;}
-  el.innerHTML=h.map((item,i)=>`<div class="history-item" onclick="loadHistoryItem(${i})"><div class="history-q">${escapeHtml(item.q)}</div><div class="history-date">${item.date}</div><button class="history-del" onclick="deleteHistoryItem(event,${i})">✕</button></div>`).join('');
-}
-function loadHistoryItem(i){const h=getHistory();if(h[i])document.getElementById('prompt').value=h[i].q;}
-function deleteHistoryItem(e,i){e.stopPropagation();const h=getHistory();h.splice(i,1);saveHistory(h);renderHistory();}
-function clearHistory(){localStorage.removeItem('arena-history');renderHistory();}
-
-function setLoading(ai){
-  responses[ai]='';times[ai]=0;
-  document.getElementById('card-'+ai).classList.add('active');
-  const s=document.getElementById('status-'+ai);
-  s.className='status-badge status-loading';s.textContent='ДУМАЕТ';
-  document.getElementById('body-'+ai).innerHTML='<div class="loading-dots"><span></span><span></span><span></span></div>';
-  document.getElementById('time-'+ai).textContent='—';
-  document.getElementById('tokens-'+ai).textContent='—';
-  document.getElementById('copy-'+ai).classList.remove('visible');
-  document.getElementById('vote-'+ai).classList.remove('visible');
-}
-function setResult(ai,text,time,tokens){
-  responses[ai]=text;times[ai]=time;
-  const s=document.getElementById('status-'+ai);
-  s.className='status-badge status-done '+ai;s.textContent='ГОТОВО';
-  document.getElementById('body-'+ai).innerHTML='<div class="response-text">'+escapeHtml(text)+'</div>';
-  document.getElementById('time-'+ai).textContent=time+'ms';
-  document.getElementById('tokens-'+ai).textContent=tokens?'~'+tokens+' токенов':'';
-  document.getElementById('copy-'+ai).classList.add('visible');
-  document.getElementById('vote-'+ai).classList.add('visible');
-  updateSpeedChart();
-}
-function setError(ai,msg){
-  const s=document.getElementById('status-'+ai);
-  s.className='status-badge status-error';s.textContent='ОШИБКА';
-  document.getElementById('body-'+ai).innerHTML='<div class="response-text" style="color:#ff5050;">'+escapeHtml(msg)+'</div>';
-  document.getElementById('card-'+ai).classList.remove('active');
-}
-function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
 function getSysInstruction(){
   const sys=document.getElementById('system-prompt').value.trim();
   return (sys?sys+' ':'')+ lengthInstructions[lengthSetting];
 }
 
-// ===== API CALLERS =====
-async function askClaude(key,prompt,sysOverride){
+// Arena API callers (single message)
+async function askOnce(ai,key,prompt){
   const start=Date.now();
-  const sys=sysOverride!==undefined?sysOverride:getSysInstruction();
-  const body={model:'claude-sonnet-4-20250514',max_tokens:lengthTokens[lengthSetting],messages:[{role:'user',content:prompt}]};
-  if(sys) body.system=sys;
-  const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01'},body:JSON.stringify(body)});
-  const data=await res.json();
-  if(!res.ok) throw new Error(data.error?.message||'Ошибка API');
-  return{text:data.content?.[0]?.text||('(нет ответа)'),time:Date.now()-start,tokens:data.usage?.output_tokens};
-}
-async function askGemini(key,prompt,sysOverride){
-  const start=Date.now();
-  const sys=sysOverride!==undefined?sysOverride:getSysInstruction();
-  const body={contents:[{parts:[{text:prompt}]}]};
-  if(sys) body.systemInstruction={parts:[{text:sys}]};
-  const res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+key,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  const data=await res.json();
-  if(!res.ok) throw new Error(data.error?.message||'Ошибка API');
-  return{text:data.candidates?.[0]?.content?.parts?.[0]?.text||('(нет ответа)'),time:Date.now()-start,tokens:data.usageMetadata?.candidatesTokenCount};
-}
-async function askDeepSeek(key,prompt,sysOverride){
-  const start=Date.now();
-  const sys=sysOverride!==undefined?sysOverride:getSysInstruction();
-  const msgs=[];
-  if(sys) msgs.push({role:'system',content:sys});
-  msgs.push({role:'user',content:prompt});
-  const res=await fetch('https://api.deepseek.com/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({model:'deepseek-chat',messages:msgs,max_tokens:lengthTokens[lengthSetting]})});
-  const data=await res.json();
-  if(!res.ok) throw new Error(data.error?.message||'Ошибка API');
-  return{text:data.choices?.[0]?.message?.content||('(нет ответа)'),time:Date.now()-start,tokens:data.usage?.completion_tokens};
-}
-async function askGrok(key,prompt,sysOverride){
-  const start=Date.now();
-  const sys=sysOverride!==undefined?sysOverride:getSysInstruction();
-  const msgs=[];
-  if(sys) msgs.push({role:'system',content:sys});
-  msgs.push({role:'user',content:prompt});
-  const res=await fetch('https://api.x.ai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({model:'grok-3-mini',messages:msgs,max_tokens:lengthTokens[lengthSetting]})});
-  const data=await res.json();
-  if(!res.ok) throw new Error(data.error?.message||'Ошибка API');
-  return{text:data.choices?.[0]?.message?.content||('(нет ответа)'),time:Date.now()-start,tokens:data.usage?.completion_tokens};
-}
-async function askMistral(key,prompt,sysOverride){
-  const start=Date.now();
-  const sys=sysOverride!==undefined?sysOverride:getSysInstruction();
-  const msgs=[];
-  if(sys) msgs.push({role:'system',content:sys});
-  msgs.push({role:'user',content:prompt});
-  const res=await fetch('https://api.mistral.ai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({model:'mistral-small-latest',messages:msgs,max_tokens:lengthTokens[lengthSetting]})});
-  const data=await res.json();
-  if(!res.ok) throw new Error(data.error?.message||'Ошибка API');
-  return{text:data.choices?.[0]?.message?.content||('(нет ответа)'),time:Date.now()-start,tokens:data.usage?.completion_tokens};
-}
-async function askOpenRouter(key,prompt,sysOverride){
-  const start=Date.now();
-  const model=document.getElementById('model-openrouter').value.trim()||'meta-llama/llama-3.3-70b-instruct:free';
-  const sys=sysOverride!==undefined?sysOverride:getSysInstruction();
-  const msgs=[];
-  if(sys) msgs.push({role:'system',content:sys});
-  msgs.push({role:'user',content:prompt});
-  const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key,'HTTP-Referer':'https://taduret.github.io/AI-Arena/'},body:JSON.stringify({model,messages:msgs,max_tokens:lengthTokens[lengthSetting]})});
-  const data=await res.json();
-  if(!res.ok) throw new Error(data.error?.message||'Ошибка API');
-  return{text:data.choices?.[0]?.message?.content||('(нет ответа)'),time:Date.now()-start,tokens:data.usage?.completion_tokens};
+  const sys=getSysInstruction();
+  const msgs=[{role:'user',content:prompt}];
+  let text='', tokens=0;
+  if(ai==='claude'){
+    const body={model:'claude-sonnet-4-20250514',max_tokens:lengthTokens[lengthSetting],messages:msgs};
+    if(sys) body.system=sys;
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01'},body:JSON.stringify(body)});
+    const data=await res.json(); if(!res.ok) throw new Error(data.error?.message||'Ошибка');
+    text=data.content?.[0]?.text||''; tokens=data.usage?.output_tokens;
+  } else if(ai==='gemini'){
+    const body={contents:[{parts:[{text:prompt}]}]};
+    if(sys) body.systemInstruction={parts:[{text:sys}]};
+    const res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+key,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const data=await res.json(); if(!res.ok) throw new Error(data.error?.message||'Ошибка');
+    text=data.candidates?.[0]?.content?.parts?.[0]?.text||''; tokens=data.usageMetadata?.candidatesTokenCount;
+  } else {
+    const endpoints={deepseek:{url:'https://api.deepseek.com/chat/completions',model:'deepseek-chat'},grok:{url:'https://api.x.ai/v1/chat/completions',model:'grok-3-mini'},mistral:{url:'https://api.mistral.ai/v1/chat/completions',model:'mistral-small-latest'},openrouter:{url:'https://openrouter.ai/api/v1/chat/completions',model:document.getElementById('model-openrouter').value.trim()||'meta-llama/llama-3.3-70b-instruct:free',referer:'https://taduret.github.io/AI-Arena/'}};
+    const ep=endpoints[ai];
+    const h={'Content-Type':'application/json','Authorization':'Bearer '+key};
+    if(ep.referer) h['HTTP-Referer']=ep.referer;
+    const m=[...(sys?[{role:'system',content:sys}]:[]),...msgs];
+    const res=await fetch(ep.url,{method:'POST',headers:h,body:JSON.stringify({model:ep.model,messages:m,max_tokens:lengthTokens[lengthSetting]})});
+    const data=await res.json(); if(!res.ok) throw new Error(data.error?.message||'Ошибка');
+    text=data.choices?.[0]?.message?.content||''; tokens=data.usage?.completion_tokens;
+  }
+  return{text,time:Date.now()-start,tokens};
 }
 
-const askers={claude:askClaude,gemini:askGemini,deepseek:askDeepSeek,grok:askGrok,mistral:askMistral,openrouter:askOpenRouter};
+function setArenaLoading(ai){
+  arenaResponses[ai]=''; arenaTimes[ai]=0;
+  document.getElementById('card-'+ai).classList.add('active');
+  const s=document.getElementById('status-'+ai);
+  s.className='status-badge status-loading'; s.textContent='ДУМАЕТ';
+  document.getElementById('body-'+ai).innerHTML='<div style="display:flex;gap:6px;justify-content:center;padding-top:60px;"><span style="width:8px;height:8px;border-radius:50%;background:'+AIS[ai].color+';animation:bounce 1.2s infinite"></span><span style="width:8px;height:8px;border-radius:50%;background:'+AIS[ai].color+';animation:bounce 1.2s 0.2s infinite"></span><span style="width:8px;height:8px;border-radius:50%;background:'+AIS[ai].color+';animation:bounce 1.2s 0.4s infinite"></span></div>';
+  document.getElementById('time-'+ai).textContent='—';
+  document.getElementById('tokens-'+ai).textContent='—';
+  document.getElementById('copy-'+ai).style.display='none';
+  document.getElementById('vote-'+ai).style.display='none';
+}
+function setArenaResult(ai,text,time,tokens){
+  arenaResponses[ai]=text; arenaTimes[ai]=time;
+  const s=document.getElementById('status-'+ai);
+  s.className='status-badge status-done '+ai; s.textContent='ГОТОВО';
+  document.getElementById('body-'+ai).innerHTML='<div style="font-size:14px;line-height:1.7;color:var(--text);white-space:pre-wrap;word-break:break-word;padding:18px;">'+escapeHtml(text)+'</div>';
+  document.getElementById('time-'+ai).textContent=time+'ms';
+  document.getElementById('tokens-'+ai).textContent=tokens?'~'+tokens+' токенов':'';
+  document.getElementById('copy-'+ai).style.display='block';
+  document.getElementById('vote-'+ai).style.display='flex';
+  updateSpeedChart();
+}
+function setArenaError(ai,msg){
+  const s=document.getElementById('status-'+ai);
+  s.className='status-badge status-error'; s.textContent='ОШИБКА';
+  document.getElementById('body-'+ai).innerHTML='<div style="padding:18px;font-size:13px;color:#ff5050;">'+escapeHtml(msg)+'</div>';
+  document.getElementById('card-'+ai).classList.remove('active');
+}
 
-// Arena launch
 async function launchAll(){
   const prompt=document.getElementById('prompt').value.trim();
   if(!prompt){alert('Введи вопрос!');return;}
-  const activeAIs=Object.keys(AIS).filter(ai=>document.getElementById('key-'+ai).value.trim()&&selected[ai]);
+  const activeAIs=Object.keys(AIS).filter(ai=>document.getElementById('key-'+ai).value.trim()&&arenaSelected[ai]);
   if(!activeAIs.length){alert('Введи хотя бы один API ключ!');return;}
   document.getElementById('launch-btn').disabled=true;
   document.getElementById('speed-section').style.display='none';
-  Object.keys(AIS).forEach(ai=>{times[ai]=0;document.getElementById('speed-'+ai).style.width='0%';document.getElementById('speedtime-'+ai).textContent='—';});
-  addToHistory(prompt);
+  Object.keys(AIS).forEach(ai=>{arenaTimes[ai]=0;document.getElementById('speed-'+ai).style.width='0%';document.getElementById('speedtime-'+ai).textContent='—';});
   const tasks=activeAIs.map(ai=>{
-    setLoading(ai);
+    setArenaLoading(ai);
     const key=document.getElementById('key-'+ai).value.trim();
-    return askers[ai](key,prompt).then(r=>setResult(ai,r.text,r.time,r.tokens)).catch(e=>setError(ai,e.message));
+    return askOnce(ai,key,prompt).then(r=>setArenaResult(ai,r.text,r.time,r.tokens)).catch(e=>setArenaError(ai,e.message));
   });
   await Promise.all(tasks);
   document.getElementById('launch-btn').disabled=false;
 }
-
 document.getElementById('prompt').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.ctrlKey)launchAll();});
 
 // ===== ROUND TABLE =====
 let rtRunning=false;
-
-function addBubble(ai, text, round, isLoading=false){
+function addBubble(ai,text,round,isLoading=false){
   const feed=document.getElementById('chat-feed');
   const info=ai==='system'?{icon:'📌',name:'ТЕМА',color:'var(--muted)'}:AIS[ai];
   const id='bubble-'+ai+'-'+round+'-'+Date.now();
   const div=document.createElement('div');
   div.className='chat-bubble '+(ai==='system'?'system':ai);
   div.id=id;
-  div.innerHTML=`
-    <div class="bubble-header">
-      <span class="bubble-icon">${info.icon}</span>
-      <span class="bubble-name ${ai==="system"?"system":ai}">${info.name}</span>
-      ${round>0?`<span class="bubble-round">Раунд ${round}</span>`:""}
-    </div>
-    ${isLoading
-      ? `<div class="bubble-loading"><span style="background:${info.color}"></span><span style="background:${info.color}"></span><span style="background:${info.color}"></span></div>`
-      : `<div class="bubble-text">${escapeHtml(text)}</div>`}
-  `;
+  div.innerHTML=`<div class="bubble-header"><span class="bubble-icon">${info.icon}</span><span class="bubble-name ${ai==="system"?"system":ai}">${info.name}</span>${round>0?`<span class="bubble-round">Раунд ${round}</span>`:""}</div>${isLoading?`<div class="bubble-loading"><span style="background:${info.color}"></span><span style="background:${info.color}"></span><span style="background:${info.color}"></span></div>`:`<div class="bubble-text">${escapeHtml(text)}</div>`}`;
   feed.appendChild(div);
   div.scrollIntoView({behavior:'smooth',block:'end'});
   return id;
 }
-
-function updateBubble(id, text){
-  const el=document.getElementById(id);
-  if(!el) return;
-  const loading=el.querySelector('.bubble-loading');
-  if(loading) loading.remove();
-  let textEl=el.querySelector('.bubble-text');
-  if(!textEl){
-    textEl=document.createElement('div');
-    textEl.className='bubble-text';
-    el.appendChild(textEl);
-  }
-  textEl.textContent=text;
-  el.scrollIntoView({behavior:'smooth',block:'end'});
+function updateBubble(id,text){
+  const el=document.getElementById(id); if(!el) return;
+  const loading=el.querySelector('.bubble-loading'); if(loading) loading.remove();
+  let t=el.querySelector('.bubble-text');
+  if(!t){t=document.createElement('div');t.className='bubble-text';el.appendChild(t);}
+  t.textContent=text; el.scrollIntoView({behavior:'smooth',block:'end'});
 }
-
-function clearRoundTable(){
-  document.getElementById('chat-feed').innerHTML='';
-  document.getElementById('rt-feed-box').style.display='none';
-  document.getElementById('rt-status').textContent='';
-}
-
+function clearRoundTable(){document.getElementById('chat-feed').innerHTML='';document.getElementById('rt-feed-box').style.display='none';document.getElementById('rt-status').textContent='';}
 async function startRoundTable(){
   if(rtRunning) return;
   const topic=document.getElementById('rt-topic').value.trim();
-  if(!topic){alert('Введи тему для обсуждения!');return;}
+  if(!topic){alert('Введи тему!');return;}
   const rounds=parseInt(document.getElementById('rt-rounds').value)||3;
   const activeAIs=Object.keys(AIS).filter(ai=>document.getElementById('key-'+ai).value.trim()&&rtSelected[ai]);
-  if(activeAIs.length<2){alert('Нужно минимум 2 участника с API ключами!');return;}
-
+  if(activeAIs.length<2){alert('Нужно минимум 2 участника!');return;}
   rtRunning=true;
   document.getElementById('rt-btn').disabled=true;
   document.getElementById('rt-feed-box').style.display='block';
   document.getElementById('chat-feed').innerHTML='';
+  addBubble('system',topic,0);
+  const history=[`Тема дискуссии: ${topic}
 
-  // Show topic
-  addBubble('system', topic, 0);
-
-  // Conversation history (shared context)
-  const history=[];
-  history.push(`Тема дискуссии: ${topic}\n\nТы участвуешь в групповой дискуссии с другими ИИ. Отвечай живо, можешь соглашаться или спорить с предыдущими участниками. Будь конкретен и интересен. Можешь задавать вопросы другим участникам.`);
-
+Ты участвуешь в групповой дискуссии с другими ИИ. Отвечай живо, можешь соглашаться или спорить. Будь конкретен и интересен.`];
   for(let round=1;round<=rounds;round++){
     document.getElementById('rt-status').textContent=`Раунд ${round} из ${rounds}...`;
     for(let i=0;i<activeAIs.length;i++){
-      const ai=activeAIs[i];
-      const key=document.getElementById('key-'+ai).value.trim();
-      const info=AIS[ai];
+      const ai=activeAIs[i]; const key=document.getElementById('key-'+ai).value.trim();
+      let prompt=history[0]+'
 
-      // Build prompt with full history
-      let prompt=history[0]+'\n\n';
-      if(history.length>1){
-        prompt+='История дискуссии:\n'+history.slice(1).join('\n')+'\n\n';
-      }
-      prompt+=`Твой ход, ${info.name}. Продолжи дискуссию:`;
+';
+      if(history.length>1) prompt+='История:
+'+history.slice(1).join('
+')+'
 
+';
+      prompt+=`Твой ход, ${AIS[ai].name}:`;
       const bubbleId=addBubble(ai,'',round,true);
       try{
-        const r=await askers[ai](key,prompt,'');
+        const r=await askOnce(ai,key,prompt);
         updateBubble(bubbleId,r.text);
-        history.push(`${info.name}: ${r.text}`);
-      } catch(e){
-        updateBubble(bubbleId,'Ошибка: '+e.message);
-        history.push(`${info.name}: [ошибка]`);
-      }
-      // Small pause between turns
+        history.push(`${AIS[ai].name}: ${r.text}`);
+      }catch(e){updateBubble(bubbleId,'Ошибка: '+e.message);history.push(`${AIS[ai].name}: [ошибка]`);}
       await new Promise(res=>setTimeout(res,300));
     }
   }
-
   document.getElementById('rt-status').textContent='Дискуссия завершена!';
   document.getElementById('rt-btn').disabled=false;
   rtRunning=false;
 }
 
-// Service worker
+// ===== SERVICE WORKER =====
 let newWorker;
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js').then(reg=>{
@@ -794,6 +1029,124 @@ function clearCache(){
   if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(regs=>{regs.forEach(r=>r.unregister());window.location.reload();});}
   else window.location.reload();
 }
+</script>
+
+</div><!-- end container -->
+
+<!-- Floating Music Player -->
+<button class="player-toggle" id="player-toggle" onclick="togglePlayer()" title="Музыкальный плеер">🎵</button>
+
+<div class="music-player hidden" id="music-player">
+  <div class="player-header">
+    <div class="player-title">// Плеер</div>
+    <button class="player-close" onclick="togglePlayer()">✕</button>
+  </div>
+  <div class="player-track empty" id="player-track">Выбери аудиофайл...</div>
+  <div class="player-progress-wrap" onclick="seekAudio(event)">
+    <div class="player-progress" id="player-progress"></div>
+  </div>
+  <div class="player-time">
+    <span id="player-current">0:00</span>
+    <span id="player-duration">0:00</span>
+  </div>
+  <div class="player-controls">
+    <button class="ctrl-btn" onclick="prevTrack()" title="Предыдущий">⏮</button>
+    <button class="ctrl-btn" onclick="skipBack()" title="-10с">⏪</button>
+    <button class="ctrl-btn play" id="play-btn" onclick="togglePlay()">▶</button>
+    <button class="ctrl-btn" onclick="skipForward()" title="+10с">⏩</button>
+    <button class="ctrl-btn" onclick="nextTrack()" title="Следующий">⏭</button>
+  </div>
+  <div class="player-volume-row">
+    <span class="vol-icon">🔈</span>
+    <input type="range" class="player-volume" id="player-volume" min="0" max="1" step="0.05" value="0.8" oninput="setVolume(this.value)">
+    <span class="vol-icon">🔊</span>
+  </div>
+  <button class="player-file-btn" onclick="document.getElementById('audio-file-input').click()">📂 Открыть файл(ы)</button>
+  <input type="file" id="audio-file-input" accept="audio/*" multiple style="display:none" onchange="loadAudioFiles(this)">
+</div>
+
+<audio id="audio-player"></audio>
+
+<script>
+// Music Player
+const audio = document.getElementById('audio-player');
+let playlist = [];
+let currentTrack = 0;
+let playerVisible = false;
+
+function togglePlayer() {
+  playerVisible = !playerVisible;
+  document.getElementById('music-player').classList.toggle('hidden', !playerVisible);
+}
+
+function loadAudioFiles(input) {
+  const files = Array.from(input.files);
+  if (!files.length) return;
+  playlist = files.map(f => ({ name: f.name.replace(/\.[^.]+$/, ''), url: URL.createObjectURL(f) }));
+  currentTrack = 0;
+  loadTrack(0);
+  audio.play();
+  updatePlayBtn(true);
+}
+
+function loadTrack(idx) {
+  if (!playlist.length) return;
+  const track = playlist[idx];
+  audio.src = track.url;
+  document.getElementById('player-track').textContent = track.name;
+  document.getElementById('player-track').classList.remove('empty');
+  audio.volume = parseFloat(document.getElementById('player-volume').value);
+}
+
+function togglePlay() {
+  if (!audio.src) return;
+  if (audio.paused) { audio.play(); updatePlayBtn(true); }
+  else { audio.pause(); updatePlayBtn(false); }
+}
+
+function updatePlayBtn(playing) {
+  document.getElementById('play-btn').textContent = playing ? '⏸' : '▶';
+}
+
+function skipBack() { audio.currentTime = Math.max(0, audio.currentTime - 10); }
+function skipForward() { audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 10); }
+
+function prevTrack() {
+  if (!playlist.length) return;
+  currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+  loadTrack(currentTrack); audio.play(); updatePlayBtn(true);
+}
+function nextTrack() {
+  if (!playlist.length) return;
+  currentTrack = (currentTrack + 1) % playlist.length;
+  loadTrack(currentTrack); audio.play(); updatePlayBtn(true);
+}
+
+function setVolume(val) { audio.volume = parseFloat(val); }
+
+function seekAudio(e) {
+  if (!audio.duration) return;
+  const rect = e.currentTarget.getBoundingClientRect();
+  const pct = (e.clientX - rect.left) / rect.width;
+  audio.currentTime = pct * audio.duration;
+}
+
+function formatTime(s) {
+  if (!s || isNaN(s)) return '0:00';
+  const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+  return m + ':' + String(sec).padStart(2, '0');
+}
+
+audio.addEventListener('timeupdate', () => {
+  const pct = audio.duration ? (audio.currentTime / audio.duration * 100) : 0;
+  document.getElementById('player-progress').style.width = pct + '%';
+  document.getElementById('player-current').textContent = formatTime(audio.currentTime);
+  document.getElementById('player-duration').textContent = formatTime(audio.duration);
+});
+
+audio.addEventListener('ended', () => { nextTrack(); });
+audio.addEventListener('play', () => updatePlayBtn(true));
+audio.addEventListener('pause', () => updatePlayBtn(false));
 </script>
 </body>
 </html>
