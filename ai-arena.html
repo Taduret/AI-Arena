@@ -271,6 +271,7 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
   <!-- Tabs -->
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('arena',this)">⚡ АРЕНА</button>
+    <button class="tab-btn" onclick="switchTab('chats',this)">💬 ЧАТЫ</button>
     <button class="tab-btn" onclick="switchTab('roundtable',this)">🎙 КРУГЛЫЙ СТОЛ</button>
   </div>
 
@@ -372,6 +373,13 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
       </div>
       <div class="history-list" id="history-list"><div class="history-empty">История пуста</div></div>
     </div>
+  </div>
+
+
+
+  <!-- CHATS TAB -->
+  <div id="tab-chats" class="tab-content">
+    <div class="results-grid" id="chat-cards-grid" style="animation:fadeUp 0.6s ease both"></div>
   </div>
 
   <!-- ===== ROUND TABLE TAB ===== -->
@@ -773,6 +781,136 @@ async function startRoundTable(){
   document.getElementById('rt-btn').disabled=false;
   rtRunning=false;
 }
+
+// ===== CHAT SYSTEM =====
+function getChatStore(ai){ try{return JSON.parse(localStorage.getItem('cs-'+ai)||'{"chats":[],"activeId":null}');}catch{return{chats:[],activeId:null};} }
+function saveChatStore(ai,s){ localStorage.setItem('cs-'+ai,JSON.stringify(s)); }
+
+function createNewChat(ai){
+  var s=getChatStore(ai), id='c'+Date.now()+Math.random().toString(36).slice(2,5);
+  s.chats.unshift({id:id,title:'Новый чат',messages:[],created:new Date().toLocaleString('ru')});
+  s.activeId=id; saveChatStore(ai,s); renderChatCard(ai);
+}
+function setActiveChat(ai,id){ var s=getChatStore(ai); s.activeId=id; saveChatStore(ai,s); renderChatCard(ai); }
+function deleteChat(ai,id){
+  var s=getChatStore(ai); s.chats=s.chats.filter(function(c){return c.id!==id;});
+  if(s.activeId===id) s.activeId=s.chats.length?s.chats[0].id:null;
+  saveChatStore(ai,s);
+  if(!s.chats.length) createNewChat(ai); else renderChatCard(ai);
+}
+function addChatMsg(ai,role,content){
+  var s=getChatStore(ai), chat=s.chats.find(function(c){return c.id===s.activeId;});
+  if(!chat) return;
+  chat.messages.push({role:role,content:content,time:new Date().toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'})});
+  if(chat.title==='Новый чат'&&role==='user') chat.title=content.slice(0,40)+(content.length>40?'…':'');
+  saveChatStore(ai,s);
+}
+
+function buildChatCards(){
+  var grid=document.getElementById('chat-cards-grid'); if(!grid) return;
+  grid.innerHTML=Object.entries(AIS).map(function(e){
+    var ai=e[0], info=e[1];
+    return '<div class="result-card '+ai+'" id="chatcard-'+ai+'">'
+      +'<div class="card-header '+ai+'">'
+      +'<div class="ai-icon">'+info.icon+'</div>'
+      +'<div class="ai-name">'+info.name+'</div>'
+      +'<div class="status-badge status-idle" id="cstat-'+ai+'">IDLE</div>'
+      +'</div>'
+      +'<div class="chat-window">'
+      +'<div class="chat-messages" id="cmsgs-'+ai+'"><div class="empty-chat">Напиши первое сообщение!</div></div>'
+      +'<div class="chat-input-area">'
+      +'<textarea class="chat-input" id="cinput-'+ai+'" placeholder="Сообщение..." rows="1" onkeydown="if(event.key===\'Enter\'&&!event.shiftKey){event.preventDefault();sendChatMsg(\''+ai+'\');}"></textarea>'
+      +'<button class="send-btn" onclick="sendChatMsg(\''+ai+'\')">➤</button>'
+      +'</div></div>'
+      +'<div class="chat-list-panel">'
+      +'<div class="chat-list-header"><span class="chat-list-label">ЧАТЫ</span>'
+      +'<button class="new-chat-btn" onclick="createNewChat(\''+ai+'\')">+ Новый</button></div>'
+      +'<div id="clist-'+ai+'"></div>'
+      +'</div></div>';
+  }).join('');
+  Object.keys(AIS).forEach(function(ai){
+    var s=getChatStore(ai);
+    if(!s.chats.length) createNewChat(ai); else renderChatCard(ai);
+  });
+}
+
+function renderChatCard(ai){
+  var s=getChatStore(ai), chat=s.chats.find(function(c){return c.id===s.activeId;});
+  var msgsEl=document.getElementById('cmsgs-'+ai);
+  if(msgsEl){
+    if(!chat||!chat.messages.length){ msgsEl.innerHTML='<div class="empty-chat">Напиши первое сообщение!</div>'; }
+    else{
+      msgsEl.innerHTML=chat.messages.map(function(m){
+        return '<div class="msg '+m.role+'"><div class="msg-bubble">'+escapeHtml(m.content)+'</div><div class="msg-time">'+(m.time||'')+'</div></div>';
+      }).join('');
+      setTimeout(function(){msgsEl.scrollTop=msgsEl.scrollHeight;},50);
+    }
+  }
+  var listEl=document.getElementById('clist-'+ai);
+  if(listEl){
+    if(!s.chats.length){ listEl.innerHTML='<div class="no-chats">Нет чатов</div>'; }
+    else{
+      listEl.innerHTML=s.chats.map(function(c){
+        return '<div class="chat-list-item'+(c.id===s.activeId?' active-chat':'')+'" onclick="setActiveChat(\''+ai+'\',\''+c.id+'\')"><div class="chat-list-title">'+escapeHtml(c.title)+'</div><div class="chat-list-date">'+(c.created||'')+'</div><button class="chat-list-del" onclick="event.stopPropagation();deleteChat(\''+ai+'\',\''+c.id+'\')">✕</button></div>';
+      }).join('');
+    }
+  }
+}
+
+async function sendChatMsg(ai){
+  var input=document.getElementById('cinput-'+ai);
+  var text=input.value.trim(); if(!text) return;
+  var keyEl=document.getElementById('key-'+ai); if(!keyEl) return;
+  var key=keyEl.value.trim();
+  if(!key){alert('Введи API ключ для '+AIS[ai].name+' на вкладке АРЕНА!');return;}
+  input.value='';
+  var s=getChatStore(ai);
+  if(!s.activeId||!s.chats.find(function(c){return c.id===s.activeId;})) createNewChat(ai);
+  addChatMsg(ai,'user',text); renderChatCard(ai);
+  var msgsEl=document.getElementById('cmsgs-'+ai);
+  var loadDiv=document.createElement('div'); loadDiv.className='msg assistant';
+  loadDiv.innerHTML='<div class="msg-bubble"><div style="display:flex;gap:5px"><span style="width:7px;height:7px;border-radius:50%;background:'+AIS[ai].color+';animation:bounce 1.2s infinite"></span><span style="width:7px;height:7px;border-radius:50%;background:'+AIS[ai].color+';animation:bounce 1.2s 0.2s infinite"></span><span style="width:7px;height:7px;border-radius:50%;background:'+AIS[ai].color+';animation:bounce 1.2s 0.4s infinite"></span></div></div>';
+  msgsEl.appendChild(loadDiv); msgsEl.scrollTop=msgsEl.scrollHeight;
+  var statEl=document.getElementById('cstat-'+ai);
+  statEl.className='status-badge status-loading'; statEl.textContent='ДУМАЕТ';
+  var s2=getChatStore(ai), chat=s2.chats.find(function(c){return c.id===s2.activeId;});
+  var msgs=chat?chat.messages.map(function(m){return{role:m.role,content:m.content};}) : [];
+  var sys=(document.getElementById('system-prompt')||{}).value||'';
+  try{
+    var reply=await chatCallAPI(ai,key,msgs,sys);
+    loadDiv.remove(); addChatMsg(ai,'assistant',reply); renderChatCard(ai);
+    statEl.className='status-badge status-done '+ai; statEl.textContent='ГОТОВО';
+  }catch(e){
+    loadDiv.remove(); addChatMsg(ai,'assistant','Ошибка: '+e.message); renderChatCard(ai);
+    statEl.className='status-badge status-error'; statEl.textContent='ОШИБКА';
+  }
+}
+
+async function chatCallAPI(ai,key,messages,sys){
+  if(ai==='claude'){
+    var body={model:'claude-sonnet-4-20250514',max_tokens:1024,messages:messages};
+    if(sys) body.system=sys;
+    var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01'},body:JSON.stringify(body)});
+    var data=await res.json(); if(!res.ok) throw new Error(data.error&&data.error.message||'Ошибка');
+    return data.content&&data.content[0]&&data.content[0].text||'';
+  }
+  if(ai==='gemini'){
+    var contents=messages.map(function(m){return{role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]};});
+    var body={contents:contents}; if(sys) body.systemInstruction={parts:[{text:sys}]};
+    var res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+key,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    var data=await res.json(); if(!res.ok) throw new Error(data.error&&data.error.message||'Ошибка');
+    return data.candidates&&data.candidates[0]&&data.candidates[0].content&&data.candidates[0].content.parts&&data.candidates[0].content.parts[0]&&data.candidates[0].content.parts[0].text||'';
+  }
+  var eps={deepseek:{url:'https://api.deepseek.com/chat/completions',model:'deepseek-chat'},grok:{url:'https://api.x.ai/v1/chat/completions',model:'grok-3-mini'},mistral:{url:'https://api.mistral.ai/v1/chat/completions',model:'mistral-small-latest'},openrouter:{url:'https://openrouter.ai/api/v1/chat/completions',model:(document.getElementById('model-openrouter')||{value:'meta-llama/llama-3.3-70b-instruct:free'}).value||'meta-llama/llama-3.3-70b-instruct:free',ref:'https://taduret.github.io/AI-Arena/'}};
+  var ep=eps[ai];
+  var h={'Content-Type':'application/json','Authorization':'Bearer '+key};
+  if(ep.ref) h['HTTP-Referer']=ep.ref;
+  var msgs=sys?[{role:'system',content:sys}].concat(messages):messages;
+  var res=await fetch(ep.url,{method:'POST',headers:h,body:JSON.stringify({model:ep.model,messages:msgs,max_tokens:1024})});
+  var data=await res.json(); if(!res.ok) throw new Error(data.error&&data.error.message||'Ошибка');
+  return data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content||'';
+}
+
 
 // Service worker
 let newWorker;
