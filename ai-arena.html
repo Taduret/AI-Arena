@@ -405,23 +405,35 @@ function renderORSlots() {
   var container = document.getElementById('or-slots');
   if (!container) return;
   if (!slots.length) {
-    container.innerHTML = '<div style="color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:11px;padding:8px 0">Нет слотов — добавь первый!</div>';
+    container.innerHTML = '<div style="color:var(--muted);font-size:11px;padding:8px 0">Нет слотов — добавь первый!</div>';
     return;
   }
   container.innerHTML = slots.map(function(s) {
-    return '<div class="or-slot" id="or-slot-' + s.id + '">' +
+    var sid = s.id;
+    var div = document.createElement('div');
+    return '<div class="or-slot" id="or-slot-' + sid + '">' +
       '<div class="or-slot-header">' +
-        '<span style="color:var(--openrouter);font-size:14px">🌐</span>' +
-        '<input class="or-slot-name" value="' + escapeAttr(s.name) + '" placeholder="Название..." ' +
-          'onchange="renameORSlot('' + s.id + '',this.value)" onblur="renameORSlot('' + s.id + '',this.value)">' +
-        '<button class="or-slot-del" onclick="deleteORSlot('' + s.id + '')">✕</button>' +
+        '<span style="color:var(--openrouter)">🌐</span>' +
+        '<input class="or-slot-name" data-id="' + sid + '" value="' + escapeAttr(s.name) + '" placeholder="Название...">' +
+        '<button class="or-slot-del" data-id="' + sid + '">✕</button>' +
       '</div>' +
-      '<input type="password" class="key-input openrouter" value="' + escapeAttr(s.key||'') + '" placeholder="sk-or-..." ' +
-        'onchange="updateORSlotKey('' + s.id + '',this.value)" onblur="updateORSlotKey('' + s.id + '',this.value)">' +
-      '<input type="text" class="model-input" value="' + escapeAttr(s.model||'') + '" placeholder="Модель (напр. meta-llama/llama-3.3-70b-instruct:free)" ' +
-        'onchange="updateORSlotModel('' + s.id + '',this.value)" onblur="updateORSlotModel('' + s.id + '',this.value)">' +
+      '<input type="password" class="key-input openrouter or-key" data-id="' + sid + '" value="' + escapeAttr(s.key||'') + '" placeholder="sk-or-...">' +
+      '<input type="text" class="model-input or-model" data-id="' + sid + '" value="' + escapeAttr(s.model||'') + '" placeholder="Модель (напр. meta-llama/llama-3.3-70b-instruct:free)">' +
     '</div>';
   }).join('');
+  // Attach event listeners
+  container.querySelectorAll('.or-slot-name').forEach(function(el) {
+    el.addEventListener('change', function() { renameORSlot(this.dataset.id, this.value); });
+  });
+  container.querySelectorAll('.or-slot-del').forEach(function(el) {
+    el.addEventListener('click', function() { deleteORSlot(this.dataset.id); });
+  });
+  container.querySelectorAll('.or-key').forEach(function(el) {
+    el.addEventListener('change', function() { updateORSlotKey(this.dataset.id, this.value); });
+  });
+  container.querySelectorAll('.or-model').forEach(function(el) {
+    el.addEventListener('change', function() { updateORSlotModel(this.dataset.id, this.value); });
+  });
   refreshORCheckboxes();
 }
 
@@ -468,11 +480,14 @@ function refreshORCheckboxes() {
     grid.querySelectorAll('.ai-check.openrouter').forEach(function(el){ el.remove(); });
     slots.forEach(function(s) {
       var ai = 'or-' + s.id;
-      var info = AIS[ai];
       var label = document.createElement('label');
       label.className = 'ai-check openrouter on';
       label.id = 'chk-' + ai;
-      label.innerHTML = '<input type="checkbox" checked onchange="toggleAI('' + ai + '',this)">🌐 ' + escapeHtml(s.name);
+      var cb = document.createElement('input');
+      cb.type = 'checkbox'; cb.checked = true;
+      cb.addEventListener('change', function(){ toggleAI(ai, this); });
+      label.appendChild(cb);
+      label.appendChild(document.createTextNode('🌐 ' + s.name));
       grid.appendChild(label);
     });
   }
@@ -485,7 +500,11 @@ function refreshORCheckboxes() {
       var label = document.createElement('label');
       label.className = 'ai-check openrouter on';
       label.id = 'rt-chk-' + ai;
-      label.innerHTML = '<input type="checkbox" checked onchange="toggleRTAI('' + ai + '',this)">🌐 ' + escapeHtml(s.name);
+      var cb = document.createElement('input');
+      cb.type = 'checkbox'; cb.checked = true;
+      cb.addEventListener('change', function(){ toggleRTAI(ai, this); });
+      label.appendChild(cb);
+      label.appendChild(document.createTextNode('🌐 ' + s.name));
       rtGrid.appendChild(label);
     });
   }
@@ -561,40 +580,61 @@ function buildResultCards() {
   getAllAIs();
   var grid = document.getElementById('results-grid');
   if (!grid) return;
-  grid.innerHTML = Object.entries(AIS).map(function(e) {
-    var ai = e[0], info = e[1];
-    return '<div class="result-card ' + (info.orSlot?'openrouter':ai) + '" id="card-' + ai + '">' +
-      '<div class="card-header ' + (info.orSlot?'openrouter':ai) + '">' +
-        '<div class="ai-icon">' + info.icon + '</div>' +
-        '<div class="ai-name">' + escapeHtml(info.name) + '</div>' +
-        '<div class="status-badge status-idle" id="status-' + ai + '">IDLE</div>' +
-        '<button class="collapse-btn" onclick="toggleCard('' + ai + '',this)">▼</button>' +
-      '</div>' +
-      '<div class="card-body" id="body-' + ai + '"><div class="no-key-notice">Введи API ключ выше</div></div>' +
-      '<div class="card-footer" id="footer-' + ai + '">' +
-        '<div class="response-time" id="time-' + ai + '">—</div>' +
-        '<div class="token-count" id="tokens-' + ai + '">—</div>' +
-        '<div class="footer-actions">' +
-          '<div class="vote-btns" id="vote-' + ai + '">' +
-            '<button class="vote-btn" onclick="vote('' + ai + '','up')" id="vup-' + ai + '">👍</button>' +
-            '<button class="vote-btn" onclick="vote('' + ai + '','down')" id="vdn-' + ai + '">👎</button>' +
-          '</div>' +
-          '<button class="copy-btn" id="copy-' + ai + '" onclick="copyResp('' + ai + '')">📋 копировать</button>' +
-        '</div>' +
-      '</div>' +
-    '</div>';
-  }).join('');
+  grid.innerHTML = '';
+  Object.entries(AIS).forEach(function(entry) {
+    var ai = entry[0], info = entry[1];
+    var cls = info.orSlot ? 'openrouter' : ai;
+    var card = document.createElement('div');
+    card.className = 'result-card ' + cls;
+    card.id = 'card-' + ai;
+    // Header
+    var header = document.createElement('div');
+    header.className = 'card-header ' + cls;
+    header.innerHTML = '<div class="ai-icon">' + info.icon + '</div><div class="ai-name">' + escapeHtml(info.name) + '</div>';
+    var badge = document.createElement('div');
+    badge.className = 'status-badge status-idle'; badge.id = 'status-' + ai; badge.textContent = 'IDLE';
+    var collapseBtn = document.createElement('button');
+    collapseBtn.className = 'collapse-btn'; collapseBtn.textContent = '▼';
+    (function(a){ collapseBtn.addEventListener('click', function(){ toggleCard(a, this); }); })(ai);
+    header.appendChild(badge); header.appendChild(collapseBtn);
+    // Body
+    var body = document.createElement('div');
+    body.className = 'card-body'; body.id = 'body-' + ai;
+    body.innerHTML = '<div class="no-key-notice">Введи API ключ выше</div>';
+    // Footer
+    var footer = document.createElement('div');
+    footer.className = 'card-footer'; footer.id = 'footer-' + ai;
+    var timeEl = document.createElement('div'); timeEl.className = 'response-time'; timeEl.id = 'time-' + ai; timeEl.textContent = '—';
+    var tokEl = document.createElement('div'); tokEl.className = 'token-count'; tokEl.id = 'tokens-' + ai; tokEl.textContent = '—';
+    var actions = document.createElement('div'); actions.className = 'footer-actions';
+    var votes = document.createElement('div'); votes.className = 'vote-btns'; votes.id = 'vote-' + ai;
+    var upBtn = document.createElement('button'); upBtn.className = 'vote-btn'; upBtn.id = 'vup-' + ai; upBtn.textContent = '👍';
+    (function(a){ upBtn.addEventListener('click', function(){ vote(a, 'up'); }); })(ai);
+    var dnBtn = document.createElement('button'); dnBtn.className = 'vote-btn'; dnBtn.id = 'vdn-' + ai; dnBtn.textContent = '👎';
+    (function(a){ dnBtn.addEventListener('click', function(){ vote(a, 'down'); }); })(ai);
+    votes.appendChild(upBtn); votes.appendChild(dnBtn);
+    var copyBtn = document.createElement('button'); copyBtn.className = 'copy-btn'; copyBtn.id = 'copy-' + ai; copyBtn.textContent = '📋 копировать';
+    (function(a){ copyBtn.addEventListener('click', function(){ copyResp(a); }); })(ai);
+    actions.appendChild(votes); actions.appendChild(copyBtn);
+    footer.appendChild(timeEl); footer.appendChild(tokEl); footer.appendChild(actions);
+    card.appendChild(header); card.appendChild(body); card.appendChild(footer);
+    grid.appendChild(card);
+  });
   // Speed bars
   var bars = document.getElementById('speed-bars');
   if (bars) {
-    bars.innerHTML = Object.entries(AIS).map(function(e) {
-      var ai = e[0], info = e[1];
-      return '<div class="speed-bar-row">' +
-        '<div class="speed-label ' + (info.orSlot?'openrouter':ai) + '">' + escapeHtml(info.name) + '</div>' +
-        '<div class="speed-track"><div class="speed-fill ' + (info.orSlot?'openrouter':ai) + '" id="speed-' + ai + '"></div></div>' +
-        '<div class="speed-time" id="speedtime-' + ai + '">—</div>' +
-      '</div>';
-    }).join('');
+    bars.innerHTML = '';
+    Object.entries(AIS).forEach(function(entry) {
+      var ai = entry[0], info = entry[1];
+      var cls = info.orSlot ? 'openrouter' : ai;
+      var row = document.createElement('div'); row.className = 'speed-bar-row';
+      var lbl = document.createElement('div'); lbl.className = 'speed-label ' + cls; lbl.textContent = info.name;
+      var track = document.createElement('div'); track.className = 'speed-track';
+      var fill = document.createElement('div'); fill.className = 'speed-fill ' + cls; fill.id = 'speed-' + ai;
+      var time = document.createElement('div'); time.className = 'speed-time'; time.id = 'speedtime-' + ai; time.textContent = '—';
+      track.appendChild(fill); row.appendChild(lbl); row.appendChild(track); row.appendChild(time);
+      bars.appendChild(row);
+    });
   }
 }
 
@@ -816,41 +856,45 @@ function buildChatCards() {
   getAllAIs();
   var grid = document.getElementById('chat-cards-grid');
   if (!grid) return;
-  grid.innerHTML = Object.entries(AIS).map(function(entry) {
+  grid.innerHTML = '';
+  Object.entries(AIS).forEach(function(entry) {
     var ai = entry[0], info = entry[1];
-    return (
-      '<div class="result-card ' + ai + '" id="chatcard-' + ai + '">' +
-        '<div class="card-header ' + ai + '">' +
-          '<div class="ai-icon">' + info.icon + '</div>' +
-          '<div class="ai-name">' + info.name + '</div>' +
-          '<div class="status-badge status-idle" id="cstat-' + ai + '">IDLE</div>' +
-        '</div>' +
-        '<div class="chat-window">' +
-          '<div class="chat-messages" id="cmsgs-' + ai + '">' +
-            '<div class="empty-chat">Напиши первое сообщение!</div>' +
-          '</div>' +
-          '<div class="chat-input-area">' +
-            '<textarea class="chat-input" id="cinput-' + ai + '" placeholder="Сообщение..." rows="1" ' +
-              'onkeydown="if(event.key===\'Enter\'&&!event.shiftKey){event.preventDefault();sendChatMsg(\'' + ai + '\');}"></textarea>' +
-            '<button class="send-btn" onclick="sendChatMsg(\'' + ai + '\')">➤</button>' +
-          '</div>' +
-        '</div>' +
-        '<div class="chat-list-panel">' +
-          '<div class="chat-list-header">' +
-            '<span class="chat-list-label">ЧАТЫ</span>' +
-            '<button class="new-chat-btn" onclick="saveCurrentChat(\'' + ai + '\')">💾 Сохранить</button>' +
-            '<button class="new-chat-btn" onclick="createNewChat(\'' + ai + '\')">+ Новый</button>' +
-          '</div>' +
-          '<div id="clist-' + ai + '"></div>' +
-        '</div>' +
-      '</div>'
-    );
-  }).join('');
-
+    var cls = info.orSlot ? 'openrouter' : ai;
+    var card = document.createElement('div');
+    card.className = 'result-card ' + cls; card.id = 'chatcard-' + ai;
+    // Header
+    var header = document.createElement('div'); header.className = 'card-header ' + cls;
+    header.innerHTML = '<div class="ai-icon">' + info.icon + '</div><div class="ai-name">' + escapeHtml(info.name) + '</div>';
+    var badge = document.createElement('div'); badge.className = 'status-badge status-idle'; badge.id = 'cstat-' + ai; badge.textContent = 'IDLE';
+    header.appendChild(badge);
+    // Chat window
+    var win = document.createElement('div'); win.className = 'chat-window';
+    var msgs = document.createElement('div'); msgs.className = 'chat-messages'; msgs.id = 'cmsgs-' + ai;
+    msgs.innerHTML = '<div class="empty-chat">Напиши первое сообщение!</div>';
+    var inputArea = document.createElement('div'); inputArea.className = 'chat-input-area';
+    var textarea = document.createElement('textarea'); textarea.className = 'chat-input'; textarea.id = 'cinput-' + ai; textarea.placeholder = 'Сообщение...'; textarea.rows = 1;
+    (function(a){ textarea.addEventListener('keydown', function(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChatMsg(a);} }); })(ai);
+    var sendBtn = document.createElement('button'); sendBtn.className = 'send-btn'; sendBtn.textContent = '➤';
+    (function(a){ sendBtn.addEventListener('click', function(){ sendChatMsg(a); }); })(ai);
+    inputArea.appendChild(textarea); inputArea.appendChild(sendBtn);
+    win.appendChild(msgs); win.appendChild(inputArea);
+    // Chat list
+    var panel = document.createElement('div'); panel.className = 'chat-list-panel';
+    var listHeader = document.createElement('div'); listHeader.className = 'chat-list-header';
+    var listLabel = document.createElement('span'); listLabel.className = 'chat-list-label'; listLabel.textContent = 'ЧАТЫ';
+    var saveBtn = document.createElement('button'); saveBtn.className = 'new-chat-btn'; saveBtn.textContent = '💾 Сохранить';
+    (function(a){ saveBtn.addEventListener('click', function(){ saveCurrentChat(a); }); })(ai);
+    var newBtn = document.createElement('button'); newBtn.className = 'new-chat-btn'; newBtn.textContent = '+ Новый';
+    (function(a){ newBtn.addEventListener('click', function(){ createNewChat(a); }); })(ai);
+    listHeader.appendChild(listLabel); listHeader.appendChild(saveBtn); listHeader.appendChild(newBtn);
+    var listDiv = document.createElement('div'); listDiv.id = 'clist-' + ai;
+    panel.appendChild(listHeader); panel.appendChild(listDiv);
+    card.appendChild(header); card.appendChild(win); card.appendChild(panel);
+    grid.appendChild(card);
+  });
   Object.keys(AIS).forEach(function(ai) {
     var s = getChatStore(ai);
-    if (!s.chats.length) createNewChat(ai);
-    else renderChatCard(ai);
+    if (!s.chats.length) createNewChat(ai); else renderChatCard(ai);
   });
 }
 
@@ -1039,21 +1083,13 @@ async function startRoundTable() {
   document.getElementById('rt-feed-box').style.display = 'block';
   document.getElementById('chat-feed').innerHTML = '';
   addBubble('system', topic, 0, false);
-  var history = ['Тема дискуссии: ' + topic + '
-
-Ты участвуешь в групповой дискуссии с другими ИИ. Отвечай живо, можешь соглашаться или спорить. Будь конкретен и интересен.'];
+  var history = ['Тема дискуссии: ' + topic + '\n\nТы участвуешь в групповой дискуссии с другими ИИ. Отвечай живо, можешь соглашаться или спорить. Будь конкретен и интересен.'];
   for (var round = 1; round <= rounds; round++) {
     document.getElementById('rt-status').textContent = 'Раунд ' + round + ' из ' + rounds + '...';
     for (var i = 0; i < activeAIs.length; i++) {
       var ai = activeAIs[i], key = getKey(ai);
       var info = AIS[ai] || {name:ai};
-      var prompt = history[0] + '
-
-' + (history.length>1 ? 'История:
-' + history.slice(1).join('
-') + '
-
-' : '') + 'Твой ход, ' + info.name + ':';
+      var prompt = history[0] + '\n\n' + (history.length>1 ? 'История:\n' + history.slice(1).join('\n') + '\n\n' : '') + 'Твой ход, ' + info.name + ':';
       var bubbleId = addBubble(ai, '', round, true);
       try {
         var r = await callAI(ai, key, [{role:'user',content:prompt}], '');
