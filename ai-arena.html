@@ -874,10 +874,20 @@ function buildChatCards() {
     var inputArea = document.createElement('div'); inputArea.className = 'chat-input-area';
     var textarea = document.createElement('textarea'); textarea.className = 'chat-input'; textarea.id = 'cinput-' + ai; textarea.placeholder = 'Сообщение...'; textarea.rows = 1;
     (function(a){ textarea.addEventListener('keydown', function(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChatMsg(a);} }); })(ai);
+    var fileInput = document.createElement('input'); fileInput.type = 'file'; fileInput.accept = 'image/*'; fileInput.style.display = 'none'; fileInput.id = 'img-input-' + ai;
+    (function(a,fi){ fi.addEventListener('change', function(){ handleImageSelect(a, fi); }); })(ai, fileInput);
+    var attachBtn = document.createElement('button'); attachBtn.className = 'img-attach-btn'; attachBtn.textContent = '📎'; attachBtn.title = 'Прикрепить фото';
+    (function(fi){ attachBtn.addEventListener('click', function(){ fi.click(); }); })(fileInput);
     var sendBtn = document.createElement('button'); sendBtn.className = 'send-btn'; sendBtn.textContent = '➤';
     (function(a){ sendBtn.addEventListener('click', function(){ sendChatMsg(a); }); })(ai);
-    inputArea.appendChild(textarea); inputArea.appendChild(sendBtn);
-    win.appendChild(msgs); win.appendChild(inputArea);
+    inputArea.appendChild(fileInput); inputArea.appendChild(attachBtn); inputArea.appendChild(textarea); inputArea.appendChild(sendBtn);
+    var imgPreview = document.createElement('div'); imgPreview.className = 'img-preview'; imgPreview.id = 'img-preview-' + ai;
+    var prevImg = document.createElement('img'); prevImg.alt = 'preview';
+    var prevName = document.createElement('span'); prevName.className = 'img-preview-name'; prevName.textContent = 'Изображение выбрано';
+    var clearBtn = document.createElement('button'); clearBtn.className = 'img-clear-btn'; clearBtn.textContent = '✕';
+    (function(a){ clearBtn.addEventListener('click', function(){ clearPendingImage(a); }); })(ai);
+    imgPreview.appendChild(prevImg); imgPreview.appendChild(prevName); imgPreview.appendChild(clearBtn);
+    win.appendChild(msgs); win.appendChild(imgPreview); win.appendChild(inputArea);
     // Chat list
     var panel = document.createElement('div'); panel.className = 'chat-list-panel';
     var listHeader = document.createElement('div'); listHeader.className = 'chat-list-header';
@@ -960,7 +970,8 @@ async function sendChatMsg(ai) {
   var msgs = chat ? chat.messages.map(function(m){ return {role:m.role, content:m.content}; }) : [];
   var sys = (document.getElementById('system-prompt')||{value:''}).value || '';
   try {
-    var reply = await chatAPI(ai, key, msgs, sys);
+    var reply = await chatAPIWithImage(ai, key, msgs, sys);
+    clearPendingImage(ai);
     loadDiv.remove();
     addChatMsg(ai, 'assistant', reply);
     renderChatCard(ai);
