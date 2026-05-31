@@ -398,13 +398,6 @@ function getORSlots() {
 }
 function saveORSlots(slots) { localStorage.setItem('or-slots', JSON.stringify(slots)); }
 
-function getAllAIs() {
-  var all = Object.assign({}, BASE_AIS);
-  getORSlots().forEach(function(s) {
-    all['or-' + s.id] = {icon:'🌐', color:'var(--openrouter)', name:s.name || ('OR-' + s.id), orSlot:true, slotId:s.id};
-  });
-  return all;
-}
 
 // ===== OR SLOT MANAGEMENT =====
 function renderORSlots() {
@@ -468,7 +461,7 @@ function updateORSlotModel(id, model) {
 
 function refreshORCheckboxes() {
   var slots = getORSlots();
-  var AIS = getAllAIs();
+  getAllAIs();
   // Arena checkboxes
   var grid = document.getElementById('ai-select-grid');
   if (grid) {
@@ -501,6 +494,16 @@ function refreshORCheckboxes() {
 }
 
 // ===== STATE =====
+// Global AIS - always call getAllAIs() to refresh when OR slots change
+var AIS = {};
+function getAllAIs() {
+  var all = Object.assign({}, BASE_AIS);
+  getORSlots().forEach(function(s) {
+    all['or-' + s.id] = {icon:'🌐', color:'var(--openrouter)', name:s.name || ('OR-' + s.id), orSlot:true, slotId:s.id};
+  });
+  AIS = all;
+  return all;
+}
 var arenaResponses = {}, arenaTimes = {}, scores = {}, arenaSelected = {}, rtSelected = {};
 var lengthSetting = 'medium';
 var lengthTokens = {short:256, medium:1024, long:2048};
@@ -521,6 +524,7 @@ function switchTab(name, btn) {
 
 // ===== KEYS =====
 window.addEventListener('DOMContentLoaded', function() {
+  getAllAIs();
   ['claude','gemini','deepseek','grok','mistral'].forEach(function(ai) {
     var saved = localStorage.getItem('arena-key-' + ai);
     if (saved) document.getElementById('key-' + ai).value = saved;
@@ -554,7 +558,7 @@ function getKey(ai) {
 
 // ===== RESULT CARDS =====
 function buildResultCards() {
-  var AIS = getAllAIs();
+  getAllAIs();
   var grid = document.getElementById('results-grid');
   if (!grid) return;
   grid.innerHTML = Object.entries(AIS).map(function(e) {
@@ -613,7 +617,7 @@ function vote(ai, dir) {
   updateScoreboard();
 }
 function updateScoreboard() {
-  var AIS = getAllAIs();
+  getAllAIs();
   var hasVotes = Object.values(scores).some(function(s){ return s && (s.up>0 || s.down>0); });
   document.getElementById('scoreboard-box').style.display = hasVotes ? 'block' : 'none';
   document.getElementById('scoreboard').innerHTML = Object.entries(AIS).map(function(e) {
@@ -634,7 +638,7 @@ function copyResp(ai) {
 }
 
 function updateSpeedChart() {
-  var AIS = getAllAIs();
+  getAllAIs();
   var active = Object.entries(arenaTimes).filter(function(e){ return e[1] > 0; });
   if (!active.length) return;
   document.getElementById('speed-section').style.display = 'block';
@@ -649,7 +653,7 @@ function updateSpeedChart() {
 }
 
 function setArenaLoading(ai) {
-  var AIS = getAllAIs();
+  getAllAIs();
   var info = AIS[ai] || {color:'var(--openrouter)'};
   arenaResponses[ai] = ''; arenaTimes[ai] = 0;
   var card = document.getElementById('card-' + ai); if (card) card.classList.add('active');
@@ -663,7 +667,7 @@ function setArenaLoading(ai) {
 }
 
 function setArenaResult(ai, text, time, tokens) {
-  var AIS = getAllAIs();
+  getAllAIs();
   var info = AIS[ai] || {};
   arenaResponses[ai] = text; arenaTimes[ai] = time;
   var s = document.getElementById('status-' + ai);
@@ -735,7 +739,7 @@ async function callAI(ai, key, messages, sysOverride) {
 async function launchAll() {
   var prompt = document.getElementById('prompt').value.trim();
   if (!prompt) { alert('Введи вопрос!'); return; }
-  var AIS = getAllAIs();
+  getAllAIs();
   var activeAIs = Object.keys(AIS).filter(function(ai){ return getKey(ai) && getAISelected(ai); });
   if (!activeAIs.length) { alert('Введи хотя бы один API ключ!'); return; }
   document.getElementById('launch-btn').disabled = true;
@@ -809,6 +813,7 @@ function addChatMsg(ai, role, content) {
 }
 
 function buildChatCards() {
+  getAllAIs();
   var grid = document.getElementById('chat-cards-grid');
   if (!grid) return;
   grid.innerHTML = Object.entries(AIS).map(function(entry) {
@@ -896,8 +901,9 @@ async function sendChatMsg(ai) {
   var msgsEl = document.getElementById('cmsgs-' + ai);
   var loadDiv = document.createElement('div');
   loadDiv.className = 'msg assistant';
+  getAllAIs();
   loadDiv.innerHTML = '<div class="msg-bubble"><div style="display:flex;gap:5px">' +
-    '<span style="width:7px;height:7px;border-radius:50%;background:' + AIS[ai].color + ';animation:bounce 1.2s infinite"></span>' +
+    '<span style="width:7px;height:7px;border-radius:50%;background:' + (AIS[ai]||{color:'var(--openrouter)'}).color + ';animation:bounce 1.2s infinite"></span>' +
     '<span style="width:7px;height:7px;border-radius:50%;background:' + AIS[ai].color + ';animation:bounce 1.2s 0.2s infinite"></span>' +
     '<span style="width:7px;height:7px;border-radius:50%;background:' + AIS[ai].color + ';animation:bounce 1.2s 0.4s infinite"></span>' +
     '</div></div>';
@@ -953,6 +959,7 @@ async function chatAPI(ai, key, messages, sys) {
 }
 
 function exportAllChats() {
+  getAllAIs();
   var data = {};
   Object.keys(AIS).forEach(function(ai){ data[ai] = getChatStore(ai); });
   var json = JSON.stringify(data, null, 2);
@@ -967,6 +974,7 @@ function importChats(input) {
   var reader = new FileReader();
   reader.onload = function(e) {
     try {
+      getAllAIs();
       var data = JSON.parse(e.target.result);
       var count = 0;
       Object.keys(AIS).forEach(function(ai) {
@@ -995,7 +1003,7 @@ function importChats(input) {
 var rtRunning = false;
 function addBubble(ai, text, round, isLoading) {
   var feed = document.getElementById('chat-feed');
-  var AIS = getAllAIs();
+  getAllAIs();
   var info = ai==='system' ? {icon:'📌', name:'ТЕМА', color:'var(--muted)'} : (AIS[ai]||{icon:'🌐',name:ai,color:'var(--openrouter)'});
   var id = 'bubble-' + ai + '-' + round + '-' + Date.now();
   var div = document.createElement('div');
@@ -1023,7 +1031,7 @@ async function startRoundTable() {
   var topic = document.getElementById('rt-topic').value.trim();
   if (!topic) { alert('Введи тему!'); return; }
   var rounds = parseInt(document.getElementById('rt-rounds').value) || 3;
-  var AIS = getAllAIs();
+  getAllAIs();
   var activeAIs = Object.keys(AIS).filter(function(ai){ return getKey(ai) && getRTSelected(ai); });
   if (activeAIs.length < 2) { alert('Нужно минимум 2 участника!'); return; }
   rtRunning = true;
