@@ -11,7 +11,7 @@
 <meta name="apple-mobile-web-app-title" content="AI Arena">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#050810;--panel:#0a0f1e;--border:#1a2540;--claude:#ff6b35;--gemini:#4285f4;--deepseek:#00d4aa;--grok:#a78bfa;--mistral:#f59e0b;--openrouter:#ec4899;--text:#e0e8ff;--muted:#4a5580;--glow-claude:0 0 20px rgba(255,107,53,0.4);--glow-gemini:0 0 20px rgba(66,133,244,0.4);--glow-deepseek:0 0 20px rgba(0,212,170,0.4);--glow-grok:0 0 20px rgba(167,139,250,0.4);--glow-mistral:0 0 20px rgba(245,158,11,0.4);--glow-openrouter:0 0 20px rgba(236,72,153,0.4);}
+:root{--bg:#050810;--panel:#0a0f1e;--border:#1a2540;--claude:#ff6b35;--gemini:#4285f4;--deepseek:#00d4aa;--grok:#a78bfa;--mistral:#f59e0b;--openrouter:#ec4899;--text:#e0e8ff;--muted:#4a5580;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(26,37,64,0.4) 1px,transparent 1px),linear-gradient(90deg,rgba(26,37,64,0.4) 1px,transparent 1px);background-size:40px 40px;animation:gridMove 20s linear infinite;pointer-events:none;z-index:0;}
@@ -20,29 +20,31 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .container{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:24px 16px;}
 @keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
 header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
 .logo{font-family:'Orbitron',monospace;font-size:clamp(22px,5vw,44px);font-weight:900;letter-spacing:4px;background:linear-gradient(135deg,var(--claude),var(--gemini),var(--deepseek));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px;}
 .tagline{font-family:'Share Tech Mono',monospace;color:var(--muted);font-size:12px;letter-spacing:3px;text-transform:uppercase;}
 .clear-cache-btn{margin-top:10px;padding:5px 14px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:20px;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;cursor:pointer;transition:all 0.2s;}
 .clear-cache-btn:hover{border-color:rgba(255,255,255,0.3);color:var(--text);}
-.update-banner{display:none;background:rgba(0,212,170,0.1);border:1px solid var(--deepseek);border-radius:8px;padding:10px 16px;margin-bottom:16px;text-align:center;font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--deepseek);cursor:pointer;letter-spacing:1px;}
+.update-banner{display:none;background:rgba(0,212,170,0.1);border:1px solid var(--deepseek);border-radius:8px;padding:10px 16px;margin-bottom:16px;text-align:center;font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--deepseek);cursor:pointer;}
 .tabs{display:flex;gap:4px;margin-bottom:24px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:6px;}
 .tab-btn{flex:1;padding:10px;background:none;border:none;color:var(--muted);font-family:'Orbitron',monospace;font-size:11px;font-weight:700;letter-spacing:2px;cursor:pointer;border-radius:8px;transition:all 0.2s;text-transform:uppercase;}
 .tab-btn.active{background:linear-gradient(135deg,rgba(255,107,53,0.2),rgba(66,133,244,0.2));color:var(--text);border:1px solid var(--border);}
-.tab-content{display:none;}
-.tab-content.active{display:block;}
+.tab-content{display:none;}.tab-content.active{display:block;}
 .section-box{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px;}
 .section-title{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:14px;}
+/* Launcher */
 .launcher-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
 @media(min-width:600px){.launcher-grid{grid-template-columns:repeat(6,1fr);}}
 .launcher-btn{display:flex;flex-direction:column;align-items:center;gap:5px;padding:14px 8px;border-radius:10px;text-decoration:none;border:1px solid var(--border);background:rgba(255,255,255,0.02);transition:transform 0.15s,box-shadow 0.2s,border-color 0.2s;}
 .launcher-btn:hover{transform:translateY(-2px);}
-.launcher-btn.claude:hover{border-color:var(--claude);box-shadow:var(--glow-claude);}
-.launcher-btn.gemini:hover{border-color:var(--gemini);box-shadow:var(--glow-gemini);}
-.launcher-btn.deepseek:hover{border-color:var(--deepseek);box-shadow:var(--glow-deepseek);}
-.launcher-btn.grok:hover{border-color:var(--grok);box-shadow:var(--glow-grok);}
-.launcher-btn.mistral:hover{border-color:var(--mistral);box-shadow:var(--glow-mistral);}
-.launcher-btn.openrouter:hover{border-color:var(--openrouter);box-shadow:var(--glow-openrouter);}
+.launcher-btn.claude:hover{border-color:var(--claude);box-shadow:0 0 20px rgba(255,107,53,0.4);}
+.launcher-btn.gemini:hover{border-color:var(--gemini);box-shadow:0 0 20px rgba(66,133,244,0.4);}
+.launcher-btn.deepseek:hover{border-color:var(--deepseek);box-shadow:0 0 20px rgba(0,212,170,0.4);}
+.launcher-btn.grok:hover{border-color:var(--grok);box-shadow:0 0 20px rgba(167,139,250,0.4);}
+.launcher-btn.mistral:hover{border-color:var(--mistral);box-shadow:0 0 20px rgba(245,158,11,0.4);}
+.launcher-btn.openrouter:hover{border-color:var(--openrouter);box-shadow:0 0 20px rgba(236,72,153,0.4);}
 .launcher-icon{font-size:22px;}
 .launcher-name{font-family:'Orbitron',monospace;font-size:9px;font-weight:700;letter-spacing:1px;}
 .launcher-btn.claude .launcher-name{color:var(--claude);}
@@ -52,6 +54,7 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
 .launcher-btn.mistral .launcher-name{color:var(--mistral);}
 .launcher-btn.openrouter .launcher-name{color:var(--openrouter);}
 .launcher-sub{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:0.5px;text-align:center;}
+/* Keys */
 .keys-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;}
 .key-input-group{display:flex;flex-direction:column;gap:6px;}
 .key-label{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;display:flex;align-items:center;gap:8px;}
@@ -66,17 +69,14 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
 .key-label.openrouter .dot{background:var(--openrouter);box-shadow:0 0 6px var(--openrouter);}
 .key-input{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:'Share Tech Mono',monospace;font-size:12px;width:100%;transition:border-color 0.2s;}
 .key-input:focus{outline:none;}
-.key-input.claude:focus{border-color:var(--claude);}
-.key-input.gemini:focus{border-color:var(--gemini);}
-.key-input.deepseek:focus{border-color:var(--deepseek);}
-.key-input.grok:focus{border-color:var(--grok);}
-.key-input.mistral:focus{border-color:var(--mistral);}
-.key-input.openrouter:focus{border-color:var(--openrouter);}
+.key-input.claude:focus{border-color:var(--claude);}.key-input.gemini:focus{border-color:var(--gemini);}
+.key-input.deepseek:focus{border-color:var(--deepseek);}.key-input.grok:focus{border-color:var(--grok);}
+.key-input.mistral:focus{border-color:var(--mistral);}.key-input.openrouter:focus{border-color:var(--openrouter);}
 .model-input{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:8px 14px;color:var(--text);font-family:'Share Tech Mono',monospace;font-size:11px;width:100%;margin-top:4px;}
 .model-input:focus{outline:none;border-color:var(--openrouter);}
-/* OR slots */
+/* OR Slots */
 .or-slots{display:flex;flex-direction:column;gap:10px;}
-.or-slot{background:rgba(236,72,153,0.05);border:1px solid rgba(236,72,153,0.2);border-radius:10px;padding:12px 14px;position:relative;}
+.or-slot{background:rgba(236,72,153,0.05);border:1px solid rgba(236,72,153,0.2);border-radius:10px;padding:12px 14px;}
 .or-slot-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
 .or-slot-name{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--openrouter);flex:1;background:transparent;border:none;outline:none;cursor:text;}
 .or-slot-name:focus{border-bottom:1px solid var(--openrouter);}
@@ -94,6 +94,7 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
 .toggle-btn.active{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.3);color:var(--text);}
 .system-prompt-input{width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;resize:vertical;min-height:70px;}
 .system-prompt-input:focus{outline:none;border-color:rgba(255,255,255,0.2);}
+/* AI checkboxes */
 .ai-select-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
 .ai-check{display:flex;align-items:center;gap:6px;padding:5px 12px;border:1px solid var(--border);border-radius:20px;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;transition:all 0.2s;user-select:none;}
 .ai-check input{display:none;}
@@ -103,11 +104,13 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
 .ai-check.grok{color:var(--grok);}.ai-check.grok.on{background:rgba(167,139,250,0.15);border-color:var(--grok);}
 .ai-check.mistral{color:var(--mistral);}.ai-check.mistral.on{background:rgba(245,158,11,0.15);border-color:var(--mistral);}
 .ai-check.openrouter{color:var(--openrouter);}.ai-check.openrouter.on{background:rgba(236,72,153,0.15);border-color:var(--openrouter);}
+/* Prompt */
 .prompt-textarea{width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:14px;color:var(--text);font-family:'Inter',sans-serif;font-size:15px;resize:vertical;min-height:90px;margin-bottom:12px;}
 .prompt-textarea:focus{outline:none;border-color:rgba(255,255,255,0.2);}
 .launch-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--claude),var(--gemini),var(--deepseek),var(--grok),var(--mistral));border:none;border-radius:8px;color:white;font-family:'Orbitron',monospace;font-size:12px;font-weight:700;letter-spacing:3px;cursor:pointer;transition:opacity 0.2s,transform 0.1s;text-transform:uppercase;}
 .launch-btn:hover{opacity:0.9;transform:translateY(-1px);}
 .launch-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+/* Speed */
 .speed-section{display:none;margin-bottom:20px;}
 .speed-bars{display:flex;flex-direction:column;gap:10px;}
 .speed-bar-row{display:flex;align-items:center;gap:12px;}
@@ -119,14 +122,15 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
 .speed-fill.claude{background:var(--claude);}.speed-fill.gemini{background:var(--gemini);}.speed-fill.deepseek{background:var(--deepseek);}
 .speed-fill.grok{background:var(--grok);}.speed-fill.mistral{background:var(--mistral);}.speed-fill.openrouter{background:var(--openrouter);}
 .speed-time{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);width:60px;text-align:right;}
+/* Result cards */
 .results-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
 .result-card{background:var(--panel);border-radius:12px;overflow:hidden;border:1px solid var(--border);transition:border-color 0.3s,box-shadow 0.3s;}
-.result-card.active.claude{border-color:var(--claude);box-shadow:var(--glow-claude);}
-.result-card.active.gemini{border-color:var(--gemini);box-shadow:var(--glow-gemini);}
-.result-card.active.deepseek{border-color:var(--deepseek);box-shadow:var(--glow-deepseek);}
-.result-card.active.grok{border-color:var(--grok);box-shadow:var(--glow-grok);}
-.result-card.active.mistral{border-color:var(--mistral);box-shadow:var(--glow-mistral);}
-.result-card.active.openrouter{border-color:var(--openrouter);box-shadow:var(--glow-openrouter);}
+.result-card.active.claude{border-color:var(--claude);box-shadow:0 0 20px rgba(255,107,53,0.4);}
+.result-card.active.gemini{border-color:var(--gemini);box-shadow:0 0 20px rgba(66,133,244,0.4);}
+.result-card.active.deepseek{border-color:var(--deepseek);box-shadow:0 0 20px rgba(0,212,170,0.4);}
+.result-card.active.grok{border-color:var(--grok);box-shadow:0 0 20px rgba(167,139,250,0.4);}
+.result-card.active.mistral{border-color:var(--mistral);box-shadow:0 0 20px rgba(245,158,11,0.4);}
+.result-card.active.openrouter{border-color:var(--openrouter);box-shadow:0 0 20px rgba(236,72,153,0.4);}
 .card-header{padding:14px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
 .card-header.claude{background:rgba(255,107,53,0.08);}.card-header.gemini{background:rgba(66,133,244,0.08);}
 .card-header.deepseek{background:rgba(0,212,170,0.08);}.card-header.grok{background:rgba(167,139,250,0.08);}
@@ -148,32 +152,32 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
 .status-done.mistral{background:rgba(245,158,11,0.2);color:var(--mistral);}
 .status-done.openrouter{background:rgba(236,72,153,0.2);color:var(--openrouter);}
 .status-error{background:rgba(255,80,80,0.2);color:#ff5050;}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
 .collapse-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:0 4px;transition:transform 0.2s,color 0.2s;}
-.collapse-btn:hover{color:var(--text);}
-.collapse-btn.collapsed{transform:rotate(-90deg);}
-.card-body{padding:18px;min-height:160px;}
-.card-body.collapsed{display:none;}
+.collapse-btn:hover{color:var(--text);}.collapse-btn.collapsed{transform:rotate(-90deg);}
+.card-body{padding:18px;min-height:160px;}.card-body.collapsed{display:none;}
 .response-text{font-size:14px;line-height:1.7;color:var(--text);white-space:pre-wrap;word-break:break-word;}
 .no-key-notice{color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:12px;text-align:center;padding-top:50px;letter-spacing:1px;}
 .loading-dots{display:flex;gap:6px;justify-content:center;padding-top:60px;}
 .loading-dots span{width:8px;height:8px;border-radius:50%;animation:bounce 1.2s infinite;}
 .loading-dots span:nth-child(2){animation-delay:0.2s}.loading-dots span:nth-child(3){animation-delay:0.4s}
-@keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
 .card-footer{padding:10px 18px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;}
 .response-time,.token-count{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);}
 .footer-actions{display:flex;gap:6px;align-items:center;}
 .copy-btn{padding:4px 10px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:6px;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;transition:all 0.2s;display:none;}
-.copy-btn:hover{color:var(--text);}
-.copy-btn.visible{display:block;}
-.vote-btns{display:none;gap:4px;}
-.vote-btns.visible{display:flex;}
+.copy-btn:hover{color:var(--text);}.copy-btn.visible{display:block;}
+.vote-btns{display:none;gap:4px;}.vote-btns.visible{display:flex;}
 .vote-btn{padding:4px 8px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;font-size:13px;cursor:pointer;transition:all 0.2s;}
-.vote-btn:hover{transform:scale(1.1);}
-.vote-btn.voted{border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.08);}
+.vote-btn:hover{transform:scale(1.1);}.vote-btn.voted{border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.08);}
 .scoreboard{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:8px;}
 .score-item{display:flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:11px;}
 .score-dot{width:8px;height:8px;border-radius:50%;}
+/* History */
+.history-item{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:10px 14px;cursor:pointer;transition:border-color 0.2s;display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.history-item:hover{border-color:rgba(255,255,255,0.2);}
+.history-q{font-size:13px;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.history-date{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);white-space:nowrap;}
+.history-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:0 4px;transition:color 0.2s;}
+.history-del:hover{color:#ff5050;}
 /* Chat cards */
 .chat-window{display:flex;flex-direction:column;height:340px;}
 .chat-messages{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;}
@@ -203,6 +207,13 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
 .result-card.mistral .send-btn{background:var(--mistral);}
 .result-card.openrouter .send-btn{background:var(--openrouter);}
 .send-btn:hover{opacity:0.85;}
+.img-preview{display:none;align-items:center;gap:8px;padding:6px 14px;border-top:1px solid var(--border);background:rgba(255,255,255,0.02);}
+.img-preview img{width:48px;height:48px;object-fit:cover;border-radius:6px;border:1px solid var(--border);}
+.img-preview-name{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);flex:1;}
+.img-clear-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;transition:color 0.2s;}
+.img-clear-btn:hover{color:#ff5050;}
+.img-attach-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:4px;transition:color 0.2s;flex-shrink:0;}
+.img-attach-btn:hover{color:var(--text);}
 .chat-list-panel{border-top:1px solid var(--border);max-height:150px;overflow-y:auto;}
 .chat-list-header{padding:8px 14px;display:flex;justify-content:space-between;align-items:center;gap:6px;}
 .chat-list-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;}
@@ -218,8 +229,8 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
 .chat-list-del:hover{color:#ff5050;}
 .no-chats{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);text-align:center;padding:14px;}
 /* Round table */
-.roundtable-topic{width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:14px;color:var(--text);font-family:'Inter',sans-serif;font-size:15px;resize:vertical;min-height:80px;margin-bottom:12px;}
-.roundtable-topic:focus{outline:none;border-color:rgba(255,255,255,0.2);}
+.rt-textarea{width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:12px 14px;color:var(--text);font-family:'Inter',sans-serif;font-size:14px;resize:vertical;min-height:70px;margin-bottom:10px;}
+.rt-textarea:focus{outline:none;border-color:rgba(255,255,255,0.2);}
 .rounds-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
 .rounds-label{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:2px;}
 .rounds-input{width:70px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:'Share Tech Mono',monospace;font-size:13px;text-align:center;}
@@ -259,6 +270,27 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
     <button class="clear-cache-btn" onclick="clearCache()">🔄 Обновить приложение</button>
   </header>
   <div class="update-banner" id="update-banner" onclick="applyUpdate()">⬆ Доступно обновление</div>
+  <!-- API KEYS - always visible -->
+  <div class="section-box" id="keys-section" style="margin-bottom:16px">
+    <div class="section-title" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <span>// API ключи</span>
+      <button onclick="toggleKeysSection()" id="keys-toggle" style="background:none;border:none;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;letter-spacing:1px;">скрыть ▲</button>
+    </div>
+    <div id="keys-body">
+      <div class="keys-grid">
+        <div class="key-input-group"><div class="key-label claude"><span class="dot"></span>CLAUDE</div><input type="password" class="key-input claude" id="key-claude" placeholder="sk-ant-..." autocomplete="off"></div>
+        <div class="key-input-group"><div class="key-label gemini"><span class="dot"></span>GEMINI</div><input type="password" class="key-input gemini" id="key-gemini" placeholder="AIza..." autocomplete="off"></div>
+        <div class="key-input-group"><div class="key-label deepseek"><span class="dot"></span>DEEPSEEK</div><input type="password" class="key-input deepseek" id="key-deepseek" placeholder="sk-..." autocomplete="off"></div>
+        <div class="key-input-group"><div class="key-label grok"><span class="dot"></span>GROK</div><input type="password" class="key-input grok" id="key-grok" placeholder="xai-..." autocomplete="off"></div>
+        <div class="key-input-group"><div class="key-label mistral"><span class="dot"></span>MISTRAL</div><input type="password" class="key-input mistral" id="key-mistral" placeholder="..." autocomplete="off"></div>
+      </div>
+      <div class="key-input-group" style="margin-top:12px">
+        <div class="key-label openrouter" style="margin-bottom:8px"><span class="dot"></span>OPENROUTER СЛОТЫ</div>
+        <div class="or-slots" id="or-slots"></div>
+        <button class="add-or-btn" onclick="addORSlot()">+ Добавить OpenRouter слот</button>
+      </div>
+    </div>
+  </div>
 
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('arena',this)">⚡ АРЕНА</button>
@@ -281,22 +313,6 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
     </div>
 
     <div class="section-box">
-      <div class="section-title">// API ключи</div>
-      <div class="keys-grid">
-        <div class="key-input-group"><div class="key-label claude"><span class="dot"></span>CLAUDE</div><input type="password" class="key-input claude" id="key-claude" placeholder="sk-ant-..." autocomplete="off"></div>
-        <div class="key-input-group"><div class="key-label gemini"><span class="dot"></span>GEMINI</div><input type="password" class="key-input gemini" id="key-gemini" placeholder="AIza..." autocomplete="off"></div>
-        <div class="key-input-group"><div class="key-label deepseek"><span class="dot"></span>DEEPSEEK</div><input type="password" class="key-input deepseek" id="key-deepseek" placeholder="sk-..." autocomplete="off"></div>
-        <div class="key-input-group"><div class="key-label grok"><span class="dot"></span>GROK</div><input type="password" class="key-input grok" id="key-grok" placeholder="xai-..." autocomplete="off"></div>
-        <div class="key-input-group"><div class="key-label mistral"><span class="dot"></span>MISTRAL</div><input type="password" class="key-input mistral" id="key-mistral" placeholder="..." autocomplete="off"></div>
-      </div>
-      <div class="key-input-group" style="margin-top:12px">
-        <div class="key-label openrouter" style="margin-bottom:8px"><span class="dot"></span>OPENROUTER СЛОТЫ</div>
-        <div class="or-slots" id="or-slots"></div>
-        <button class="add-or-btn" onclick="addORSlot()">+ Добавить OpenRouter слот</button>
-      </div>
-    </div>
-
-    <div class="section-box">
       <div class="section-title">// Настройки</div>
       <div class="settings-grid">
         <div class="setting-group">
@@ -313,7 +329,6 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
         </div>
       </div>
     </div>
-
     <div class="section-box">
       <div class="section-title">// Участники и вопрос</div>
       <div class="ai-select-grid" id="ai-select-grid">
@@ -326,18 +341,22 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
       <textarea class="prompt-textarea" id="prompt" placeholder="Задай вопрос всем сразу... (Ctrl+Enter)"></textarea>
       <button class="launch-btn" id="launch-btn" onclick="launchAll()">⚡ ЗАПУСТИТЬ АРЕНУ</button>
     </div>
-
     <div class="section-box speed-section" id="speed-section">
       <div class="section-title">// Скорость ответа</div>
       <div class="speed-bars" id="speed-bars"></div>
     </div>
-
     <div class="results-grid" id="results-grid"></div>
-
     <div class="section-box" id="scoreboard-box" style="display:none;margin-top:20px;text-align:center">
       <div class="section-title">// Счёт</div>
       <div class="scoreboard" id="scoreboard"></div>
       <button onclick="resetScores()" style="margin-top:12px;background:none;border:none;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;">сбросить</button>
+    </div>
+    <div class="section-box" style="margin-top:20px">
+      <div class="section-title" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <span>// История запросов</span>
+        <button onclick="clearHistory()" style="background:none;border:none;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;">очистить</button>
+      </div>
+      <div id="history-list"></div>
     </div>
   </div>
 
@@ -369,7 +388,10 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
         <input type="number" class="rounds-input" id="rt-rounds" value="3" min="1" max="10">
         <span class="rt-status" id="rt-status"></span>
       </div>
-      <textarea class="roundtable-topic" id="rt-topic" placeholder="Тема для обсуждения..."></textarea>
+      <div class="section-title" style="margin-bottom:6px">// Тема</div>
+      <textarea class="rt-textarea" id="rt-topic" placeholder="Необязательно: общая тема дискуссии..."></textarea>
+      <div class="section-title" style="margin-bottom:6px">// Сообщение</div>
+      <textarea class="rt-textarea" id="rt-message" placeholder="Сообщение или вопрос для обсуждения..."></textarea>
       <button class="launch-btn" id="rt-btn" onclick="startRoundTable()">🎙 НАЧАТЬ ДИСКУССИЮ</button>
     </div>
     <div class="section-box" id="rt-feed-box" style="display:none">
@@ -381,761 +403,714 @@ header{text-align:center;margin-bottom:24px;animation:fadeDown 0.8s ease;}
     </div>
   </div>
 </div>
-
 <script>
-// ===== CORE AI CONFIG =====
-const BASE_AIS = {
-  claude:  {icon:'🤖', color:'var(--claude)',   name:'CLAUDE'},
-  gemini:  {icon:'✨', color:'var(--gemini)',   name:'GEMINI'},
-  deepseek:{icon:'🌊', color:'var(--deepseek)', name:'DEEPSEEK'},
-  grok:    {icon:'⚡', color:'var(--grok)',     name:'GROK'},
-  mistral: {icon:'🔥', color:'var(--mistral)',  name:'MISTRAL'},
+// ===== CONFIG =====
+var BASE_AIS = {
+  claude:   {icon:'🤖', color:'var(--claude)',      name:'CLAUDE'},
+  gemini:   {icon:'✨', color:'var(--gemini)',      name:'GEMINI'},
+  deepseek: {icon:'🌊', color:'var(--deepseek)',    name:'DEEPSEEK'},
+  grok:     {icon:'⚡', color:'var(--grok)',        name:'GROK'},
+  mistral:  {icon:'🔥', color:'var(--mistral)',     name:'MISTRAL'}
 };
-
-// OpenRouter slots: [{id, name, model, key}]
-function getORSlots() {
-  try { return JSON.parse(localStorage.getItem('or-slots') || '[]'); } catch { return []; }
-}
-function saveORSlots(slots) { localStorage.setItem('or-slots', JSON.stringify(slots)); }
-
-
-// ===== OR SLOT MANAGEMENT =====
-function renderORSlots() {
-  var slots = getORSlots();
-  var container = document.getElementById('or-slots');
-  if (!container) return;
-  if (!slots.length) {
-    container.innerHTML = '<div style="color:var(--muted);font-size:11px;padding:8px 0">Нет слотов — добавь первый!</div>';
-    return;
-  }
-  container.innerHTML = slots.map(function(s) {
-    var sid = s.id;
-    var div = document.createElement('div');
-    return '<div class="or-slot" id="or-slot-' + sid + '">' +
-      '<div class="or-slot-header">' +
-        '<span style="color:var(--openrouter)">🌐</span>' +
-        '<input class="or-slot-name" data-id="' + sid + '" value="' + escapeAttr(s.name) + '" placeholder="Название...">' +
-        '<button class="or-slot-del" data-id="' + sid + '">✕</button>' +
-      '</div>' +
-      '<input type="password" class="key-input openrouter or-key" data-id="' + sid + '" value="' + escapeAttr(s.key||'') + '" placeholder="sk-or-...">' +
-      '<input type="text" class="model-input or-model" data-id="' + sid + '" value="' + escapeAttr(s.model||'') + '" placeholder="Модель (напр. meta-llama/llama-3.3-70b-instruct:free)">' +
-    '</div>';
-  }).join('');
-  // Attach event listeners
-  container.querySelectorAll('.or-slot-name').forEach(function(el) {
-    el.addEventListener('change', function() { renameORSlot(this.dataset.id, this.value); });
-  });
-  container.querySelectorAll('.or-slot-del').forEach(function(el) {
-    el.addEventListener('click', function() { deleteORSlot(this.dataset.id); });
-  });
-  container.querySelectorAll('.or-key').forEach(function(el) {
-    el.addEventListener('change', function() { updateORSlotKey(this.dataset.id, this.value); });
-  });
-  container.querySelectorAll('.or-model').forEach(function(el) {
-    el.addEventListener('change', function() { updateORSlotModel(this.dataset.id, this.value); });
-  });
-  refreshORCheckboxes();
-}
-
-function addORSlot() {
-  var slots = getORSlots();
-  var id = Date.now().toString(36);
-  slots.push({id:id, name:'OpenRouter ' + (slots.length+1), model:'meta-llama/llama-3.3-70b-instruct:free', key:''});
-  saveORSlots(slots);
-  renderORSlots();
-}
-
-function deleteORSlot(id) {
-  var slots = getORSlots().filter(function(s){ return s.id !== id; });
-  saveORSlots(slots);
-  renderORSlots();
-  buildResultCards();
-  buildChatCards();
-}
-
-function renameORSlot(id, name) {
-  var slots = getORSlots();
-  var s = slots.find(function(s){ return s.id === id; });
-  if (s) { s.name = name || ('OR-' + id); saveORSlots(slots); refreshORCheckboxes(); }
-}
-
-function updateORSlotKey(id, key) {
-  var slots = getORSlots();
-  var s = slots.find(function(s){ return s.id === id; });
-  if (s) { s.key = key; saveORSlots(slots); }
-}
-
-function updateORSlotModel(id, model) {
-  var slots = getORSlots();
-  var s = slots.find(function(s){ return s.id === id; });
-  if (s) { s.model = model; saveORSlots(slots); }
-}
-
-function refreshORCheckboxes() {
-  var slots = getORSlots();
-  getAllAIs();
-  // Arena checkboxes
-  var grid = document.getElementById('ai-select-grid');
-  if (grid) {
-    grid.querySelectorAll('.ai-check.openrouter').forEach(function(el){ el.remove(); });
-    slots.forEach(function(s) {
-      var ai = 'or-' + s.id;
-      var label = document.createElement('label');
-      label.className = 'ai-check openrouter on';
-      label.id = 'chk-' + ai;
-      var cb = document.createElement('input');
-      cb.type = 'checkbox'; cb.checked = true;
-      cb.addEventListener('change', function(){ toggleAI(ai, this); });
-      label.appendChild(cb);
-      label.appendChild(document.createTextNode('🌐 ' + s.name));
-      grid.appendChild(label);
-    });
-  }
-  // RT checkboxes
-  var rtGrid = document.getElementById('rt-select-grid');
-  if (rtGrid) {
-    rtGrid.querySelectorAll('.ai-check.openrouter').forEach(function(el){ el.remove(); });
-    slots.forEach(function(s) {
-      var ai = 'or-' + s.id;
-      var label = document.createElement('label');
-      label.className = 'ai-check openrouter on';
-      label.id = 'rt-chk-' + ai;
-      var cb = document.createElement('input');
-      cb.type = 'checkbox'; cb.checked = true;
-      cb.addEventListener('change', function(){ toggleRTAI(ai, this); });
-      label.appendChild(cb);
-      label.appendChild(document.createTextNode('🌐 ' + s.name));
-      rtGrid.appendChild(label);
-    });
-  }
-  buildResultCards();
-  buildChatCards();
-}
-
-// ===== STATE =====
-// Global AIS - always call getAllAIs() to refresh when OR slots change
 var AIS = {};
 function getAllAIs() {
   var all = Object.assign({}, BASE_AIS);
   getORSlots().forEach(function(s) {
-    all['or-' + s.id] = {icon:'🌐', color:'var(--openrouter)', name:s.name || ('OR-' + s.id), orSlot:true, slotId:s.id};
+    all['or-'+s.id] = {icon:'🌐', color:'var(--openrouter)', name:s.name||('OR-'+s.id), orSlot:true, slotId:s.id};
   });
   AIS = all;
   return all;
 }
-var arenaResponses = {}, arenaTimes = {}, scores = {}, arenaSelected = {}, rtSelected = {};
-var lengthSetting = 'medium';
-var lengthTokens = {short:256, medium:1024, long:2048};
-var lengthInstructions = {short:' Отвечай очень кратко — не более 2-3 предложений.', medium:'', long:' Отвечай подробно и развёрнуто, с примерами.'};
 
-function getAISelected(ai) { return arenaSelected[ai] !== false; }
-function getRTSelected(ai) { return rtSelected[ai] !== false; }
-function toggleAI(ai, cb) { arenaSelected[ai] = cb.checked; document.getElementById('chk-'+ai) && document.getElementById('chk-'+ai).classList.toggle('on', cb.checked); }
-function toggleRTAI(ai, cb) { rtSelected[ai] = cb.checked; document.getElementById('rt-chk-'+ai) && document.getElementById('rt-chk-'+ai).classList.toggle('on', cb.checked); }
-function setLength(val, btn) { lengthSetting = val; document.querySelectorAll('.toggle-btn').forEach(function(b){ b.classList.remove('active'); }); btn.classList.add('active'); }
+// ===== OPENROUTER SLOTS =====
+function getORSlots() { try{return JSON.parse(localStorage.getItem('or-slots')||'[]');}catch{return[];} }
+function saveORSlots(s) { localStorage.setItem('or-slots', JSON.stringify(s)); }
 
-function switchTab(name, btn) {
-  document.querySelectorAll('.tab-content').forEach(function(t){ t.classList.remove('active'); });
-  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
-  document.getElementById('tab-' + name).classList.add('active');
-  btn.classList.add('active');
-}
-
-// ===== KEYS =====
-window.addEventListener('DOMContentLoaded', function() {
-  getAllAIs();
-  ['claude','gemini','deepseek','grok','mistral'].forEach(function(ai) {
-    var saved = localStorage.getItem('arena-key-' + ai);
-    if (saved) document.getElementById('key-' + ai).value = saved;
-    document.getElementById('key-' + ai).addEventListener('input', function() {
-      var v = this.value.trim();
-      if (v) localStorage.setItem('arena-key-' + ai, v);
-      else localStorage.removeItem('arena-key-' + ai);
-    });
-  });
-  var savedSys = localStorage.getItem('arena-system-prompt');
-  if (savedSys) document.getElementById('system-prompt').value = savedSys;
-  document.getElementById('system-prompt').addEventListener('input', function() {
-    localStorage.setItem('arena-system-prompt', this.value);
-  });
-  var savedScores = localStorage.getItem('arena-scores');
-  if (savedScores) { try { Object.assign(scores, JSON.parse(savedScores)); } catch(e){} updateScoreboard(); }
+function addORSlot() {
+  var slots = getORSlots();
+  var id = Date.now().toString(36);
+  slots.push({id:id, name:'OpenRouter '+(slots.length+1), model:'meta-llama/llama-3.3-70b-instruct:free', key:''});
+  saveORSlots(slots);
   renderORSlots();
+  getAllAIs();
   buildResultCards();
   buildChatCards();
-});
+}
+function deleteORSlot(id) {
+  saveORSlots(getORSlots().filter(function(s){return s.id!==id;}));
+  renderORSlots();
+  getAllAIs();
+  buildResultCards();
+  buildChatCards();
+}
+function renameORSlot(id, name) {
+  var slots = getORSlots();
+  var s = slots.find(function(s){return s.id===id;});
+  if(s){s.name=name||('OR-'+id); saveORSlots(slots); getAllAIs();}
+}
+function updateORSlotKey(id, key) {
+  var slots = getORSlots();
+  var s = slots.find(function(s){return s.id===id;});
+  if(s){s.key=key; saveORSlots(slots);}
+}
+function updateORSlotModel(id, model) {
+  var slots = getORSlots();
+  var s = slots.find(function(s){return s.id===id;});
+  if(s){s.model=model; saveORSlots(slots);}
+}
 
+function renderORSlots() {
+  var slots = getORSlots();
+  var container = document.getElementById('or-slots');
+  if(!container) return;
+  container.innerHTML = '';
+  if(!slots.length) {
+    var msg = document.createElement('div');
+    msg.style.cssText = 'color:var(--muted);font-size:11px;padding:8px 0';
+    msg.textContent = 'Нет слотов — добавь первый!';
+    container.appendChild(msg);
+    return;
+  }
+  slots.forEach(function(s) {
+    var wrap = document.createElement('div'); wrap.className = 'or-slot';
+    var hdr = document.createElement('div'); hdr.className = 'or-slot-header';
+    var icon = document.createElement('span'); icon.textContent = '🌐'; icon.style.color = 'var(--openrouter)';
+    var nameInp = document.createElement('input'); nameInp.className = 'or-slot-name'; nameInp.value = s.name||''; nameInp.placeholder = 'Название...';
+    (function(id){nameInp.addEventListener('change', function(){renameORSlot(id, this.value);});})(s.id);
+    var delBtn = document.createElement('button'); delBtn.className = 'or-slot-del'; delBtn.textContent = '✕';
+    (function(id){delBtn.addEventListener('click', function(){deleteORSlot(id);});})(s.id);
+    hdr.appendChild(icon); hdr.appendChild(nameInp); hdr.appendChild(delBtn);
+    var keyInp = document.createElement('input'); keyInp.type='password'; keyInp.className='key-input openrouter'; keyInp.value=s.key||''; keyInp.placeholder='sk-or-...';
+    (function(id){keyInp.addEventListener('change', function(){updateORSlotKey(id, this.value);});})(s.id);
+    var mdlInp = document.createElement('input'); mdlInp.type='text'; mdlInp.className='model-input'; mdlInp.value=s.model||''; mdlInp.placeholder='Модель (напр. meta-llama/llama-3.3-70b-instruct:free)';
+    (function(id){mdlInp.addEventListener('change', function(){updateORSlotModel(id, this.value);});})(s.id);
+    wrap.appendChild(hdr); wrap.appendChild(keyInp); wrap.appendChild(mdlInp);
+    container.appendChild(wrap);
+  });
+}
+
+function addORCheckboxes() {
+  var slots = getORSlots();
+  ['ai-select-grid','rt-select-grid'].forEach(function(gridId) {
+    var grid = document.getElementById(gridId);
+    if(!grid) return;
+    grid.querySelectorAll('.ai-check.openrouter').forEach(function(el){el.remove();});
+    slots.forEach(function(s) {
+      var ai = 'or-'+s.id;
+      var label = document.createElement('label');
+      label.className = 'ai-check openrouter on';
+      label.id = (gridId==='ai-select-grid'?'chk-':'rt-chk-')+ai;
+      var cb = document.createElement('input'); cb.type='checkbox'; cb.checked=true;
+      var isRT = gridId === 'rt-select-grid';
+      (function(a,rt){cb.addEventListener('change', function(){if(rt)toggleRTAI(a,this);else toggleAI(a,this);});})(ai,isRT);
+      label.appendChild(cb);
+      label.appendChild(document.createTextNode('🌐 '+s.name));
+      grid.appendChild(label);
+    });
+  });
+}
+
+// ===== STATE =====
+var arenaResp = {}, arenaTimes = {}, scores = {}, arenaSelected = {}, rtSelected = {};
+var lengthSetting = 'medium';
+var lengthTokens = {short:256, medium:1024, long:2048};
+var lengthHints = {short:' Отвечай кратко — 2-3 предложения.', medium:'', long:' Отвечай подробно, с примерами.'};
+var pendingImage = {};
+
+
+function toggleKeysSection() {
+  var body = document.getElementById('keys-body');
+  var btn = document.getElementById('keys-toggle');
+  if(!body||!btn) return;
+  var hidden = body.style.display === 'none';
+  body.style.display = hidden ? '' : 'none';
+  btn.textContent = hidden ? 'скрыть ▲' : 'показать ▼';
+}
 function getKey(ai) {
-  if (ai.startsWith('or-')) {
-    var id = ai.slice(3);
-    var slot = getORSlots().find(function(s){ return s.id === id; });
+  if(ai.startsWith('or-')) {
+    var slot = getORSlots().find(function(s){return s.id===ai.slice(3);});
     return slot ? slot.key : '';
   }
-  var el = document.getElementById('key-' + ai);
+  var el = document.getElementById('key-'+ai);
   return el ? el.value.trim() : '';
 }
-
-// ===== RESULT CARDS =====
-function buildResultCards() {
-  getAllAIs();
-  var grid = document.getElementById('results-grid');
-  if (!grid) return;
-  grid.innerHTML = '';
-  Object.entries(AIS).forEach(function(entry) {
-    var ai = entry[0], info = entry[1];
-    var cls = info.orSlot ? 'openrouter' : ai;
-    var card = document.createElement('div');
-    card.className = 'result-card ' + cls;
-    card.id = 'card-' + ai;
-    // Header
-    var header = document.createElement('div');
-    header.className = 'card-header ' + cls;
-    header.innerHTML = '<div class="ai-icon">' + info.icon + '</div><div class="ai-name">' + escapeHtml(info.name) + '</div>';
-    var badge = document.createElement('div');
-    badge.className = 'status-badge status-idle'; badge.id = 'status-' + ai; badge.textContent = 'IDLE';
-    var collapseBtn = document.createElement('button');
-    collapseBtn.className = 'collapse-btn'; collapseBtn.textContent = '▼';
-    (function(a){ collapseBtn.addEventListener('click', function(){ toggleCard(a, this); }); })(ai);
-    header.appendChild(badge); header.appendChild(collapseBtn);
-    // Body
-    var body = document.createElement('div');
-    body.className = 'card-body'; body.id = 'body-' + ai;
-    body.innerHTML = '<div class="no-key-notice">Введи API ключ выше</div>';
-    // Footer
-    var footer = document.createElement('div');
-    footer.className = 'card-footer'; footer.id = 'footer-' + ai;
-    var timeEl = document.createElement('div'); timeEl.className = 'response-time'; timeEl.id = 'time-' + ai; timeEl.textContent = '—';
-    var tokEl = document.createElement('div'); tokEl.className = 'token-count'; tokEl.id = 'tokens-' + ai; tokEl.textContent = '—';
-    var actions = document.createElement('div'); actions.className = 'footer-actions';
-    var votes = document.createElement('div'); votes.className = 'vote-btns'; votes.id = 'vote-' + ai;
-    var upBtn = document.createElement('button'); upBtn.className = 'vote-btn'; upBtn.id = 'vup-' + ai; upBtn.textContent = '👍';
-    (function(a){ upBtn.addEventListener('click', function(){ vote(a, 'up'); }); })(ai);
-    var dnBtn = document.createElement('button'); dnBtn.className = 'vote-btn'; dnBtn.id = 'vdn-' + ai; dnBtn.textContent = '👎';
-    (function(a){ dnBtn.addEventListener('click', function(){ vote(a, 'down'); }); })(ai);
-    votes.appendChild(upBtn); votes.appendChild(dnBtn);
-    var copyBtn = document.createElement('button'); copyBtn.className = 'copy-btn'; copyBtn.id = 'copy-' + ai; copyBtn.textContent = '📋 копировать';
-    (function(a){ copyBtn.addEventListener('click', function(){ copyResp(a); }); })(ai);
-    actions.appendChild(votes); actions.appendChild(copyBtn);
-    footer.appendChild(timeEl); footer.appendChild(tokEl); footer.appendChild(actions);
-    card.appendChild(header); card.appendChild(body); card.appendChild(footer);
-    grid.appendChild(card);
-  });
-  // Speed bars
-  var bars = document.getElementById('speed-bars');
-  if (bars) {
-    bars.innerHTML = '';
-    Object.entries(AIS).forEach(function(entry) {
-      var ai = entry[0], info = entry[1];
-      var cls = info.orSlot ? 'openrouter' : ai;
-      var row = document.createElement('div'); row.className = 'speed-bar-row';
-      var lbl = document.createElement('div'); lbl.className = 'speed-label ' + cls; lbl.textContent = info.name;
-      var track = document.createElement('div'); track.className = 'speed-track';
-      var fill = document.createElement('div'); fill.className = 'speed-fill ' + cls; fill.id = 'speed-' + ai;
-      var time = document.createElement('div'); time.className = 'speed-time'; time.id = 'speedtime-' + ai; time.textContent = '—';
-      track.appendChild(fill); row.appendChild(lbl); row.appendChild(track); row.appendChild(time);
-      bars.appendChild(row);
-    });
-  }
+function getSys() {
+  var s = document.getElementById('system-prompt');
+  var v = s ? s.value.trim() : '';
+  return (v ? v+' ' : '') + lengthHints[lengthSetting];
 }
-
-function toggleCard(ai, btn) {
-  var body = document.getElementById('body-' + ai);
-  var footer = document.getElementById('footer-' + ai);
-  var collapsed = body.classList.toggle('collapsed');
-  if (footer) footer.style.display = collapsed ? 'none' : '';
-  btn.classList.toggle('collapsed', collapsed);
-  btn.title = collapsed ? 'Развернуть' : 'Свернуть';
-}
-
-// ===== SCORES =====
-function vote(ai, dir) {
-  if (!scores[ai]) scores[ai] = {up:0, down:0};
-  scores[ai][dir]++;
-  localStorage.setItem('arena-scores', JSON.stringify(scores));
-  var btn = document.getElementById('v' + dir[0] + 'n-' + ai);
-  if (btn) { btn.classList.add('voted'); setTimeout(function(){ btn.classList.remove('voted'); }, 400); }
-  updateScoreboard();
-}
-function updateScoreboard() {
-  getAllAIs();
-  var hasVotes = Object.values(scores).some(function(s){ return s && (s.up>0 || s.down>0); });
-  document.getElementById('scoreboard-box').style.display = hasVotes ? 'block' : 'none';
-  document.getElementById('scoreboard').innerHTML = Object.entries(AIS).map(function(e) {
-    var ai = e[0], info = e[1], s = scores[ai] || {up:0, down:0};
-    return '<div class="score-item"><div class="score-dot" style="background:' + info.color + '"></div>' +
-      '<span style="color:' + info.color + '">' + escapeHtml(info.name) + '</span>: 👍' + s.up + ' 👎' + s.down + '</div>';
-  }).join('');
-}
-function resetScores() { scores = {}; localStorage.removeItem('arena-scores'); updateScoreboard(); }
-
-function copyResp(ai) {
-  var t = arenaResponses[ai]; if (!t) return;
-  navigator.clipboard.writeText(t).then(function() {
-    var btn = document.getElementById('copy-' + ai); if (!btn) return;
-    var old = btn.textContent; btn.textContent = '✅ скопировано';
-    setTimeout(function(){ btn.textContent = old; }, 2000);
-  });
-}
-
-function updateSpeedChart() {
-  getAllAIs();
-  var active = Object.entries(arenaTimes).filter(function(e){ return e[1] > 0; });
-  if (!active.length) return;
-  document.getElementById('speed-section').style.display = 'block';
-  var max = Math.max.apply(null, active.map(function(e){ return e[1]; }));
-  Object.keys(AIS).forEach(function(ai) {
-    var t = arenaTimes[ai] || 0;
-    var fill = document.getElementById('speed-' + ai);
-    var time = document.getElementById('speedtime-' + ai);
-    if (fill) fill.style.width = t > 0 ? (t/max*100) + '%' : '0%';
-    if (time) time.textContent = t > 0 ? t + 'ms' : '—';
-  });
-}
-
-function setArenaLoading(ai) {
-  getAllAIs();
-  var info = AIS[ai] || {color:'var(--openrouter)'};
-  arenaResponses[ai] = ''; arenaTimes[ai] = 0;
-  var card = document.getElementById('card-' + ai); if (card) card.classList.add('active');
-  var s = document.getElementById('status-' + ai); if (s) { s.className = 'status-badge status-loading'; s.textContent = 'ДУМАЕТ'; }
-  var body = document.getElementById('body-' + ai);
-  if (body) body.innerHTML = '<div class="loading-dots"><span style="background:' + info.color + '"></span><span style="background:' + info.color + '"></span><span style="background:' + info.color + '"></span></div>';
-  var t = document.getElementById('time-' + ai); if (t) t.textContent = '—';
-  var tok = document.getElementById('tokens-' + ai); if (tok) tok.textContent = '—';
-  var copy = document.getElementById('copy-' + ai); if (copy) copy.classList.remove('visible');
-  var vote = document.getElementById('vote-' + ai); if (vote) vote.classList.remove('visible');
-}
-
-function setArenaResult(ai, text, time, tokens) {
-  getAllAIs();
-  var info = AIS[ai] || {};
-  arenaResponses[ai] = text; arenaTimes[ai] = time;
-  var s = document.getElementById('status-' + ai);
-  if (s) { s.className = 'status-badge status-done ' + (info.orSlot?'openrouter':ai); s.textContent = 'ГОТОВО'; }
-  var body = document.getElementById('body-' + ai);
-  if (body) body.innerHTML = '<div class="response-text">' + escapeHtml(text) + '</div>';
-  var t = document.getElementById('time-' + ai); if (t) t.textContent = time + 'ms';
-  var tok = document.getElementById('tokens-' + ai); if (tok) tok.textContent = tokens ? '~' + tokens + ' токенов' : '';
-  var copy = document.getElementById('copy-' + ai); if (copy) copy.classList.add('visible');
-  var vote = document.getElementById('vote-' + ai); if (vote) vote.classList.add('visible');
-  updateSpeedChart();
-}
-
-function setArenaError(ai, msg) {
-  var s = document.getElementById('status-' + ai);
-  if (s) { s.className = 'status-badge status-error'; s.textContent = 'ОШИБКА'; }
-  var body = document.getElementById('body-' + ai);
-  if (body) body.innerHTML = '<div style="padding:18px;font-size:13px;color:#ff5050;">' + escapeHtml(msg) + '</div>';
-  var card = document.getElementById('card-' + ai); if (card) card.classList.remove('active');
-}
-
 function escapeHtml(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function escapeAttr(s) { return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-function getSys() {
-  var sys = document.getElementById('system-prompt').value.trim();
-  return (sys ? sys + ' ' : '') + lengthInstructions[lengthSetting];
+function isSelected(ai) { return arenaSelected[ai] !== false; }
+function isRTSelected(ai) { return rtSelected[ai] !== false; }
+function toggleAI(ai,cb) { arenaSelected[ai]=cb.checked; var el=document.getElementById('chk-'+ai); if(el)el.classList.toggle('on',cb.checked); }
+function toggleRTAI(ai,cb) { rtSelected[ai]=cb.checked; var el=document.getElementById('rt-chk-'+ai); if(el)el.classList.toggle('on',cb.checked); }
+function setLength(val,btn) { lengthSetting=val; document.querySelectorAll('.toggle-btn').forEach(function(b){b.classList.remove('active');}); btn.classList.add('active'); }
+function switchTab(name,btn) {
+  document.querySelectorAll('.tab-content').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
 }
 
 // ===== API =====
 async function callAI(ai, key, messages, sysOverride) {
   var sys = sysOverride !== undefined ? sysOverride : getSys();
-  if (ai === 'claude') {
-    var body = {model:'claude-sonnet-4-20250514', max_tokens:lengthTokens[lengthSetting], messages:messages};
-    if (sys) body.system = sys;
+  var maxTok = lengthTokens[lengthSetting];
+
+  if(ai==='claude') {
+    var body = {model:'claude-sonnet-4-20250514', max_tokens:maxTok, messages:messages};
+    if(sys) body.system = sys;
     var res = await fetch('https://api.anthropic.com/v1/messages', {method:'POST', headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01'}, body:JSON.stringify(body)});
-    var data = await res.json(); if (!res.ok) throw new Error((data.error&&data.error.message)||'Ошибка');
-    return {text:(data.content&&data.content[0]&&data.content[0].text)||'', tokens:data.usage&&data.usage.output_tokens};
+    var d = await res.json(); if(!res.ok) throw new Error((d.error&&d.error.message)||'Ошибка Claude');
+    return {text:(d.content&&d.content[0]&&d.content[0].text)||'', tokens:d.usage&&d.usage.output_tokens};
   }
-  if (ai === 'gemini') {
-    var contents = messages.map(function(m){ return {role:m.role==='assistant'?'model':'user', parts:[{text:m.content}]}; });
-    var body = {contents:contents}; if (sys) body.systemInstruction = {parts:[{text:sys}]};
+  if(ai==='gemini') {
+    var contents = messages.map(function(m){return {role:m.role==='assistant'?'model':'user', parts:[{text:m.content}]};});
+    var body = {contents:contents};
+    if(sys) body.systemInstruction = {parts:[{text:sys}]};
     var res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+key, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
-    var data = await res.json(); if (!res.ok) throw new Error((data.error&&data.error.message)||'Ошибка');
-    return {text:(data.candidates&&data.candidates[0]&&data.candidates[0].content&&data.candidates[0].content.parts&&data.candidates[0].content.parts[0]&&data.candidates[0].content.parts[0].text)||'', tokens:data.usageMetadata&&data.usageMetadata.candidatesTokenCount};
+    var d = await res.json(); if(!res.ok) throw new Error((d.error&&d.error.message)||'Ошибка Gemini');
+    return {text:(d.candidates&&d.candidates[0]&&d.candidates[0].content&&d.candidates[0].content.parts&&d.candidates[0].content.parts[0]&&d.candidates[0].content.parts[0].text)||'', tokens:d.usageMetadata&&d.usageMetadata.candidatesTokenCount};
   }
   var eps = {
-    deepseek:{url:'https://api.deepseek.com/chat/completions', model:'deepseek-chat'},
-    grok:    {url:'https://api.x.ai/v1/chat/completions', model:'grok-3-mini'},
-    mistral: {url:'https://api.mistral.ai/v1/chat/completions', model:'mistral-small-latest'},
-  };
-  var ep = eps[ai];
-  if (!ep && ai.startsWith('or-')) {
-    var slotId = ai.slice(3);
-    var slot = getORSlots().find(function(s){ return s.id === slotId; });
-    if (!slot) throw new Error('Слот не найден');
-    ep = {url:'https://openrouter.ai/api/v1/chat/completions', model:slot.model||'meta-llama/llama-3.3-70b-instruct:free', ref:'https://taduret.github.io/AI-Arena/'};
-  }
-  if (!ep) throw new Error('Неизвестный ИИ: ' + ai);
-  var headers = {'Content-Type':'application/json', 'Authorization':'Bearer '+key};
-  if (ep.ref) headers['HTTP-Referer'] = ep.ref;
-  var allMsgs = sys ? [{role:'system',content:sys}].concat(messages) : messages;
-  var res = await fetch(ep.url, {method:'POST', headers:headers, body:JSON.stringify({model:ep.model, messages:allMsgs, max_tokens:lengthTokens[lengthSetting]})});
-  var data = await res.json(); if (!res.ok) throw new Error((data.error&&data.error.message)||'Ошибка');
-  return {text:(data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content)||'', tokens:data.usage&&data.usage.completion_tokens};
-}
-
-// ===== ARENA LAUNCH =====
-async function launchAll() {
-  var prompt = document.getElementById('prompt').value.trim();
-  if (!prompt) { alert('Введи вопрос!'); return; }
-  getAllAIs();
-  var activeAIs = Object.keys(AIS).filter(function(ai){ return getKey(ai) && getAISelected(ai); });
-  if (!activeAIs.length) { alert('Введи хотя бы один API ключ!'); return; }
-  document.getElementById('launch-btn').disabled = true;
-  document.getElementById('speed-section').style.display = 'none';
-  Object.keys(AIS).forEach(function(ai){ arenaTimes[ai]=0; var f=document.getElementById('speed-'+ai); if(f){f.style.width='0%';} var t=document.getElementById('speedtime-'+ai); if(t){t.textContent='—';} });
-  var tasks = activeAIs.map(function(ai) {
-    setArenaLoading(ai);
-    var key = getKey(ai);
-    var start = Date.now();
-    return callAI(ai, key, [{role:'user',content:prompt}])
-      .then(function(r){ setArenaResult(ai, r.text, Date.now()-start, r.tokens); })
-      .catch(function(e){ setArenaError(ai, e.message); });
-  });
-  await Promise.all(tasks);
-  document.getElementById('launch-btn').disabled = false;
-}
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('prompt').addEventListener('keydown', function(e){ if(e.key==='Enter'&&e.ctrlKey) launchAll(); });
-});
-
-
-// ===== CHAT SYSTEM =====
-function getChatStore(ai) {
-  try { return JSON.parse(localStorage.getItem('cs-' + ai) || '{"chats":[],"activeId":null}'); }
-  catch(e) { return {chats:[], activeId:null}; }
-}
-function saveChatStore(ai, s) { localStorage.setItem('cs-' + ai, JSON.stringify(s)); }
-
-function createNewChat(ai) {
-  var s = getChatStore(ai);
-  var id = 'c' + Date.now() + Math.random().toString(36).slice(2,5);
-  s.chats.unshift({id:id, title:'Новый чат', messages:[], created:new Date().toLocaleString('ru'), saved:false});
-  s.activeId = id;
-  saveChatStore(ai, s);
-  renderChatCard(ai);
-}
-
-function setActiveChat(ai, id) {
-  var s = getChatStore(ai);
-  s.activeId = id;
-  saveChatStore(ai, s);
-  renderChatCard(ai);
-}
-
-function deleteChat(ai, id) {
-  var s = getChatStore(ai);
-  s.chats = s.chats.filter(function(c){ return c.id !== id; });
-  if (s.activeId === id) s.activeId = s.chats.length ? s.chats[0].id : null;
-  saveChatStore(ai, s);
-  if (!s.chats.length) createNewChat(ai);
-  else renderChatCard(ai);
-}
-
-function saveCurrentChat(ai) {
-  var s = getChatStore(ai);
-  var chat = s.chats.find(function(c){ return c.id === s.activeId; });
-  if (!chat || !chat.messages.length) { alert('Чат пустой!'); return; }
-  chat.saved = true;
-  chat.savedAt = new Date().toLocaleString('ru');
-  saveChatStore(ai, s);
-  renderChatCard(ai);
-}
-
-function addChatMsg(ai, role, content) {
-  var s = getChatStore(ai);
-  var chat = s.chats.find(function(c){ return c.id === s.activeId; });
-  if (!chat) return;
-  chat.messages.push({role:role, content:content, time:new Date().toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'})});
-  if (chat.title === 'Новый чат' && role === 'user') chat.title = content.slice(0,40) + (content.length>40?'…':'');
-  saveChatStore(ai, s);
-}
-
-function buildChatCards() {
-  getAllAIs();
-  var grid = document.getElementById('chat-cards-grid');
-  if (!grid) return;
-  grid.innerHTML = '';
-  Object.entries(AIS).forEach(function(entry) {
-    var ai = entry[0], info = entry[1];
-    var cls = info.orSlot ? 'openrouter' : ai;
-    var card = document.createElement('div');
-    card.className = 'result-card ' + cls; card.id = 'chatcard-' + ai;
-    // Header
-    var header = document.createElement('div'); header.className = 'card-header ' + cls;
-    header.innerHTML = '<div class="ai-icon">' + info.icon + '</div><div class="ai-name">' + escapeHtml(info.name) + '</div>';
-    var badge = document.createElement('div'); badge.className = 'status-badge status-idle'; badge.id = 'cstat-' + ai; badge.textContent = 'IDLE';
-    header.appendChild(badge);
-    // Chat window
-    var win = document.createElement('div'); win.className = 'chat-window';
-    var msgs = document.createElement('div'); msgs.className = 'chat-messages'; msgs.id = 'cmsgs-' + ai;
-    msgs.innerHTML = '<div class="empty-chat">Напиши первое сообщение!</div>';
-    var inputArea = document.createElement('div'); inputArea.className = 'chat-input-area';
-    var textarea = document.createElement('textarea'); textarea.className = 'chat-input'; textarea.id = 'cinput-' + ai; textarea.placeholder = 'Сообщение...'; textarea.rows = 1;
-    (function(a){ textarea.addEventListener('keydown', function(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChatMsg(a);} }); })(ai);
-    var fileInput = document.createElement('input'); fileInput.type = 'file'; fileInput.accept = 'image/*'; fileInput.style.display = 'none'; fileInput.id = 'img-input-' + ai;
-    (function(a,fi){ fi.addEventListener('change', function(){ handleImageSelect(a, fi); }); })(ai, fileInput);
-    var attachBtn = document.createElement('button'); attachBtn.className = 'img-attach-btn'; attachBtn.textContent = '📎'; attachBtn.title = 'Прикрепить фото';
-    (function(fi){ attachBtn.addEventListener('click', function(){ fi.click(); }); })(fileInput);
-    var sendBtn = document.createElement('button'); sendBtn.className = 'send-btn'; sendBtn.textContent = '➤';
-    (function(a){ sendBtn.addEventListener('click', function(){ sendChatMsg(a); }); })(ai);
-    inputArea.appendChild(fileInput); inputArea.appendChild(attachBtn); inputArea.appendChild(textarea); inputArea.appendChild(sendBtn);
-    var imgPreview = document.createElement('div'); imgPreview.className = 'img-preview'; imgPreview.id = 'img-preview-' + ai;
-    var prevImg = document.createElement('img'); prevImg.alt = 'preview';
-    var prevName = document.createElement('span'); prevName.className = 'img-preview-name'; prevName.textContent = 'Изображение выбрано';
-    var clearBtn = document.createElement('button'); clearBtn.className = 'img-clear-btn'; clearBtn.textContent = '✕';
-    (function(a){ clearBtn.addEventListener('click', function(){ clearPendingImage(a); }); })(ai);
-    imgPreview.appendChild(prevImg); imgPreview.appendChild(prevName); imgPreview.appendChild(clearBtn);
-    win.appendChild(msgs); win.appendChild(imgPreview); win.appendChild(inputArea);
-    // Chat list
-    var panel = document.createElement('div'); panel.className = 'chat-list-panel';
-    var listHeader = document.createElement('div'); listHeader.className = 'chat-list-header';
-    var listLabel = document.createElement('span'); listLabel.className = 'chat-list-label'; listLabel.textContent = 'ЧАТЫ';
-    var saveBtn = document.createElement('button'); saveBtn.className = 'new-chat-btn'; saveBtn.textContent = '💾 Сохранить';
-    (function(a){ saveBtn.addEventListener('click', function(){ saveCurrentChat(a); }); })(ai);
-    var newBtn = document.createElement('button'); newBtn.className = 'new-chat-btn'; newBtn.textContent = '+ Новый';
-    (function(a){ newBtn.addEventListener('click', function(){ createNewChat(a); }); })(ai);
-    listHeader.appendChild(listLabel); listHeader.appendChild(saveBtn); listHeader.appendChild(newBtn);
-    var listDiv = document.createElement('div'); listDiv.id = 'clist-' + ai;
-    panel.appendChild(listHeader); panel.appendChild(listDiv);
-    card.appendChild(header); card.appendChild(win); card.appendChild(panel);
-    grid.appendChild(card);
-  });
-  Object.keys(AIS).forEach(function(ai) {
-    var s = getChatStore(ai);
-    if (!s.chats.length) createNewChat(ai); else renderChatCard(ai);
-  });
-}
-
-function renderChatCard(ai) {
-  var s = getChatStore(ai);
-  var chat = s.chats.find(function(c){ return c.id === s.activeId; });
-  var msgsEl = document.getElementById('cmsgs-' + ai);
-  if (msgsEl) {
-    if (!chat || !chat.messages.length) {
-      msgsEl.innerHTML = '<div class="empty-chat">Напиши первое сообщение!</div>';
-    } else {
-      msgsEl.innerHTML = chat.messages.map(function(m) {
-        return '<div class="msg ' + m.role + '"><div class="msg-bubble">' + escapeHtml(m.content) + '</div>' +
-               '<div class="msg-time">' + (m.time||'') + '</div></div>';
-      }).join('');
-      setTimeout(function(){ msgsEl.scrollTop = msgsEl.scrollHeight; }, 50);
-    }
-  }
-  var listEl = document.getElementById('clist-' + ai);
-  if (listEl) {
-    if (!s.chats.length) {
-      listEl.innerHTML = '<div class="no-chats">Нет чатов</div>';
-    } else {
-      listEl.innerHTML = s.chats.map(function(c) {
-        var cls = 'chat-list-item' + (c.id===s.activeId?' active-chat':'') + (c.saved?' saved-chat':'');
-        return '<div class="' + cls + '" onclick="setActiveChat(\'' + ai + '\',\'' + c.id + '\')">' +
-          '<div class="chat-list-title">' + escapeHtml(c.title) + '</div>' +
-          '<div class="chat-list-date">' + (c.created||'') + '</div>' +
-          '<button class="chat-list-del" onclick="event.stopPropagation();deleteChat(\'' + ai + '\',\'' + c.id + '\')">✕</button>' +
-          '</div>';
-      }).join('');
-    }
-  }
-}
-
-async function sendChatMsg(ai) {
-  var input = document.getElementById('cinput-' + ai);
-  var text = input.value.trim();
-  if (!text) return;
-  var keyEl = document.getElementById('key-' + ai);
-  var key = keyEl ? keyEl.value.trim() : '';
-  if (!key) { alert('Введи API ключ для ' + AIS[ai].name + ' на вкладке АРЕНА!'); return; }
-  input.value = '';
-  var s = getChatStore(ai);
-  if (!s.activeId || !s.chats.find(function(c){ return c.id===s.activeId; })) createNewChat(ai);
-  addChatMsg(ai, 'user', text);
-  renderChatCard(ai);
-  var msgsEl = document.getElementById('cmsgs-' + ai);
-  var loadDiv = document.createElement('div');
-  loadDiv.className = 'msg assistant';
-  getAllAIs();
-  loadDiv.innerHTML = '<div class="msg-bubble"><div style="display:flex;gap:5px">' +
-    '<span style="width:7px;height:7px;border-radius:50%;background:' + (AIS[ai]||{color:'var(--openrouter)'}).color + ';animation:bounce 1.2s infinite"></span>' +
-    '<span style="width:7px;height:7px;border-radius:50%;background:' + AIS[ai].color + ';animation:bounce 1.2s 0.2s infinite"></span>' +
-    '<span style="width:7px;height:7px;border-radius:50%;background:' + AIS[ai].color + ';animation:bounce 1.2s 0.4s infinite"></span>' +
-    '</div></div>';
-  msgsEl.appendChild(loadDiv);
-  msgsEl.scrollTop = msgsEl.scrollHeight;
-  var statEl = document.getElementById('cstat-' + ai);
-  statEl.className = 'status-badge status-loading'; statEl.textContent = 'ДУМАЕТ';
-  var s2 = getChatStore(ai);
-  var chat = s2.chats.find(function(c){ return c.id===s2.activeId; });
-  var msgs = chat ? chat.messages.map(function(m){ return {role:m.role, content:m.content}; }) : [];
-  var sys = (document.getElementById('system-prompt')||{value:''}).value || '';
-  try {
-    var reply = await chatAPIWithImage(ai, key, msgs, sys);
-    clearPendingImage(ai);
-    loadDiv.remove();
-    addChatMsg(ai, 'assistant', reply);
-    renderChatCard(ai);
-    statEl.className = 'status-badge status-done ' + ai; statEl.textContent = 'ГОТОВО';
-  } catch(e) {
-    loadDiv.remove();
-    addChatMsg(ai, 'assistant', 'Ошибка: ' + e.message);
-    renderChatCard(ai);
-    statEl.className = 'status-badge status-error'; statEl.textContent = 'ОШИБКА';
-  }
-}
-
-async function chatAPI(ai, key, messages, sys) {
-  if (ai === 'claude') {
-    var body = {model:'claude-sonnet-4-20250514', max_tokens:1024, messages:messages};
-    if (sys) body.system = sys;
-    var res = await fetch('https://api.anthropic.com/v1/messages', {method:'POST', headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01'}, body:JSON.stringify(body)});
-    var data = await res.json(); if (!res.ok) throw new Error((data.error&&data.error.message)||'Ошибка');
-    return (data.content&&data.content[0]&&data.content[0].text)||'';
-  }
-  if (ai === 'gemini') {
-    var contents = messages.map(function(m){ return {role:m.role==='assistant'?'model':'user', parts:[{text:m.content}]}; });
-    var body = {contents:contents}; if (sys) body.systemInstruction = {parts:[{text:sys}]};
-    var res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+key, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
-    var data = await res.json(); if (!res.ok) throw new Error((data.error&&data.error.message)||'Ошибка');
-    return (data.candidates&&data.candidates[0]&&data.candidates[0].content&&data.candidates[0].content.parts&&data.candidates[0].content.parts[0]&&data.candidates[0].content.parts[0].text)||'';
-  }
-  var ep = {
     deepseek: {url:'https://api.deepseek.com/chat/completions', model:'deepseek-chat'},
     grok:     {url:'https://api.x.ai/v1/chat/completions', model:'grok-3-mini'},
-    mistral:  {url:'https://api.mistral.ai/v1/chat/completions', model:'mistral-small-latest'},
-    openrouter:{url:'https://openrouter.ai/api/v1/chat/completions', model:(document.getElementById('model-openrouter')||{value:'meta-llama/llama-3.3-70b-instruct:free'}).value||'meta-llama/llama-3.3-70b-instruct:free', ref:'https://taduret.github.io/AI-Arena/'}
-  }[ai];
+    mistral:  {url:'https://api.mistral.ai/v1/chat/completions', model:'mistral-small-latest'}
+  };
+  var ep = eps[ai];
+  if(!ep && ai.startsWith('or-')) {
+    var slot = getORSlots().find(function(s){return s.id===ai.slice(3);});
+    if(!slot) throw new Error('Слот не найден');
+    ep = {url:'https://openrouter.ai/api/v1/chat/completions', model:slot.model||'meta-llama/llama-3.3-70b-instruct:free', ref:'https://taduret.github.io/AI-Arena/'};
+  }
+  if(!ep) throw new Error('Неизвестный ИИ: '+ai);
   var headers = {'Content-Type':'application/json', 'Authorization':'Bearer '+key};
-  if (ep.ref) headers['HTTP-Referer'] = ep.ref;
+  if(ep.ref) headers['HTTP-Referer'] = ep.ref;
   var allMsgs = sys ? [{role:'system',content:sys}].concat(messages) : messages;
-  var res = await fetch(ep.url, {method:'POST', headers:headers, body:JSON.stringify({model:ep.model, messages:allMsgs, max_tokens:1024})});
-  var data = await res.json(); if (!res.ok) throw new Error((data.error&&data.error.message)||'Ошибка');
-  return (data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content)||'';
+  var res = await fetch(ep.url, {method:'POST', headers:headers, body:JSON.stringify({model:ep.model, messages:allMsgs, max_tokens:maxTok})});
+  var d = await res.json(); if(!res.ok) throw new Error((d.error&&d.error.message)||'Ошибка API');
+  return {text:(d.choices&&d.choices[0]&&d.choices[0].message&&d.choices[0].message.content)||'', tokens:d.usage&&d.usage.completion_tokens};
 }
 
-function exportAllChats() {
+async function callAIWithImage(ai, key, messages, sys) {
+  var img = pendingImage[ai];
+  if(!img) return callAI(ai, key, messages, sys);
+  var msgs = messages.slice();
+  var last = msgs[msgs.length-1];
+  if(last && last.role==='user') {
+    msgs = msgs.slice(0,-1);
+    if(ai==='claude') {
+      msgs.push({role:'user', content:[{type:'image',source:{type:'base64',media_type:img.mediaType,data:img.base64}},{type:'text',text:last.content}]});
+    } else if(ai==='gemini') {
+      var contents = messages.slice(0,-1).map(function(m){return {role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]};});
+      contents.push({role:'user', parts:[{inline_data:{mime_type:img.mediaType,data:img.base64}},{text:last.content}]});
+      var sysVal = sys !== undefined ? sys : getSys();
+      var body = {contents:contents};
+      if(sysVal) body.systemInstruction = {parts:[{text:sysVal}]};
+      var res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+key, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+      var d = await res.json(); if(!res.ok) throw new Error((d.error&&d.error.message)||'Ошибка Gemini');
+      return {text:(d.candidates&&d.candidates[0]&&d.candidates[0].content&&d.candidates[0].content.parts&&d.candidates[0].content.parts[0]&&d.candidates[0].content.parts[0].text)||''};
+    } else {
+      msgs.push({role:'user', content:[{type:'image_url',image_url:{url:'data:'+img.mediaType+';base64,'+img.base64}},{type:'text',text:last.content}]});
+    }
+  }
+  if(ai==='gemini') return callAI(ai, key, messages, sys);
+  return callAI(ai, key, msgs, sys);
+}
+
+// ===== ARENA =====
+function buildResultCards() {
   getAllAIs();
-  var data = {};
-  Object.keys(AIS).forEach(function(ai){ data[ai] = getChatStore(ai); });
-  var json = JSON.stringify(data, null, 2);
-  var a = document.createElement('a');
-  a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(json);
-  a.download = 'ai-arena-chats.json';
-  a.click();
+  var grid = document.getElementById('results-grid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  Object.entries(AIS).forEach(function(e) {
+    var ai=e[0], info=e[1], cls=info.orSlot?'openrouter':ai;
+    var card = document.createElement('div'); card.className='result-card '+cls; card.id='card-'+ai;
+    var hdr = document.createElement('div'); hdr.className='card-header '+cls;
+    hdr.innerHTML = '<div class="ai-icon">'+info.icon+'</div><div class="ai-name">'+escapeHtml(info.name)+'</div>';
+    var badge = document.createElement('div'); badge.className='status-badge status-idle'; badge.id='status-'+ai; badge.textContent='IDLE';
+    var colBtn = document.createElement('button'); colBtn.className='collapse-btn'; colBtn.textContent='▼';
+    (function(a){colBtn.addEventListener('click',function(){toggleCard(a,this);});})(ai);
+    hdr.appendChild(badge); hdr.appendChild(colBtn);
+    var body = document.createElement('div'); body.className='card-body'; body.id='body-'+ai;
+    body.innerHTML = '<div class="no-key-notice">Введи API ключ выше</div>';
+    var footer = document.createElement('div'); footer.className='card-footer'; footer.id='footer-'+ai;
+    var timeEl = document.createElement('div'); timeEl.className='response-time'; timeEl.id='time-'+ai; timeEl.textContent='—';
+    var tokEl = document.createElement('div'); tokEl.className='token-count'; tokEl.id='tokens-'+ai; tokEl.textContent='—';
+    var actions = document.createElement('div'); actions.className='footer-actions';
+    var votes = document.createElement('div'); votes.className='vote-btns'; votes.id='vote-'+ai;
+    var upBtn = document.createElement('button'); upBtn.className='vote-btn'; upBtn.id='vup-'+ai; upBtn.textContent='👍';
+    (function(a){upBtn.addEventListener('click',function(){vote(a,'up');});})(ai);
+    var dnBtn = document.createElement('button'); dnBtn.className='vote-btn'; dnBtn.id='vdn-'+ai; dnBtn.textContent='👎';
+    (function(a){dnBtn.addEventListener('click',function(){vote(a,'down');});})(ai);
+    votes.appendChild(upBtn); votes.appendChild(dnBtn);
+    var copyBtn = document.createElement('button'); copyBtn.className='copy-btn'; copyBtn.id='copy-'+ai; copyBtn.textContent='📋 копировать';
+    (function(a){copyBtn.addEventListener('click',function(){copyResp(a);});})(ai);
+    actions.appendChild(votes); actions.appendChild(copyBtn);
+    footer.appendChild(timeEl); footer.appendChild(tokEl); footer.appendChild(actions);
+    card.appendChild(hdr); card.appendChild(body); card.appendChild(footer);
+    grid.appendChild(card);
+  });
+  // Speed bars
+  var bars = document.getElementById('speed-bars');
+  if(bars) {
+    bars.innerHTML = '';
+    Object.entries(AIS).forEach(function(e) {
+      var ai=e[0],info=e[1],cls=info.orSlot?'openrouter':ai;
+      var row=document.createElement('div'); row.className='speed-bar-row';
+      var lbl=document.createElement('div'); lbl.className='speed-label '+cls; lbl.textContent=info.name;
+      var track=document.createElement('div'); track.className='speed-track';
+      var fill=document.createElement('div'); fill.className='speed-fill '+cls; fill.id='speed-'+ai;
+      var tm=document.createElement('div'); tm.className='speed-time'; tm.id='speedtime-'+ai; tm.textContent='—';
+      track.appendChild(fill); row.appendChild(lbl); row.appendChild(track); row.appendChild(tm);
+      bars.appendChild(row);
+    });
+  }
 }
 
-function importChats(input) {
-  var file = input.files[0]; if (!file) return;
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    try {
+function toggleCard(ai,btn) {
+  var body=document.getElementById('body-'+ai), footer=document.getElementById('footer-'+ai);
+  var collapsed=body.classList.toggle('collapsed');
+  if(footer) footer.style.display=collapsed?'none':'';
+  btn.classList.toggle('collapsed',collapsed);
+  btn.title=collapsed?'Развернуть':'Свернуть';
+}
+
+function setArenaLoading(ai) {
+  getAllAIs(); var info=AIS[ai]||{color:'var(--openrouter)'};
+  arenaResp[ai]=''; arenaTimes[ai]=0;
+  var card=document.getElementById('card-'+ai); if(card) card.classList.add('active');
+  var s=document.getElementById('status-'+ai); if(s){s.className='status-badge status-loading';s.textContent='ДУМАЕТ';}
+  var body=document.getElementById('body-'+ai);
+  if(body) body.innerHTML='<div class="loading-dots"><span style="background:'+info.color+'"></span><span style="background:'+info.color+'"></span><span style="background:'+info.color+'"></span></div>';
+  var t=document.getElementById('time-'+ai); if(t) t.textContent='—';
+  var tok=document.getElementById('tokens-'+ai); if(tok) tok.textContent='—';
+  var cp=document.getElementById('copy-'+ai); if(cp) cp.classList.remove('visible');
+  var vt=document.getElementById('vote-'+ai); if(vt) vt.classList.remove('visible');
+}
+
+function setArenaResult(ai,text,time,tokens) {
+  getAllAIs(); var info=AIS[ai]||{}, cls=info.orSlot?'openrouter':ai;
+  arenaResp[ai]=text; arenaTimes[ai]=time;
+  var s=document.getElementById('status-'+ai); if(s){s.className='status-badge status-done '+cls;s.textContent='ГОТОВО';}
+  var body=document.getElementById('body-'+ai); if(body) body.innerHTML='<div class="response-text">'+escapeHtml(text)+'</div>';
+  var t=document.getElementById('time-'+ai); if(t) t.textContent=time+'ms';
+  var tok=document.getElementById('tokens-'+ai); if(tok) tok.textContent=tokens?'~'+tokens+' токенов':'';
+  var cp=document.getElementById('copy-'+ai); if(cp) cp.classList.add('visible');
+  var vt=document.getElementById('vote-'+ai); if(vt) vt.classList.add('visible');
+  updateSpeedChart();
+}
+
+function setArenaError(ai,msg) {
+  var s=document.getElementById('status-'+ai); if(s){s.className='status-badge status-error';s.textContent='ОШИБКА';}
+  var body=document.getElementById('body-'+ai); if(body) body.innerHTML='<div style="padding:18px;font-size:13px;color:#ff5050;">'+escapeHtml(msg)+'</div>';
+  var card=document.getElementById('card-'+ai); if(card) card.classList.remove('active');
+}
+
+function updateSpeedChart() {
+  getAllAIs();
+  var active=Object.entries(arenaTimes).filter(function(e){return e[1]>0;});
+  if(!active.length) return;
+  document.getElementById('speed-section').style.display='block';
+  var max=Math.max.apply(null,active.map(function(e){return e[1];}));
+  Object.keys(AIS).forEach(function(ai){
+    var t=arenaTimes[ai]||0;
+    var fill=document.getElementById('speed-'+ai); if(fill) fill.style.width=t>0?(t/max*100)+'%':'0%';
+    var tm=document.getElementById('speedtime-'+ai); if(tm) tm.textContent=t>0?t+'ms':'—';
+  });
+}
+
+function vote(ai,dir) {
+  if(!scores[ai]) scores[ai]={up:0,down:0};
+  scores[ai][dir]++;
+  localStorage.setItem('arena-scores',JSON.stringify(scores));
+  var btn=document.getElementById('v'+dir[0]+'n-'+ai);
+  if(btn){btn.classList.add('voted');setTimeout(function(){btn.classList.remove('voted');},400);}
+  updateScoreboard();
+}
+function updateScoreboard() {
+  getAllAIs();
+  var hasVotes=Object.values(scores).some(function(s){return s&&(s.up>0||s.down>0);});
+  document.getElementById('scoreboard-box').style.display=hasVotes?'block':'none';
+  document.getElementById('scoreboard').innerHTML='';
+  Object.entries(AIS).forEach(function(e) {
+    var ai=e[0],info=e[1],s=scores[ai]||{up:0,down:0};
+    var item=document.createElement('div'); item.className='score-item';
+    item.innerHTML='<div class="score-dot" style="background:'+info.color+'"></div><span style="color:'+info.color+'">'+escapeHtml(info.name)+'</span>: 👍'+s.up+' 👎'+s.down;
+    document.getElementById('scoreboard').appendChild(item);
+  });
+}
+function resetScores(){scores={};localStorage.removeItem('arena-scores');updateScoreboard();}
+function copyResp(ai){var t=arenaResp[ai];if(!t)return;navigator.clipboard.writeText(t).then(function(){var b=document.getElementById('copy-'+ai);if(!b)return;var o=b.textContent;b.textContent='✅ скопировано';setTimeout(function(){b.textContent=o;},2000);});}
+
+async function launchAll() {
+  var prompt=document.getElementById('prompt').value.trim();
+  if(!prompt){alert('Введи вопрос!');return;}
+  getAllAIs();
+  var active=Object.keys(AIS).filter(function(ai){return getKey(ai)&&isSelected(ai);});
+  if(!active.length){alert('Введи хотя бы один API ключ!');return;}
+  document.getElementById('launch-btn').disabled=true;
+  document.getElementById('speed-section').style.display='none';
+  Object.keys(AIS).forEach(function(ai){arenaTimes[ai]=0;var f=document.getElementById('speed-'+ai);if(f)f.style.width='0%';var t=document.getElementById('speedtime-'+ai);if(t)t.textContent='—';});
+  addToHistory(prompt);
+  var tasks=active.map(function(ai){
+    setArenaLoading(ai);
+    var key=getKey(ai), start=Date.now();
+    return callAI(ai,key,[{role:'user',content:prompt}])
+      .then(function(r){setArenaResult(ai,r.text,Date.now()-start,r.tokens);})
+      .catch(function(e){setArenaError(ai,e.message);});
+  });
+  await Promise.all(tasks);
+  document.getElementById('launch-btn').disabled=false;
+}
+
+// ===== HISTORY =====
+function getHistory(){try{return JSON.parse(localStorage.getItem('arena-history')||'[]');}catch{return[];}}
+function saveHistory(h){localStorage.setItem('arena-history',JSON.stringify(h));}
+function addToHistory(q){
+  var h=getHistory(); h.unshift({q:q,date:new Date().toLocaleString('ru')});
+  if(h.length>30) h.pop();
+  saveHistory(h); renderHistory();
+}
+function renderHistory(){
+  var h=getHistory(), el=document.getElementById('history-list');
+  if(!el) return;
+  el.innerHTML='';
+  if(!h.length){el.innerHTML='<div style="color:var(--muted);font-family:\'Share Tech Mono\',monospace;font-size:12px;text-align:center;padding:20px">История пуста</div>';return;}
+  h.forEach(function(item,i){
+    var div=document.createElement('div'); div.className='history-item';
+    var q=document.createElement('div'); q.className='history-q'; q.textContent=item.q;
+    var date=document.createElement('div'); date.className='history-date'; date.textContent=item.date;
+    var del=document.createElement('button'); del.className='history-del'; del.textContent='✕';
+    (function(idx){del.addEventListener('click',function(e){e.stopPropagation();var h=getHistory();h.splice(idx,1);saveHistory(h);renderHistory();});})(i);
+    (function(txt){div.addEventListener('click',function(){document.getElementById('prompt').value=txt;});})(item.q);
+    div.appendChild(q); div.appendChild(date); div.appendChild(del);
+    el.appendChild(div);
+  });
+}
+function clearHistory(){localStorage.removeItem('arena-history');renderHistory();}
+
+// ===== CHAT SYSTEM =====
+function getChatStore(ai){try{return JSON.parse(localStorage.getItem('cs-'+ai)||'{"chats":[],"activeId":null}');}catch{return{chats:[],activeId:null};}}
+function saveChatStore(ai,s){localStorage.setItem('cs-'+ai,JSON.stringify(s));}
+
+function createNewChat(ai){
+  var s=getChatStore(ai);
+  var id='c'+Date.now()+Math.random().toString(36).slice(2,5);
+  s.chats.unshift({id:id,title:'Новый чат',messages:[],created:new Date().toLocaleString('ru'),saved:false});
+  s.activeId=id; saveChatStore(ai,s); renderChatCard(ai);
+}
+function setActiveChat(ai,id){var s=getChatStore(ai);s.activeId=id;saveChatStore(ai,s);renderChatCard(ai);}
+function deleteChat(ai,id){
+  var s=getChatStore(ai); s.chats=s.chats.filter(function(c){return c.id!==id;});
+  if(s.activeId===id) s.activeId=s.chats.length?s.chats[0].id:null;
+  saveChatStore(ai,s);
+  if(!s.chats.length) createNewChat(ai); else renderChatCard(ai);
+}
+function saveCurrentChat(ai){
+  var s=getChatStore(ai), chat=s.chats.find(function(c){return c.id===s.activeId;});
+  if(!chat||!chat.messages.length){alert('Чат пустой!');return;}
+  chat.saved=true; chat.savedAt=new Date().toLocaleString('ru');
+  saveChatStore(ai,s); renderChatCard(ai);
+}
+function addChatMsg(ai,role,content){
+  var s=getChatStore(ai), chat=s.chats.find(function(c){return c.id===s.activeId;});
+  if(!chat) return;
+  chat.messages.push({role:role,content:content,time:new Date().toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'})});
+  if(chat.title==='Новый чат'&&role==='user') chat.title=content.slice(0,40)+(content.length>40?'…':'');
+  saveChatStore(ai,s);
+}
+
+function buildChatCards(){
+  getAllAIs();
+  var grid=document.getElementById('chat-cards-grid');
+  if(!grid) return;
+  grid.innerHTML='';
+  Object.entries(AIS).forEach(function(e){
+    var ai=e[0],info=e[1],cls=info.orSlot?'openrouter':ai;
+    var card=document.createElement('div'); card.className='result-card '+cls; card.id='chatcard-'+ai;
+    // Header
+    var hdr=document.createElement('div'); hdr.className='card-header '+cls;
+    hdr.innerHTML='<div class="ai-icon">'+info.icon+'</div><div class="ai-name">'+escapeHtml(info.name)+'</div>';
+    var badge=document.createElement('div'); badge.className='status-badge status-idle'; badge.id='cstat-'+ai; badge.textContent='IDLE';
+    hdr.appendChild(badge);
+    // Chat window
+    var win=document.createElement('div'); win.className='chat-window';
+    var msgs=document.createElement('div'); msgs.className='chat-messages'; msgs.id='cmsgs-'+ai;
+    msgs.innerHTML='<div class="empty-chat">Напиши первое сообщение!</div>';
+    // Image preview
+    var imgPrev=document.createElement('div'); imgPrev.className='img-preview'; imgPrev.id='img-preview-'+ai;
+    var prevImg=document.createElement('img'); prevImg.alt='preview';
+    var prevLbl=document.createElement('span'); prevLbl.className='img-preview-name'; prevLbl.textContent='Изображение выбрано';
+    var clrBtn=document.createElement('button'); clrBtn.className='img-clear-btn'; clrBtn.textContent='✕';
+    (function(a){clrBtn.addEventListener('click',function(){clearPendingImage(a);});})(ai);
+    imgPrev.appendChild(prevImg); imgPrev.appendChild(prevLbl); imgPrev.appendChild(clrBtn);
+    // Input area
+    var inputArea=document.createElement('div'); inputArea.className='chat-input-area';
+    var fileInp=document.createElement('input'); fileInp.type='file'; fileInp.accept='image/*'; fileInp.style.display='none'; fileInp.id='img-input-'+ai;
+    (function(a,fi){fi.addEventListener('change',function(){handleImageSelect(a,fi);});})(ai,fileInp);
+    var attachBtn=document.createElement('button'); attachBtn.className='img-attach-btn'; attachBtn.textContent='📎'; attachBtn.title='Прикрепить фото';
+    (function(fi){attachBtn.addEventListener('click',function(){fi.click();});})(fileInp);
+    var textarea=document.createElement('textarea'); textarea.className='chat-input'; textarea.id='cinput-'+ai; textarea.placeholder='Сообщение...'; textarea.rows=1;
+    (function(a){textarea.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChatMsg(a);}});})(ai);
+    var sendBtn=document.createElement('button'); sendBtn.className='send-btn'; sendBtn.textContent='➤';
+    (function(a){sendBtn.addEventListener('click',function(){sendChatMsg(a);});})(ai);
+    inputArea.appendChild(fileInp); inputArea.appendChild(attachBtn); inputArea.appendChild(textarea); inputArea.appendChild(sendBtn);
+    win.appendChild(msgs); win.appendChild(imgPrev); win.appendChild(inputArea);
+    // Chat list
+    var panel=document.createElement('div'); panel.className='chat-list-panel';
+    var listHdr=document.createElement('div'); listHdr.className='chat-list-header';
+    var lbl=document.createElement('span'); lbl.className='chat-list-label'; lbl.textContent='ЧАТЫ';
+    var saveBtn=document.createElement('button'); saveBtn.className='new-chat-btn'; saveBtn.textContent='💾 Сохранить';
+    (function(a){saveBtn.addEventListener('click',function(){saveCurrentChat(a);});})(ai);
+    var newBtn=document.createElement('button'); newBtn.className='new-chat-btn'; newBtn.textContent='+ Новый';
+    (function(a){newBtn.addEventListener('click',function(){createNewChat(a);});})(ai);
+    listHdr.appendChild(lbl); listHdr.appendChild(saveBtn); listHdr.appendChild(newBtn);
+    var listDiv=document.createElement('div'); listDiv.id='clist-'+ai;
+    panel.appendChild(listHdr); panel.appendChild(listDiv);
+    card.appendChild(hdr); card.appendChild(win); card.appendChild(panel);
+    grid.appendChild(card);
+  });
+  getAllAIs();
+  Object.keys(AIS).forEach(function(ai){
+    var s=getChatStore(ai);
+    if(!s.chats.length) createNewChat(ai); else renderChatCard(ai);
+  });
+}
+
+function renderChatCard(ai){
+  var s=getChatStore(ai);
+  var chat=s.chats.find(function(c){return c.id===s.activeId;});
+  var msgsEl=document.getElementById('cmsgs-'+ai);
+  if(msgsEl){
+    if(!chat||!chat.messages.length){
+      msgsEl.innerHTML='<div class="empty-chat">Напиши первое сообщение!</div>';
+    } else {
+      msgsEl.innerHTML=chat.messages.map(function(m){
+        return '<div class="msg '+m.role+'"><div class="msg-bubble">'+escapeHtml(m.content)+'</div><div class="msg-time">'+(m.time||'')+'</div></div>';
+      }).join('');
+      setTimeout(function(){msgsEl.scrollTop=msgsEl.scrollHeight;},50);
+    }
+  }
+  var listEl=document.getElementById('clist-'+ai);
+  if(listEl){
+    listEl.innerHTML='';
+    if(!s.chats.length){
+      listEl.innerHTML='<div class="no-chats">Нет чатов</div>';
+    } else {
+      s.chats.forEach(function(c){
+        var item=document.createElement('div');
+        item.className='chat-list-item'+(c.id===s.activeId?' active-chat':'')+(c.saved?' saved-chat':'');
+        var title=document.createElement('div'); title.className='chat-list-title'; title.textContent=c.title;
+        var date=document.createElement('div'); date.className='chat-list-date'; date.textContent=c.created||'';
+        var del=document.createElement('button'); del.className='chat-list-del'; del.textContent='✕';
+        (function(cid){del.addEventListener('click',function(e){e.stopPropagation();deleteChat(ai,cid);});})(c.id);
+        (function(cid){item.addEventListener('click',function(){setActiveChat(ai,cid);});})(c.id);
+        item.appendChild(title); item.appendChild(date); item.appendChild(del);
+        listEl.appendChild(item);
+      });
+    }
+  }
+}
+
+async function sendChatMsg(ai){
+  var input=document.getElementById('cinput-'+ai);
+  var text=input.value.trim(); if(!text) return;
+  var key=getKey(ai);
+  if(!key){alert('Введи API ключ для '+( AIS[ai]&&AIS[ai].name||ai)+' на вкладке АРЕНА!');return;}
+  input.value='';
+  var s=getChatStore(ai);
+  if(!s.activeId||!s.chats.find(function(c){return c.id===s.activeId;})) createNewChat(ai);
+  addChatMsg(ai,'user',text); renderChatCard(ai);
+  var msgsEl=document.getElementById('cmsgs-'+ai);
+  var info=AIS[ai]||{color:'var(--openrouter)'};
+  var loadDiv=document.createElement('div'); loadDiv.className='msg assistant';
+  loadDiv.innerHTML='<div class="msg-bubble"><div style="display:flex;gap:5px"><span style="width:7px;height:7px;border-radius:50%;background:'+info.color+';animation:bounce 1.2s infinite"></span><span style="width:7px;height:7px;border-radius:50%;background:'+info.color+';animation:bounce 1.2s 0.2s infinite"></span><span style="width:7px;height:7px;border-radius:50%;background:'+info.color+';animation:bounce 1.2s 0.4s infinite"></span></div></div>';
+  msgsEl.appendChild(loadDiv); msgsEl.scrollTop=msgsEl.scrollHeight;
+  var statEl=document.getElementById('cstat-'+ai);
+  if(statEl){statEl.className='status-badge status-loading';statEl.textContent='ДУМАЕТ';}
+  var s2=getChatStore(ai), chat=s2.chats.find(function(c){return c.id===s2.activeId;});
+  var apiMsgs=chat?chat.messages.map(function(m){return{role:m.role,content:m.content};}):[];
+  var sysVal=document.getElementById('system-prompt')?document.getElementById('system-prompt').value.trim():'';
+  try{
+    var reply=await callAIWithImage(ai,key,apiMsgs,sysVal);
+    loadDiv.remove(); clearPendingImage(ai);
+    addChatMsg(ai,'assistant',(reply&&typeof reply==='object')?reply.text:(reply||'')); renderChatCard(ai);
+    if(statEl){statEl.className='status-badge status-done '+(info.orSlot?'openrouter':ai);statEl.textContent='ГОТОВО';}
+  }catch(e){
+    loadDiv.remove(); addChatMsg(ai,'assistant','Ошибка: '+e.message); renderChatCard(ai);
+    if(statEl){statEl.className='status-badge status-error';statEl.textContent='ОШИБКА';}
+  }
+}
+
+// ===== IMAGE =====
+function handleImageSelect(ai,input){
+  var file=input.files[0]; if(!file) return;
+  if(!file.type.startsWith('image/')){alert('Только изображения!');return;}
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var b64=e.target.result.split(',')[1];
+    pendingImage[ai]={base64:b64,mediaType:file.type};
+    var prev=document.getElementById('img-preview-'+ai);
+    if(prev){prev.style.display='flex';var img=prev.querySelector('img');if(img)img.src=e.target.result;}
+  };
+  reader.readAsDataURL(file); input.value='';
+}
+function clearPendingImage(ai){
+  delete pendingImage[ai];
+  var prev=document.getElementById('img-preview-'+ai);
+  if(prev) prev.style.display='none';
+}
+
+// ===== CHAT IMPORT/EXPORT =====
+function exportAllChats(){
+  getAllAIs();
+  var data={};
+  Object.keys(AIS).forEach(function(ai){data[ai]=getChatStore(ai);});
+  var a=document.createElement('a');
+  a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(data,null,2));
+  a.download='ai-arena-chats.json'; a.click();
+}
+function importChats(input){
+  var file=input.files[0]; if(!file) return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      var data=JSON.parse(e.target.result), count=0;
       getAllAIs();
-      var data = JSON.parse(e.target.result);
-      var count = 0;
-      Object.keys(AIS).forEach(function(ai) {
-        if (data[ai] && data[ai].chats) {
-          var existing = getChatStore(ai);
-          data[ai].chats.forEach(function(c) {
-            if (!existing.chats.find(function(ec){ return ec.id===c.id; })) {
-              existing.chats.push(c); count++;
-            }
+      Object.keys(AIS).forEach(function(ai){
+        if(data[ai]&&data[ai].chats){
+          var ex=getChatStore(ai);
+          data[ai].chats.forEach(function(c){
+            if(!ex.chats.find(function(ec){return ec.id===c.id;})){ex.chats.push(c);count++;}
           });
-          if (!existing.activeId && existing.chats.length) existing.activeId = existing.chats[0].id;
-          saveChatStore(ai, existing);
+          if(!ex.activeId&&ex.chats.length) ex.activeId=ex.chats[0].id;
+          saveChatStore(ai,ex);
         }
       });
-      buildChatCards();
-      alert('Импортировано чатов: ' + count);
-    } catch(err) { alert('Ошибка: ' + err.message); }
-    input.value = '';
+      buildChatCards(); alert('Импортировано чатов: '+count);
+    }catch(err){alert('Ошибка: '+err.message);}
+    input.value='';
   };
   reader.readAsText(file);
 }
 
-
-
 // ===== ROUND TABLE =====
-var rtRunning = false;
-function addBubble(ai, text, round, isLoading) {
-  var feed = document.getElementById('chat-feed');
+var rtRunning=false;
+function addRTBubble(ai,text,round,isLoading){
+  var feed=document.getElementById('chat-feed');
   getAllAIs();
-  var info = ai==='system' ? {icon:'📌', name:'ТЕМА', color:'var(--muted)'} : (AIS[ai]||{icon:'🌐',name:ai,color:'var(--openrouter)'});
-  var id = 'bubble-' + ai + '-' + round + '-' + Date.now();
-  var div = document.createElement('div');
-  div.className = 'chat-bubble ' + (ai==='system'?'system':(info.orSlot?'openrouter':ai));
-  div.id = id;
-  div.innerHTML = '<div class="bubble-header"><span class="bubble-icon">' + info.icon + '</span>' +
-    '<span class="bubble-name ' + (ai==='system'?'system':(info.orSlot?'openrouter':ai)) + '">' + escapeHtml(info.name) + '</span>' +
-    (round>0 ? '<span class="bubble-round">Раунд ' + round + '</span>' : '') + '</div>' +
-    (isLoading ? '<div class="bubble-loading"><span style="background:' + info.color + '"></span><span style="background:' + info.color + '"></span><span style="background:' + info.color + '"></span></div>'
-               : '<div class="bubble-text">' + escapeHtml(text) + '</div>');
-  feed.appendChild(div);
-  div.scrollIntoView({behavior:'smooth', block:'end'});
+  var info=ai==='system'?{icon:'📌',name:'ТЕМА',color:'var(--muted)'}:(AIS[ai]||{icon:'🌐',name:ai,color:'var(--openrouter)',orSlot:true});
+  var cls=ai==='system'?'system':(info.orSlot?'openrouter':ai);
+  var id='bubble-'+ai+'-'+round+'-'+Date.now();
+  var div=document.createElement('div'); div.className='chat-bubble '+cls; div.id=id;
+  var bHdr=document.createElement('div'); bHdr.className='bubble-header';
+  var bIcon=document.createElement('span'); bIcon.className='bubble-icon'; bIcon.textContent=info.icon;
+  var bName=document.createElement('span'); bName.className='bubble-name '+cls; bName.textContent=info.name;
+  bHdr.appendChild(bIcon); bHdr.appendChild(bName);
+  if(round>0){var bRound=document.createElement('span');bRound.className='bubble-round';bRound.textContent='Раунд '+round;bHdr.appendChild(bRound);}
+  div.appendChild(bHdr);
+  if(isLoading){
+    var bl=document.createElement('div'); bl.className='bubble-loading';
+    for(var i=0;i<3;i++){var sp=document.createElement('span');sp.style.background=info.color;bl.appendChild(sp);}
+    div.appendChild(bl);
+  } else {
+    var bt=document.createElement('div'); bt.className='bubble-text'; bt.textContent=text; div.appendChild(bt);
+  }
+  feed.appendChild(div); div.scrollIntoView({behavior:'smooth',block:'end'});
   return id;
 }
-function updateBubble(id, text) {
-  var el = document.getElementById(id); if (!el) return;
-  var l = el.querySelector('.bubble-loading'); if (l) l.remove();
-  var t = el.querySelector('.bubble-text');
-  if (!t) { t = document.createElement('div'); t.className = 'bubble-text'; el.appendChild(t); }
-  t.textContent = text; el.scrollIntoView({behavior:'smooth', block:'end'});
+function updateRTBubble(id,text){
+  var el=document.getElementById(id); if(!el) return;
+  var l=el.querySelector('.bubble-loading'); if(l) l.remove();
+  var t=el.querySelector('.bubble-text');
+  if(!t){t=document.createElement('div');t.className='bubble-text';el.appendChild(t);}
+  t.textContent=text; el.scrollIntoView({behavior:'smooth',block:'end'});
 }
-function clearRT() { document.getElementById('chat-feed').innerHTML=''; document.getElementById('rt-feed-box').style.display='none'; document.getElementById('rt-status').textContent=''; }
-async function startRoundTable() {
-  if (rtRunning) return;
-  var topic = document.getElementById('rt-topic').value.trim();
-  if (!topic) { alert('Введи тему!'); return; }
-  var rounds = parseInt(document.getElementById('rt-rounds').value) || 3;
+function clearRT(){document.getElementById('chat-feed').innerHTML='';document.getElementById('rt-feed-box').style.display='none';document.getElementById('rt-status').textContent='';}
+
+async function startRoundTable(){
+  if(rtRunning) return;
+  var msg=document.getElementById('rt-message').value.trim();
+  var topic=document.getElementById('rt-topic').value.trim();
+  if(!msg&&!topic){alert('Введи сообщение или тему!');return;}
+  var rounds=parseInt(document.getElementById('rt-rounds').value)||3;
   getAllAIs();
-  var activeAIs = Object.keys(AIS).filter(function(ai){ return getKey(ai) && getRTSelected(ai); });
-  if (activeAIs.length < 2) { alert('Нужно минимум 2 участника!'); return; }
-  rtRunning = true;
-  document.getElementById('rt-btn').disabled = true;
-  document.getElementById('rt-feed-box').style.display = 'block';
-  document.getElementById('chat-feed').innerHTML = '';
-  addBubble('system', topic, 0, false);
-  var history = ['Тема дискуссии: ' + topic + '\n\nТы участвуешь в групповой дискуссии с другими ИИ. Отвечай живо, можешь соглашаться или спорить. Будь конкретен и интересен.'];
-  for (var round = 1; round <= rounds; round++) {
-    document.getElementById('rt-status').textContent = 'Раунд ' + round + ' из ' + rounds + '...';
-    for (var i = 0; i < activeAIs.length; i++) {
-      var ai = activeAIs[i], key = getKey(ai);
-      var info = AIS[ai] || {name:ai};
-      var prompt = history[0] + '\n\n' + (history.length>1 ? 'История:\n' + history.slice(1).join('\n') + '\n\n' : '') + 'Твой ход, ' + info.name + ':';
-      var bubbleId = addBubble(ai, '', round, true);
-      try {
-        var r = await callAI(ai, key, [{role:'user',content:prompt}], '');
-        updateBubble(bubbleId, r.text);
-        history.push(info.name + ': ' + r.text);
-      } catch(e) { updateBubble(bubbleId, 'Ошибка: ' + e.message); history.push(info.name + ': [ошибка]'); }
-      await new Promise(function(res){ setTimeout(res, 300); });
+  var active=Object.keys(AIS).filter(function(ai){return getKey(ai)&&isRTSelected(ai);});
+  if(active.length<2){alert('Нужно минимум 2 участника!');return;}
+  rtRunning=true;
+  document.getElementById('rt-btn').disabled=true;
+  document.getElementById('rt-feed-box').style.display='block';
+  document.getElementById('chat-feed').innerHTML='';
+  // Show topic and message
+  if(topic) addRTBubble('system',topic,0,false);
+  if(msg) addRTBubble('system',msg,0,false);
+  var context = (topic?'Тема: '+topic+'\n':'')+(msg?'Сообщение: '+msg+'\n':'');
+  var history=[context+'\nТы участвуешь в групповой дискуссии с другими ИИ. Отвечай живо, можешь соглашаться или спорить. Будь конкретен и интересен.'];
+  for(var round=1;round<=rounds;round++){
+    document.getElementById('rt-status').textContent='Раунд '+round+' из '+rounds+'...';
+    for(var i=0;i<active.length;i++){
+      var ai=active[i], key=getKey(ai), info=AIS[ai]||{name:ai};
+      var prompt=history[0]+'\n\n'+(history.length>1?'История:\n'+history.slice(1).join('\n')+'\n\n':'')+'Твой ход, '+info.name+':';
+      var bubbleId=addRTBubble(ai,'',round,true);
+      try{
+        var r=await callAI(ai,key,[{role:'user',content:prompt}],'');
+        updateRTBubble(bubbleId,r.text); history.push(info.name+': '+r.text);
+      }catch(e){updateRTBubble(bubbleId,'Ошибка: '+e.message);history.push(info.name+': [ошибка]');}
+      await new Promise(function(res){setTimeout(res,300);});
     }
   }
-  document.getElementById('rt-status').textContent = 'Дискуссия завершена!';
-  document.getElementById('rt-btn').disabled = false;
-  rtRunning = false;
+  document.getElementById('rt-status').textContent='Дискуссия завершена!';
+  document.getElementById('rt-btn').disabled=false;
+  rtRunning=false;
 }
+
+// ===== INIT =====
+window.addEventListener('DOMContentLoaded', function(){
+  getAllAIs();
+  ['claude','gemini','deepseek','grok','mistral'].forEach(function(ai){
+    var el=document.getElementById('key-'+ai); if(!el) return;
+    var saved=localStorage.getItem('arena-key-'+ai);
+    if(saved) el.value=saved;
+    el.addEventListener('input',function(){var v=this.value.trim();if(v)localStorage.setItem('arena-key-'+ai,v);else localStorage.removeItem('arena-key-'+ai);});
+  });
+  var sysSaved=localStorage.getItem('arena-system-prompt');
+  var sysEl=document.getElementById('system-prompt');
+  if(sysSaved&&sysEl) sysEl.value=sysSaved;
+  if(sysEl) sysEl.addEventListener('input',function(){localStorage.setItem('arena-system-prompt',this.value);});
+  var savedScores=localStorage.getItem('arena-scores');
+  if(savedScores){try{Object.assign(scores,JSON.parse(savedScores));}catch(e){} updateScoreboard();}
+  renderORSlots();
+  addORCheckboxes();
+  renderHistory();
+  buildResultCards();
+  buildChatCards();
+  document.getElementById('prompt').addEventListener('keydown',function(e){if(e.key==='Enter'&&e.ctrlKey)launchAll();});
+});
 
 // ===== SERVICE WORKER =====
 var newWorker;
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').then(function(reg) {
-    reg.addEventListener('updatefound', function() {
-      newWorker = reg.installing;
-      newWorker.addEventListener('statechange', function() {
-        if (newWorker.state === 'installed' && navigator.serviceWorker.controller)
-          document.getElementById('update-banner').style.display = 'block';
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').then(function(reg){
+    reg.addEventListener('updatefound',function(){
+      newWorker=reg.installing;
+      newWorker.addEventListener('statechange',function(){
+        if(newWorker.state==='installed'&&navigator.serviceWorker.controller)
+          document.getElementById('update-banner').style.display='block';
       });
     });
-    setInterval(function(){ reg.update(); }, 30000);
+    setInterval(function(){reg.update();},30000);
   }).catch(function(){});
 }
-function applyUpdate() { if (newWorker) newWorker.postMessage({action:'skipWaiting'}); window.location.reload(); }
-function clearCache() {
-  if ('caches' in window) caches.keys().then(function(keys){ return Promise.all(keys.map(function(k){ return caches.delete(k); })); });
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(function(regs){ regs.forEach(function(r){ r.unregister(); }); window.location.reload(); });
-  } else window.location.reload();
+function applyUpdate(){if(newWorker)newWorker.postMessage({action:'skipWaiting'});window.location.reload();}
+function clearCache(){
+  if('caches' in window) caches.keys().then(function(keys){return Promise.all(keys.map(function(k){return caches.delete(k);}));});
+  if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(regs){regs.forEach(function(r){r.unregister();});window.location.reload();});}
+  else window.location.reload();
 }
+
 </script>
 </body>
 </html>
